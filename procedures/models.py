@@ -22,7 +22,13 @@ class Procedure(models.Model):
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to="procedures/")
     duration_minutes = models.IntegerField(blank=True, null=True)
-    price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
+    price = models.DecimalField(
+        blank=True,
+        null=True,
+        max_digits=10,
+        decimal_places=2,
+        help_text="Оставьте пустым, если цена не фиксирована"
+    )
     discount_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
     slug = models.SlugField(unique=True)
     type = models.ForeignKey(ProcedureType, on_delete=models.CASCADE, related_name="procedures")
@@ -35,3 +41,8 @@ class Procedure(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def get_price_display(self):
+        if self.price:
+            return f"{self.price} ₴"
+        return "Вартість уточнюйте."

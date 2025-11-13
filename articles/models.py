@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(unique=True)
 
     def __str__(self):
