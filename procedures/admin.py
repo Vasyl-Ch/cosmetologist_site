@@ -1,3 +1,47 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
-# Register your models here.
+
+from .models import ProcedureType, Procedure
+
+
+@admin.register(ProcedureType)
+class ProcedureTypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "preview_image")
+    search_fields = ("name",)
+    prepopulated_fields = {"slug": ("name",)}
+    readonly_fields = ("preview_image",)
+
+    def preview_image(self, obj):
+        if obj.image:
+            return mark_safe(
+                f'<img src="{obj.image.url}" width="100" height="100" style="object-fit: cover;" />'
+            )
+        return "Нет фото"
+
+    preview_image.short_description = "Фото"
+
+
+@admin.register(Procedure)
+class ProcedureAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "type",
+        "price",
+        "discount_price",
+        "duration_minutes",
+        "preview_image",
+    )
+    search_fields = ("name", "type__name")
+    list_filter = ("type",)
+    prepopulated_fields = {"slug": ("name",)}
+    readonly_fields = ("preview_image",)
+
+    def preview_image(self, obj):
+        if obj.image:
+            return mark_safe(
+                f'<img src="{obj.image.url}" width="80" height="80" style="object-fit: cover;" />'
+            )
+        return "Нет фото"
+
+    preview_image.short_description = "Фото"
