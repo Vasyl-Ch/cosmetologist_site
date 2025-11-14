@@ -3,151 +3,1519 @@
 {% block title %}Контакти - Mela-Med Aesthetic{% endblock %}
 
 {% block content %}
-<div class="hero" style="padding: 60px 0;">
-    <div class="container">
-        <h1 style="text-align: center;">Контакти</h1>
-        <p style="text-align: center; max-width: 600px; margin: 0 auto;">Ми завжди готові відповісти на ваші запитання</p>
-    </div>
-</div>
 
-<div class="container">
-    <div class="contact-grid">
-        <div class="contact-info-card">
-            <div class="contact-info-item">
-                <div class="contact-icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <div>
-                    <h3>Адреса</h3>
-                    <p>{{ contact_info.address }}</p>
-                </div>
-            </div>
-            
-            <div class="contact-info-item">
-                <div class="contact-icon">
+<!-- ============================================ -->
+<!-- HERO СЕКЦІЯ З АНІМОВАНИМ ФОНОМ -->
+<!-- ============================================ -->
+<section class="contacts-hero">
+    <!-- Анімований canvas фон -->
+    <canvas id="contactsCanvas" class="contacts-canvas"></canvas>
+
+    <div class="contacts-hero-overlay"></div>
+
+    <div class="container contacts-hero-content">
+        <div class="hero-badge animate-on-scroll">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Зв'яжіться з нами</span>
+        </div>
+
+        <h1 class="contacts-hero-title animate-on-scroll">
+            Наші <span class="gradient-text">контакти</span>
+        </h1>
+
+        <p class="contacts-hero-description animate-on-scroll">
+            Ми завжди готові відповісти на ваші запитання<br class="desktop-only">
+            та підібрати найкращі рішення для вашої краси
+        </p>
+
+        <!-- Швидкі дії -->
+        <div class="quick-actions animate-on-scroll">
+            <a href="tel:{{ contact_info.phone }}" class="quick-action-btn">
+                <div class="action-icon">
                     <i class="fas fa-phone-alt"></i>
                 </div>
-                <div>
-                    <h3>Телефон</h3>
-                    <p>{{ contact_info.phone }}</p>
-                </div>
-            </div>
-            
-            {% if contact_info.instagram_url %}
-            <div class="contact-info-item">
-                <div class="contact-icon">
-                    <i class="fab fa-instagram"></i>
-                </div>
-                <div>
-                    <h3>Instagram</h3>
-                    <p><a href="{{ contact_info.instagram_url }}" target="_blank" style="color: var(--accent);">Перейти до Instagram</a></p>
-                </div>
-            </div>
-            {% endif %}
-            
+                <span>Подзвонити</span>
+            </a>
+
             {% if contact_info.telegram_url %}
-            <div class="contact-info-item">
-                <div class="contact-icon">
+            <a href="{{ contact_info.telegram_url }}" target="_blank" class="quick-action-btn">
+                <div class="action-icon">
                     <i class="fab fa-telegram"></i>
                 </div>
-                <div>
-                    <h3>Telegram</h3>
-                    <p><a href="{{ contact_info.telegram_url }}" target="_blank" style="color: var(--accent);">Написати в Telegram</a></p>
-                </div>
-            </div>
+                <span>Telegram</span>
+            </a>
             {% endif %}
-        </div>
-        
-        <div class="map-container">
-            {% if contact_info.map_embed_url %}
-            <iframe src="{{ contact_info.map_embed_url }}" 
-                    width="100%" 
-                    height="100%" 
-                    style="border:0; border-radius: var(--radius);" 
-                    allowfullscreen="" 
-                    loading="lazy">
-            </iframe>
-            {% else %}
-            <div class="map-placeholder">
-                <i class="fas fa-map-marker-alt"></i>
-                <h3>Карта</h3>
-                <p>{{ contact_info.address }}</p>
-            </div>
+
+            {% if contact_info.instagram_url %}
+            <a href="{{ contact_info.instagram_url }}" target="_blank" class="quick-action-btn">
+                <div class="action-icon">
+                    <i class="fab fa-instagram"></i>
+                </div>
+                <span>Instagram</span>
+            </a>
             {% endif %}
         </div>
     </div>
-</div>
 
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator-contacts">
+        <div class="scroll-arrow-contacts"></div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ОСНОВНИЙ КОНТЕНТ З ІНФОРМАЦІЄЮ -->
+<!-- ============================================ -->
+<section class="contacts-content-section">
+    <div class="container">
+        <div class="contacts-layout">
+
+            <!-- ========== ІНФОРМАЦІЙНІ КАРТКИ ========== -->
+            <div class="contacts-info">
+                <!-- Адреса -->
+                <div class="contact-card animate-on-scroll">
+                    <div class="contact-card-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-card-content">
+                        <h3>Адреса клініки</h3>
+                        <p>{{ contact_info.address }}</p>
+                        <a href="#map" class="contact-link">
+                            <span>Дивитися на карті</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Телефон -->
+                <div class="contact-card animate-on-scroll">
+                    <div class="contact-card-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="contact-card-content">
+                        <h3>Телефон</h3>
+                        <p>{{ contact_info.phone }}</p>
+                        <a href="tel:{{ contact_info.phone }}" class="contact-link">
+                            <span>Подзвонити зараз</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Графік роботи -->
+                <div class="contact-card animate-on-scroll">
+                    <div class="contact-card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="contact-card-content">
+                        <h3>Графік роботи</h3>
+                        <div class="schedule">
+                            <div class="schedule-item">
+                                <span class="day">Пн - Пт</span>
+                                <span class="time">09:00 - 20:00</span>
+                            </div>
+                            <div class="schedule-item">
+                                <span class="day">Сб - Нд</span>
+                                <span class="time">10:00 - 18:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Соціальні мережі -->
+                <div class="contact-card contact-card-social animate-on-scroll">
+                    <div class="contact-card-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <div class="contact-card-content">
+                        <h3>Соціальні мережі</h3>
+                        <p>Слідкуйте за нами в соціальних мережах</p>
+                        <div class="social-links">
+                            {% if contact_info.instagram_url %}
+                            <a href="{{ contact_info.instagram_url }}" target="_blank" class="social-link social-instagram">
+                                <i class="fab fa-instagram"></i>
+                                <span>Instagram</span>
+                            </a>
+                            {% endif %}
+
+                            {% if contact_info.telegram_url %}
+                            <a href="{{ contact_info.telegram_url }}" target="_blank" class="social-link social-telegram">
+                                <i class="fab fa-telegram"></i>
+                                <span>Telegram</span>
+                            </a>
+                            {% endif %}
+
+                            <a href="#" class="social-link social-facebook">
+                                <i class="fab fa-facebook-f"></i>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== КАРТА ========== -->
+            <div class="contacts-map animate-on-scroll" id="map">
+                <div class="map-container">
+                    {% if contact_info.map_embed_url %}
+                    <iframe
+                        src="{{ contact_info.map_embed_url }}"
+                        width="100%"
+                        height="100%"
+                        style="border:0; border-radius: 20px;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                    {% else %}
+                    <div class="map-placeholder">
+                        <div class="map-placeholder-icon">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <h3>Карта</h3>
+                        <p>{{ contact_info.address }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Інформаційний блок над картою -->
+                <div class="map-info-overlay">
+                    <div class="map-info-content">
+                        <div class="map-info-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div>
+                            <h4>Як до нас дістатися</h4>
+                            <p>Зручне розташування в центрі міста з доступним паркуванням</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ПЕРЕВАГИ РОБОТИ З НАМИ -->
+<!-- ============================================ -->
+<section class="contacts-benefits-section">
+    <div class="benefits-background">
+        <div class="benefit-shape benefit-shape-1"></div>
+        <div class="benefit-shape benefit-shape-2"></div>
+    </div>
+
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <span class="section-label">Чому обирають нас</span>
+            <h2 class="section-title">Наші переваги</h2>
+        </div>
+
+        <div class="benefits-grid">
+            <div class="benefit-card animate-on-scroll">
+                <div class="benefit-icon">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h3>Досвідчені фахівці</h3>
+                <p>Сертифіковані косметологи з багаторічним досвідом та постійним навчанням</p>
+            </div>
+
+            <div class="benefit-card animate-on-scroll">
+                <div class="benefit-icon">
+                    <i class="fas fa-microscope"></i>
+                </div>
+                <h3>Сучасні технології</h3>
+                <p>Використання найновішого обладнання та інноваційних методик</p>
+            </div>
+
+            <div class="benefit-card animate-on-scroll">
+                <div class="benefit-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Безпека та якість</h3>
+                <p>Дотримання всіх стандартів якості та сертифікована продукція</p>
+            </div>
+
+            <div class="benefit-card animate-on-scroll">
+                <div class="benefit-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Індивідуальний підхід</h3>
+                <p>Персональні програми догляду для кожного клієнта</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- CTA СЕКЦІЯ -->
+<!-- ============================================ -->
+<section class="contacts-cta-section">
+    <div class="cta-particles">
+        <div class="cta-particle cta-particle-1"></div>
+        <div class="cta-particle cta-particle-2"></div>
+        <div class="cta-particle cta-particle-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="contacts-cta-content animate-on-scroll">
+            <div class="cta-icon-wrapper">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+
+            <h2 class="cta-title">Готові записатися на консультацію?</h2>
+            <p class="cta-description">
+                Зв'яжіться з нами будь-яким зручним способом,<br class="desktop-only">
+                і наші адміністратори підберуть для вас оптимальний час візиту
+            </p>
+
+            <div class="cta-buttons-group">
+                <a href="tel:{{ contact_info.phone }}" class="btn btn-primary btn-large">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>Подзвонити</span>
+                </a>
+
+                {% if contact_info.telegram_url %}
+                <a href="{{ contact_info.telegram_url }}" target="_blank" class="btn btn-outline-white btn-large">
+                    <i class="fab fa-telegram"></i>
+                    <span>Написати в Telegram</span>
+                </a>
+                {% endif %}
+            </div>
+
+            <!-- Додаткова інформація -->
+            <div class="cta-extra-info">
+                <div class="info-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Безкоштовна консультація</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Зручний час запису</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Швидке обслуговування</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- FAQ СЕКЦІЯ -->
+<!-- ============================================ -->
+<section class="contacts-faq-section">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <span class="section-label">Питання та відповіді</span>
+            <h2 class="section-title">Часті питання</h2>
+        </div>
+
+        <div class="faq-grid">
+            <div class="faq-item animate-on-scroll">
+                <div class="faq-question">
+                    <h3>Чи потрібно записуватися заздалегідь?</h3>
+                    <div class="faq-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <p>Так, ми рекомендуємо записуватися заздалегідь, щоб обрати зручний для вас час. Ви можете зателефонувати або написати в месенджери.</p>
+                </div>
+            </div>
+
+            <div class="faq-item animate-on-scroll">
+                <div class="faq-question">
+                    <h3>Чи є парковка біля клініки?</h3>
+                    <div class="faq-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <p>Так, поряд з клінікою є зручна парковка для наших клієнтів. Також ми знаходимося в пішій доступності від метро.</p>
+                </div>
+            </div>
+
+            <div class="faq-item animate-on-scroll">
+                <div class="faq-question">
+                    <h3>Які форми оплати ви приймаєте?</h3>
+                    <div class="faq-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <p>Ми приймаємо оплату готівкою та банківськими картами. Також можлива безготівкова оплата за рахунком.</p>
+                </div>
+            </div>
+
+            <div class="faq-item animate-on-scroll">
+                <div class="faq-question">
+                    <h3>Чи проводите ви консультації онлайн?</h3>
+                    <div class="faq-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <p>Так, ми проводимо попередні консультації онлайн через відеозв'язок або месенджери. Зв'яжіться з нами для деталей.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ВБУДОВАНІ СТИЛІ (тимчасово для демонстрації) -->
+<!-- ============================================ -->
 <style>
-.contact-grid {
+/* === HERO СЕКЦІЯ === */
+.contacts-hero {
+    position: relative;
+    min-height: 65vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #faf7f7 0%, #f5e6e8 100%);
+    margin-bottom: 80px;
+}
+
+.contacts-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.contacts-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(250, 247, 247, 0.8) 0%, rgba(245, 230, 232, 0.6) 100%);
+    z-index: 2;
+}
+
+.contacts-hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 120px 20px 80px;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(212, 165, 165, 0.3);
+    border-radius: 30px;
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(212, 165, 165, 0.1);
+}
+
+.contacts-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem;
+    line-height: 1.2;
+    color: var(--dark);
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #d4a5a5 0%, #a07878 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.contacts-hero-description {
+    font-size: 1.2rem;
+    color: var(--dark);
+    opacity: 0.85;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto 50px;
+}
+
+/* Швидкі дії */
+.quick-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 25px 35px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(212, 165, 165, 0.2);
+    border-radius: 20px;
+    color: var(--dark);
+    text-decoration: none;
+    transition: all 0.4s;
+}
+
+.benefit-card:hover .benefit-icon {
+    transform: scale(1.1) rotate(10deg);
+}
+
+.benefit-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--dark);
+    margin-bottom: 15px;
+}
+
+.benefit-card p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+/* === CTA СЕКЦІЯ === */
+.contacts-cta-section {
+    position: relative;
+    padding: 100px 0;
+    background: linear-gradient(135deg, #d4a5a5 0%, #a07878 100%);
+    overflow: hidden;
+}
+
+.cta-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.cta-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.cta-particle-1 {
+    width: 400px;
+    height: 400px;
+    top: -150px;
+    right: -100px;
+    animation: particleFloat1 10s ease-in-out infinite;
+}
+
+.cta-particle-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -100px;
+    left: -80px;
+    animation: particleFloat2 12s ease-in-out infinite;
+}
+
+.cta-particle-3 {
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: particlePulse 8s ease-in-out infinite;
+}
+
+@keyframes particleFloat1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -30px); }
+}
+
+@keyframes particleFloat2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-30px, 30px); }
+}
+
+@keyframes particlePulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+    50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.05; }
+}
+
+.contacts-cta-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-icon-wrapper {
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+    font-size: 3rem;
+    color: white;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+    animation: ctaIconFloat 3s ease-in-out infinite;
+}
+
+@keyframes ctaIconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: white;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.cta-description {
+    font-size: 1.2rem;
+    color: white;
+    opacity: 0.95;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.cta-buttons-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.btn-large {
+    padding: 16px 36px;
+    font-size: 1.05rem;
+}
+
+.cta-buttons-group .btn-primary {
+    background: white;
+    color: var(--accent);
+}
+
+.cta-buttons-group .btn-primary:hover {
+    background: var(--secondary);
+    box-shadow: 0 12px 35px rgba(255, 255, 255, 0.4);
+}
+
+.btn-outline-white {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-outline-white:hover {
+    background: white;
+    color: var(--accent);
+}
+
+/* Додаткова інфо */
+.cta-extra-info {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.info-item i {
+    font-size: 1.2rem;
+}
+
+/* === FAQ СЕКЦІЯ === */
+.contacts-faq-section {
+    padding: 100px 0;
+    background: var(--light);
+}
+
+.faq-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
-    margin: 40px 0 60px;
+    gap: 25px;
 }
 
-.contact-info-card {
+.faq-item {
     background: white;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s;
 }
 
-.contact-info-item {
+.faq-item:hover {
+    box-shadow: 0 12px 40px rgba(212, 165, 165, 0.15);
+}
+
+.faq-question {
     display: flex;
-    align-items: flex-start;
-    margin-bottom: 30px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    cursor: pointer;
+    user-select: none;
 }
 
-.contact-info-item:last-child {
-    margin-bottom: 0;
+.faq-question h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--dark);
+    margin: 0;
+    flex: 1;
 }
 
-.contact-icon {
-    width: 50px;
-    height: 50px;
+.faq-icon {
+    width: 40px;
+    height: 40px;
     background: var(--secondary);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 20px;
     color: var(--accent);
-    font-size: 1.3rem;
+    font-size: 1rem;
+    transition: all 0.3s;
     flex-shrink: 0;
 }
 
-.contact-info-item h3 {
-    margin-bottom: 5px;
-    font-size: 1.1rem;
+.faq-item.active .faq-icon {
+    background: var(--accent);
+    color: white;
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;
+    padding: 0 30px 25px;
+}
+
+.faq-answer p {
+    color: var(--dark);
+    opacity: 0.8;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* === АДАПТИВНІСТЬ === */
+@media (max-width: 1200px) {
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .contacts-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .map-container {
+        min-height: 400px;
+    }
+
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .contacts-hero {
+        min-height: 55vh;
+    }
+
+    .contacts-hero-title {
+        font-size: 2.5rem;
+    }
+
+    .contacts-hero-description {
+        font-size: 1rem;
+    }
+
+    .quick-actions {
+        flex-direction: column;
+    }
+
+    .quick-action-btn {
+        width: 100%;
+    }
+
+    .contact-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-title {
+        font-size: 2rem;
+    }
+
+    .cta-buttons-group {
+        flex-direction: column;
+    }
+
+    .cta-extra-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    .map-info-overlay {
+        position: static;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contacts-hero-title {
+        font-size: 2rem;
+    }
+
+    .action-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .contact-card {
+        padding: 25px 20px;
+    }
+
+    .contact-card-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .cta-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+    }
+}
+</style>
+
+<!-- ============================================ -->
+<!-- ВБУДОВАНИЙ JAVASCRIPT (тимчасово для демонстрації) -->
+<!-- ============================================ -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    'use strict';
+
+    // ========================================
+    // 1. АНІМОВАНИЙ CANVAS ФОН (Геолокаційні маркери)
+    // ========================================
+    const canvas = document.getElementById('contactsCanvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+
+        // Клас частинки (маркери локації)
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 4 + 2;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * 0.4 - 0.2;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.pulseSpeed = Math.random() * 0.02 + 0.01;
+                this.pulse = 0;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.pulse += this.pulseSpeed;
+
+                // Повернення частинок
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                const pulseSize = this.size + Math.sin(this.pulse) * 2;
+
+                // Зовнішнє кільце (пульсація)
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, pulseSize + 5, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(212, 165, 165, ${this.opacity * 0.3})`;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Основна точка
+                const gradient = ctx.createRadialGradient(
+                    this.x, this.y, 0,
+                    this.x, this.y, pulseSize
+                );
+                gradient.addColorStop(0, `rgba(212, 165, 165, ${this.opacity})`);
+                gradient.addColorStop(1, `rgba(212, 165, 165, 0)`);
+
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, pulseSize, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Центральна точка
+                ctx.fillStyle = `rgba(212, 165, 165, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 0.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Ініціалізація частинок
+        function init() {
+            particles = [];
+            const particleCount = Math.min(Math.floor(canvas.width / 20), 40);
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        // Анімаційний цикл
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            // З'єднання близьких частинок
+            connectParticles();
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // З'єднання частинок лініями
+        function connectParticles() {
+            const maxDistance = 150;
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < maxDistance) {
+                        const opacity = (1 - distance / maxDistance) * 0.2;
+                        ctx.strokeStyle = `rgba(212, 165, 165, ${opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Ініціалізація
+        resizeCanvas();
+        init();
+        animate();
+
+        // Оновлення при зміні розміру
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            init();
+        });
+
+        // Очищення при виході
+        window.addEventListener('beforeunload', () => {
+            cancelAnimationFrame(animationId);
+        });
+    }
+
+    // ========================================
+    // 2. АНІМАЦІЯ ПОЯВИ ЕЛЕМЕНТІВ ПРИ СКРОЛІ
+    // ========================================
+    const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    animateElements.forEach(el => observer.observe(el));
+
+    // ========================================
+    // 3. ПЛАВНА ПРОКРУТКА ДО КОНТЕНТУ
+    // ========================================
+    const scrollIndicator = document.querySelector('.scroll-indicator-contacts');
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', () => {
+            const contentSection = document.querySelector('.contacts-content-section');
+            if (contentSection) {
+                const offsetTop = contentSection.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+
+    // ========================================
+    // 4. FAQ АКОРДЕОН
+    // ========================================
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+
+        question.addEventListener('click', () => {
+            // Закриваємо всі інші елементи
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('active')) {
+                    otherItem.classList.remove('active');
+                }
+            });
+
+            // Перемикаємо поточний елемент
+            item.classList.toggle('active');
+        });
+    });
+
+    // ========================================
+    // 5. ПАРАЛАКС ЕФЕКТ ДЛЯ ДЕКОРАТИВНИХ ЕЛЕМЕНТІВ
+    // ========================================
+    const benefitShapes = document.querySelectorAll('.benefit-shape');
+
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+
+        benefitShapes.forEach((shape, index) => {
+            const speed = 0.3 + (index * 0.1);
+            const yPos = -(scrolled * speed);
+            shape.style.transform = `translateY(${yPos}px)`;
+        });
+    });
+
+    // ========================================
+    // 6. HOVER ЕФЕКТ НА КАРТКАХ
+    // ========================================
+    const contactCards = document.querySelectorAll('.contact-card');
+
+    contactCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('.contact-card-icon');
+            if (icon) {
+                icon.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                icon.style.transform = 'scale(1.1) rotate(10deg)';
+            }
+        });
+
+        card.addEventListener('mouseleave', function() {
+            const icon = this.querySelector('.contact-card-icon');
+            if (icon) {
+                icon.style.transition = 'all 0.5s';
+                icon.style.transform = '';
+            }
+        });
+    });
+
+    // ========================================
+    // 7. АНІМАЦІЯ ЛІЧИЛЬНИКІВ (якщо є)
+    // ========================================
+    const animateCounter = (element, target) => {
+        let current = 0;
+        const increment = target / 100;
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                element.textContent = target;
+                clearInterval(timer);
+            } else {
+                element.textContent = Math.floor(current);
+            }
+        }, 20);
+    };
+
+    // ========================================
+    // 8. ПЛАВНА ПОЯВА КАРТИ
+    // ========================================
+    const mapContainer = document.querySelector('.map-container iframe');
+    if (mapContainer) {
+        mapContainer.style.opacity = '0';
+        mapContainer.addEventListener('load', function() {
+            this.style.transition = 'opacity 0.8s ease';
+            this.style.opacity = '1';
+        });
+    }
+});
+</script>
+
+{% endblock %}0.4s;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.quick-action-btn:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(212, 165, 165, 0.25);
+    border-color: var(--accent);
+}
+
+.action-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    transition: all 0.4s;
+}
+
+.quick-action-btn:hover .action-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.quick-action-btn span {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Scroll indicator */
+.scroll-indicator-contacts {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    cursor: pointer;
+}
+
+.scroll-arrow-contacts {
+    width: 30px;
+    height: 50px;
+    border: 2px solid var(--accent);
+    border-radius: 20px;
+    position: relative;
+}
+
+.scroll-arrow-contacts::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: scrollDotContacts 2s ease-in-out infinite;
+}
+
+@keyframes scrollDotContacts {
+    0%, 100% { top: 10px; opacity: 1; }
+    50% { top: 30px; opacity: 0.3; }
+}
+
+/* === ОСНОВНИЙ КОНТЕНТ === */
+.contacts-content-section {
+    padding: 0 0 80px;
+}
+
+.contacts-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+
+/* === ІНФОРМАЦІЙНІ КАРТКИ === */
+.contacts-info {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.contact-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    padding: 35px;
+    display: flex;
+    gap: 25px;
+    transition: all 0.4s;
+}
+
+.contact-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(212, 165, 165, 0.2);
+}
+
+.contact-card-icon {
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    box-shadow: 0 8px 25px rgba(212, 165, 165, 0.3);
+}
+
+.contact-card-content {
+    flex: 1;
+}
+
+.contact-card-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-bottom: 12px;
+}
+
+.contact-card-content p {
+    color: var(--dark);
+    opacity: 0.85;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+}
+
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.contact-link:hover {
+    gap: 12px;
+}
+
+/* Графік роботи */
+.schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.schedule-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--secondary);
+    border-radius: 12px;
+}
+
+.schedule-item .day {
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.schedule-item .time {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* Соціальні мережі */
+.contact-card-social {
+    background: var(--secondary);
+}
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: white;
+    border-radius: 12px;
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.social-link:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.social-instagram:hover {
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    color: white;
+}
+
+.social-telegram:hover {
+    background: #0088cc;
+    color: white;
+}
+
+.social-facebook:hover {
+    background: #1877f2;
+    color: white;
+}
+
+.social-link i {
+    font-size: 1.3rem;
+}
+
+/* === КАРТА === */
+.contacts-map {
+    position: relative;
 }
 
 .map-container {
-    height: 500px;
-    background: #f5f5f5;
-    border-radius: var(--radius);
+    height: 100%;
+    min-height: 600px;
+    border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
 }
 
 .map-placeholder {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     width: 100%;
     height: 100%;
+    background: var(--secondary);
     color: var(--accent);
 }
 
-.map-placeholder i {
+.map-placeholder-icon {
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 3rem;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 25px rgba(212, 165, 165, 0.2);
+}
+
+.map-placeholder h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+/* Інфо оверлей */
+.map-info-overlay {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    right: 25px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 20px 25px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.map-info-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.map-info-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.map-info-content h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-bottom: 5px;
+}
+
+.map-info-content p {
+    font-size: 0.9rem;
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+/* === ПЕРЕВАГИ === */
+.contacts-benefits-section {
+    position: relative;
+    padding: 100px 0;
+    background: white;
+    overflow: hidden;
+}
+
+.benefits-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.benefit-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--secondary);
+    opacity: 0.4;
+}
+
+.benefit-shape-1 {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    right: -150px;
+}
+
+.benefit-shape-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -80px;
+    left: -100px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-label {
+    display: inline-block;
+    padding: 6px 18px;
+    background: var(--secondary);
+    border-radius: 20px;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     margin-bottom: 15px;
 }
 
-@media (max-width: 768px) {
-    .contact-grid {
-        grid-template-columns: 1fr;
-    }
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: var(--accent);
 }
-</style>
-{% endblock %}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.benefit-card {
+    text-align: center;
+    padding: 40px 30px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s;
+}
+
+.benefit-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(212, 165, 165, 0.2);
+}
+
+.benefit-icon {
+    width: 85px;
+    height: 85px;
+    margin: 0 auto 25px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: white;
+    box-shadow: 0 10px 30px rgba(212, 165, 165, 0.3);
+    transition: all
