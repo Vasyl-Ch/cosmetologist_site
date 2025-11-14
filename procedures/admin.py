@@ -27,8 +27,7 @@ class ProcedureAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "type",
-        "price",
-        "discount_price",
+        "price_display_admin",
         "duration_minutes",
         "preview_image",
     )
@@ -36,6 +35,12 @@ class ProcedureAdmin(admin.ModelAdmin):
     list_filter = ("type",)
     prepopulated_fields = {"slug": ("name",)}
     readonly_fields = ("preview_image",)
+
+    def price_display_admin(self, obj):
+        return mark_safe(obj.get_price_display())
+
+    price_display_admin.short_description = "Цена"
+    price_display_admin.admin_order_field = "price"
 
     def preview_image(self, obj):
         if obj.image:
@@ -45,3 +50,9 @@ class ProcedureAdmin(admin.ModelAdmin):
         return "Нет фото"
 
     preview_image.short_description = "Фото"
+
+    def get_price_display(self, obj):
+        return obj.get_price_display()
+
+    get_price_display.short_description = "Цена"
+

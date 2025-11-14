@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 
 
@@ -29,7 +30,7 @@ class Procedure(models.Model):
         decimal_places=2,
         help_text="Оставьте пустым, если цена не фиксирована"
     )
-    discount_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
+    discount_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, help_text="Акционная цена")
     slug = models.SlugField(unique=True)
     type = models.ForeignKey(ProcedureType, on_delete=models.CASCADE, related_name="procedures")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -43,6 +44,12 @@ class Procedure(models.Model):
         super().save(*args, **kwargs)
 
     def get_price_display(self):
-        if self.price:
-            return f"{self.price} ₴"
-        return "Вартість уточнюйте."
+        if self.discount_price and self.discount_price < (self.price or float("inf")):
+            return mark_safe(
+                f'<del style="color: #999;">{self.price} ₴</del> '
+                f'<strong style="color: #e74c3c;">{self.discount_price} ₴</strong>'
+            )
+        elif self.price:
+            return f"{self.price} ₽"
+        else:
+            return mark_safe('<em style="color: #999;">Вартість уточнюйте</em>')
