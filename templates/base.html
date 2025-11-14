@@ -1,121 +1,136 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Mela-Med Aesthetic{% endblock %}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    {% block extra_css %}{% endblock %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Mela-Med Aesthetic{% endblock %}</title>
+  <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Шапка -->
-    <header>
-        <div class="header-content">
-            <a href="{% url 'home' %}" class="logo">
-                <svg viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="45" stroke-width="3" fill="none" stroke="currentColor"/>
-                    <path d="M30,40 C35,25 65,25 70,40 C65,30 35,30 30,40 Z" stroke="currentColor" stroke-width="3" fill="none"/>
-                    <circle cx="35" cy="40" r="3" fill="currentColor"/>
-                    <circle cx="65" cy="40" r="3" fill="currentColor"/>
-                    <path d="M40,60 Q50,70 60,60" stroke="currentColor" stroke-width="3" fill="none"/>
-                </svg>
-                <span class="logo-text">Mela-Med Aesthetic</span>
-            </a>
+<!-- Шапка -->
+<header>
+  <div class="header-content">
+    <a href="{% url 'home' %}" class="logo">
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" stroke-width="3" fill="none" stroke="currentColor"/>
+        <path d="M30,40 C35,25 65,25 70,40 C65,30 35,30 30,40 Z" stroke="currentColor" stroke-width="3" fill="none"/>
+        <circle cx="35" cy="40" r="3" fill="currentColor"/>
+        <circle cx="65" cy="40" r="3" fill="currentColor"/>
+        <path d="M40,60 Q50,70 60,60" stroke="currentColor" stroke-width="3" fill="none"/>
+      </svg>
+      <span class="logo-text">Mela-Med Aesthetic</span>
+    </a>
 
-            <div class="burger" id="burger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+    <div class="burger" id="burger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
 
-            <nav id="nav">
-                <ul>
-                    <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Головна</a></li>
-                    <li><a href="{% url 'procedure_types_list' %}" class="{% if request.resolver_match.url_name == 'procedure_types_list' or request.resolver_match.url_name == 'procedures_by_type' %}active{% endif %}">Процедури</a></li>
-                    <li><a href="{% url 'brands_list' %}" class="{% if request.resolver_match.url_name == 'brands_list' or request.resolver_match.url_name == 'products_by_brand' %}active{% endif %}">Косметика</a></li>
-                    <li><a href="{% url 'articles_list' %}" class="{% if request.resolver_match.url_name == 'articles_list' %}active{% endif %}">Статті</a></li>
-                    <li><a href="{% url 'contacts' %}" class="{% if request.resolver_match.url_name == 'contacts' %}active{% endif %}">Контакти</a></li>
-                </ul>
+    <nav id="nav">
+      <ul>
+        <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Головна</a>
+        </li>
 
-                <div class="social-icons">
-                    {% if contact_info.instagram_url %}
-                    <a href="{{ contact_info.instagram_url }}" class="social-icon" target="_blank">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    {% endif %}
-                    {% if contact_info.telegram_url %}
-                    <a href="{{ contact_info.telegram_url }}" class="social-icon" target="_blank">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-                    {% endif %}
-                </div>
-            </nav>
-        </div>
-    </header>
+        <li><a href="{% url 'procedure_types_list' %}"
+               class="{% if request.resolver_match.url_name == 'procedure_types_list' or request.resolver_match.url_name == 'procedures_by_type' %}active{% endif %}">Процедури</a>
+        </li>
 
-    <!-- Контент страницы -->
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+        <li><a href="{% url 'brands_list' %}"
+               class="{% if request.resolver_match.url_name == 'brands_list' or request.resolver_match.url_name == 'products_by_brand' %}active{% endif %}">Косметика</a>
+        </li>
 
-    <!-- Футер -->
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <h3>Про нас</h3>
-                    <p>Гармонія вашої краси — наш головний пріоритет. Надаємо послуги преміум-класу з використанням інноваційних технологій.</p>
-                </div>
+        <li><a href="{% url 'articles_list' %}"
+               class="{% if request.resolver_match.url_name == 'articles_list' or request.resolver_match.url_name == 'article_detail' %}active{% endif %}">Статті</a>
+        </li>
 
-                <div>
-                    <h3>Процедури</h3>
-                    <ul class="footer-links">
-                        <li><a href="{% url 'procedure_types_list' %}">Усі процедури</a></li>
-                        <li><a href="{% url 'procedures_by_type' 'injections' %}">Ін'єкції</a></li>
-                        <li><a href="{% url 'procedures_by_type' 'face-care' %}">Догляд за обличчям</a></li>
-                        <li><a href="{% url 'procedures_by_type' 'hair-care' %}">Догляд за волоссям</a></li>
-                    </ul>
-                </div>
+        <li><a href="{% url 'contacts' %}"
+               class="{% if request.resolver_match.url_name == 'contacts' %}active{% endif %}">Контакти</a></li>
+      </ul>
 
-                <div>
-                    <h3>Косметика</h3>
-                    <ul class="footer-links">
-                        <li><a href="{% url 'brands_list' %}">Усі бренди</a></li>
-                        <li><a href="{% url 'articles_list' %}">Корисні статті</a></li>
-                    </ul>
-                </div>
+      <div class="social-icons">
+        {% if contact_info.instagram_url %}
+          <a href="{{ contact_info.instagram_url }}" class="social-icon" target="_blank">
+            <i class="fab fa-instagram"></i>
+          </a>
+        {% endif %}
+        {% if contact_info.telegram_url %}
+          <a href="{{ contact_info.telegram_url }}" class="social-icon" target="_blank">
+            <i class="fab fa-telegram"></i>
+          </a>
+        {% endif %}
+      </div>
+    </nav>
+  </div>
+</header>
 
-                <div>
-                    <h3>Контакти</h3>
-                    {% if contact_info %}
-                    <div class="footer-contact">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>{{ contact_info.address }}</span>
-                    </div>
-                    <div class="footer-contact">
-                        <i class="fas fa-phone-alt"></i>
-                        <span>{{ contact_info.phone }}</span>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
+<!-- Контент страницы -->
+<main>
+  {% block content %}{% endblock %}
+</main>
 
-            <div class="copyright">
-                <p>&copy; 2025 Mela-Med Aesthetic. Усі права захищені.</p>
-            </div>
-        </div>
-    </footer>
+<!-- Футер -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h3>Про нас</h3>
+        <p>Гармонія вашої краси — наш головний пріоритет. Надаємо послуги преміум-класу з використанням інноваційних
+          технологій.</p>
+      </div>
 
-    <!-- Кнопка наверх -->
-    <button class="scroll-top" id="scrollTop">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+      <div>
+        <h3>Процедури</h3>
+        <ul class="footer-links">
+          <li><a href="{% url 'procedure_types_list' %}">Усі процедури</a></li>
+          <li><a href="{% url 'procedures_by_type' 'injections' %}">Ін'єкції</a></li>
+          <li><a href="{% url 'procedures_by_type' 'face-care' %}">Догляд за обличчям</a></li>
+          <li><a href="{% url 'procedures_by_type' 'hair-care' %}">Догляд за волоссям</a></li>
+        </ul>
+      </div>
 
-    <script src="{% static 'js/scripts.js' %}"></script>
+      <div>
+        <h3>Косметика</h3>
+        <ul class="footer-links">
+          <li><a href="{% url 'brands_list' %}">Усі бренди</a></li>
+          <li><a href="{% url 'articles_list' %}">Корисні статті</a></li>
+        </ul>
+      </div>
 
-    {% block extra_js %}{% endblock %}
+      <div>
+        <h3>Контакти</h3>
+        {% if contact_info %}
+          <div class="footer-contact">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>{{ contact_info.address }}</span>
+          </div>
+          <div class="footer-contact">
+            <i class="fas fa-phone-alt"></i>
+            <span>{{ contact_info.phone }}</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="copyright">
+      <p>&copy; 2025 Mela-Med Aesthetic. Усі права захищені.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Кнопка наверх -->
+<button class="scroll-top" id="scrollTop">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<script src="{% static 'js/scripts.js' %}"></script>
+
+{% block extra_js %}{% endblock %}
 </body>
 </html>
