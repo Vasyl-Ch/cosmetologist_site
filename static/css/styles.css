@@ -1,0 +1,130 @@
+:root {
+    --primary: #d4a5a5;
+    --primary-dark: #b88686;
+    --light: #fdf8f8;
+    --gray: #f8f9fa;
+    --text: #5d5d5d;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+body {
+    background: var(--light);
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.7;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    color: #333;
+}
+
+.text-primary { color: var(--primary) !important; }
+.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    transition: all 0.3s ease;
+}
+.btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.navbar {
+    background: white !important;
+}
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--primary) !important;
+}
+
+.card {
+    transition: all 0.3s ease;
+    border: none !important;
+    box-shadow: var(--shadow);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+}
+.card-img-top {
+    transition: transform 0.4s ease;
+}
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.hover-lift {
+    transition: all 0.3s ease;
+}
+.hover-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.nav-link.active {
+    background: var(--primary) !important;
+    color: white !important;
+    border-radius: 8px;
+    font-weight: 600;
+}
+.nav-link:hover {
+    background: #f1e8e8;
+    border-radius: 8px;
+}
+
+.carousel-inner {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.review-card {
+    transition: all 0.3s ease;
+}
+.review-card:hover {
+    transform: translateY(-4px);
+}
+
+.page-link {
+    color: var(--primary);
+    border: none;
+    margin: 0 4px;
+    border-radius: 8px !important;
+    padding: 8px 14px;
+}
+.page-link:hover {
+    background: var(--primary);
+    color: white;
+}
+.page-item.active .page-link {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .display-5 {
+        font-size: 2.2rem;
+    }
+    .carousel-inner img {
+        max-height: 250px;
+    }
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
