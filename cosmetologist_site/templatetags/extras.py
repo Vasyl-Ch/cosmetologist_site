@@ -1,6 +1,8 @@
 from django import template
 
+
 register = template.Library()
+
 
 @register.filter
 def split(value, delimiter):
@@ -12,20 +14,20 @@ def split(value, delimiter):
 def querystring(context, exclude=None, **kwargs):
     """
     Собирает querystring на основе текущих request.GET, с возможностью:
-      - исключить параметры (exclude='page,sort')
+      - исключить параметры (exclude="page,sort")
       - переопределить/добавить параметры через именованные аргументы (page=2)
       - удалить параметр, если его значение None (page=None)
-    Пример: {% querystring exclude='page' page=3 %}
+    Пример: {% querystring exclude="page" page=3 %}
     """
-    request = context.get('request')
+    request = context.get("request")
     if not request:
-        return ''
+        return ""
     params = request.GET.copy()
 
     # Исключение ключей
     if exclude:
         if isinstance(exclude, str):
-            exclude_keys = [k.strip() for k in exclude.split(',') if k.strip()]
+            exclude_keys = [k.strip() for k in exclude.split(",") if k.strip()]
         else:
             exclude_keys = list(exclude)
         for key in exclude_keys:

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from .models import Brand, Product
 
@@ -12,8 +13,12 @@ class BrandAdmin(admin.ModelAdmin):
 
     def preview_image(self, obj):
         if obj.image:
-            return mark_safe(
-                f"<img src='{obj.image.url}' width='80' height='80' style='object-fit: cover;' />"
+            return format_html(
+                '<img src="{}" width="{}" height="{}" style="{}" />',
+                obj.image.url,
+                80,
+                80,
+                "object-fit: cover;",
             )
         return "Немає логотипа"
 
@@ -36,8 +41,12 @@ class ProductAdmin(admin.ModelAdmin):
 
     def preview_image(self, obj):
         if obj.image:
-            return mark_safe(
-                f'<img src="{obj.image.url}" width="80" height="80" style="object-fit: cover;" />'
+            return format_html(
+                '<img src="{}" width="{}" height="{}" style="{}" />',
+                obj.image.url,
+                80,
+                80,
+                "object-fit: cover;",
             )
         return "Немає фото"
 

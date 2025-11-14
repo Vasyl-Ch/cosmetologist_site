@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 
 
 from .models import Tag, Article
@@ -23,8 +23,12 @@ class ArticleAdmin(admin.ModelAdmin):
 
     def preview_image(self, obj):
         if obj.image:
-            return mark_safe(
-                f"<img src='{obj.image.url}' width='100' height='100' style='object-fit: cover;' />"
+            return format_html(
+                '<img src="{}" width="{}" height="{}" style="{}" />',
+                obj.image.url,
+                100,
+                100,
+                "object-fit: cover;",
             )
         return "Нет изображения"
 

@@ -12,63 +12,63 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="ProcedureType",
+            name='ProcedureType',
             fields=[
                 (
-                    "id",
+                    'id',
                     models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name="ID",
+                        verbose_name='ID',
                     ),
                 ),
-                ("name", models.CharField(max_length=100)),
-                ("description", models.TextField(blank=True)),
-                ("image", models.ImageField(upload_to="procedure_types/")),
-                ("slug", models.SlugField(unique=True)),
+                ('name', models.CharField(max_length=100)),
+                ('description', models.TextField(blank=True)),
+                ('image', models.ImageField(upload_to='procedure_types/')),
+                ('slug', models.SlugField(unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name="Procedure",
+            name='Procedure',
             fields=[
                 (
-                    "id",
+                    'id',
                     models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name="ID",
+                        verbose_name='ID',
                     ),
                 ),
-                ("name", models.CharField(max_length=150)),
-                ("description", models.TextField(blank=True)),
-                ("image", models.ImageField(upload_to="procedures/")),
-                ("duration_minutes", models.IntegerField(blank=True, null=True)),
+                ('name', models.CharField(max_length=150)),
+                ('description', models.TextField(blank=True)),
+                ('image', models.ImageField(upload_to='procedures/')),
+                ('duration_minutes', models.IntegerField(blank=True, null=True)),
                 (
-                    "price",
+                    'price',
                     models.DecimalField(
                         blank=True,
                         decimal_places=2,
-                        help_text="Оставьте пустым, если цена не фиксирована",
+                        help_text='Оставьте пустым, если цена не фиксирована',
                         max_digits=10,
                         null=True,
                     ),
                 ),
                 (
-                    "discount_price",
+                    'discount_price',
                     models.DecimalField(
                         blank=True, decimal_places=2, max_digits=10, null=True
                     ),
                 ),
-                ("slug", models.SlugField(unique=True)),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ('slug', models.SlugField(unique=True)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
                 (
-                    "type",
+                    'type',
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name="procedures",
-                        to="procedures.proceduretype",
+                        related_name='procedures',
+                        to='procedures.proceduretype',
                     ),
                 ),
             ],

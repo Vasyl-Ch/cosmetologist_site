@@ -8,9 +8,11 @@ from .models import ProcedureType, Procedure
 
 def procedure_types_list(request):
     query = request.GET.get("q", "")
-    types = ProcedureType.objects.all()
+    types = ProcedureType.objects.all().order_by("name")
     if query:
-        types = types.filter(Q(name__icontains=query) | Q(description__icontains=query))
+        types = types.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
     return render(
         request,
         "procedures/types_list.html",
@@ -26,7 +28,7 @@ def procedure_types_list(request):
 def procedures_by_type(request, slug):
     type_obj = get_object_or_404(ProcedureType, slug=slug)
     query = request.GET.get("q", "")
-    procedures = type_obj.procedures.all()
+    procedures = type_obj.procedures.all().order_by("-created_at")
     if query:
         procedures = procedures.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
@@ -42,7 +44,9 @@ def procedures_by_type(request, slug):
             "procedure_type": type_obj,
             "page_obj": procedures_page,
             "query": query,
-            "all_procedure_types": ProcedureType.objects.all(),
+            "all_procedure_types": ProcedureType.objects.all().order_by(
+                "name"
+            ),
             "current_type_slug": type_obj.slug,
             "page_title": type_obj.name,
         },

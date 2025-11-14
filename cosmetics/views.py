@@ -8,7 +8,7 @@ from .models import Brand, Product
 
 def brands_list(request):
     query = request.GET.get("q", "")
-    brands = Brand.objects.all()
+    brands = Brand.objects.all().order_by("name")
     if query:
         brands = brands.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
@@ -30,7 +30,7 @@ def brands_list(request):
 def products_by_brand(request, slug):
     brand = get_object_or_404(Brand, slug=slug)
     query = request.GET.get("q", "")
-    products = brand.products.all()
+    products = brand.products.all().order_by("-created_at")
     if query:
         products = products.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
@@ -46,7 +46,7 @@ def products_by_brand(request, slug):
             "brand": brand,
             "page_obj": products_page,
             "query": query,
-            "all_brands": Brand.objects.all(),
+            "all_brands": Brand.objects.all().order_by("name"),
             "page_title": brand.name,
         },
     )

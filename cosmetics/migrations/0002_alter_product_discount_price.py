@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("cosmetics", "0001_initial"),
+        ('cosmetics', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name="product",
-            name="discount_price",
+            model_name='product',
+            name='discount_price',
             field=models.DecimalField(
                 blank=True,
                 decimal_places=2,
-                help_text="Акционная цена (меньше обычной)",
+                help_text='Акционная цена (меньше обычной)',
                 max_digits=10,
                 null=True,
             ),

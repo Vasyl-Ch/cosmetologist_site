@@ -3,73 +3,1535 @@
 {% block title %}{{ brand.name }} - Продукти{% endblock %}
 
 {% block content %}
-<div class="hero" style="padding: 60px 0;">
-    <div class="container">
-        <h1 style="text-align: center;">{{ brand.name }}</h1>
-        <p style="text-align: center; max-width: 700px; margin: 0 auto;">{{ brand.description }}</p>
-    </div>
-</div>
 
-<div class="container">
-    <div class="content-with-sidebar">
-        {% with current_brand_slug=brand.slug %}
-            {% include 'cosmetics/_sidebar.html' %}
-        {% endwith %}
+<!-- ============================================ -->
+<!-- HERO СЕКЦІЯ З ІНФОРМАЦІЄЮ ПРО БРЕНД -->
+<!-- ============================================ -->
+<section class="products-hero">
+    <!-- Анімований фон -->
+    <canvas id="productsCanvas" class="products-canvas"></canvas>
 
-        <div class="products-grid">
-            {% for product in page_obj %}
-            <div class="card">
-                <div class="card-img {% if not product.image %}no-image{% endif %}" {% if product.image %}style="background-image: url('{{ product.image.url }}');"{% endif %}></div>
-                <div class="card-body">
-                    <h3 class="card-title">{{ product.name }}</h3>
-                    <p class="card-text">{{ product.description|truncatewords:25 }}</p>
-                    <span class="price">{{ product.get_price_display|safe }}</span>
+    <div class="products-hero-overlay"></div>
+
+    <div class="container products-hero-content">
+        <!-- Breadcrumbs -->
+        <div class="breadcrumbs-wrapper animate-on-scroll">
+            <a href="{% url 'home' %}" class="breadcrumb-link">
+                <i class="fas fa-home"></i>
+                Головна
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="{% url 'brands_list' %}" class="breadcrumb-link">Бренди</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">{{ brand.name }}</span>
+        </div>
+
+        <!-- Інфо про бренд -->
+        <div class="brand-hero-info animate-on-scroll">
+            <div class="brand-hero-logo">
+                {% if brand.image %}
+                <div class="brand-logo-circle" style="background-image: url('{{ brand.image.url }}');"></div>
+                {% else %}
+                <div class="brand-logo-circle no-image">
+                    <i class="fas fa-gem"></i>
                 </div>
+                {% endif %}
             </div>
-            {% empty %}
-            <p class="empty-message">Товари скоро з'являться</p>
-            {% endfor %}
+
+            <div class="brand-hero-text">
+                <div class="brand-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Преміальний бренд</span>
+                </div>
+
+                <h1 class="brand-hero-title">{{ brand.name }}</h1>
+
+                {% if brand.country %}
+                <div class="brand-country-tag">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ brand.country }}</span>
+                </div>
+                {% endif %}
+
+                <p class="brand-hero-description">
+                    {{ brand.description }}
+                </p>
+            </div>
         </div>
     </div>
+</section>
 
-    {% include 'includes/pagination.html' with page_obj=page_obj %}
-</div>
+<!-- ============================================ -->
+<!-- ОСНОВНИЙ КОНТЕНТ З САЙДБАРОМ -->
+<!-- ============================================ -->
+<section class="products-content-section">
+    <div class="container">
+        <div class="products-layout">
 
+            <!-- ========== САЙДБАР ========== -->
+            <aside class="products-sidebar animate-on-scroll">
+                <!-- Навігація по брендам -->
+                <div class="sidebar-card sidebar-brands">
+                    <div class="sidebar-header">
+                        <div class="sidebar-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3>Інші бренди</h3>
+                    </div>
+
+                    <ul class="sidebar-list">
+                        {% for b in all_brands %}
+                        <li class="sidebar-list-item {% if b.slug == brand.slug %}active{% endif %}">
+                            <a href="{% url 'products_by_brand' b.slug %}" class="sidebar-link">
+                                <span class="link-text">{{ b.name }}</span>
+                                <i class="fas fa-chevron-right link-arrow"></i>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Інформаційна картка -->
+                <div class="sidebar-card sidebar-info-card">
+                    <div class="info-icon-box">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <h4>Оригінальна продукція</h4>
+                    <p>Всі товари сертифіковані та постачаються офіційними дистриб'юторами</p>
+                    <div class="info-features">
+                        <div class="info-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Гарантія якості</span>
+                        </div>
+                        <div class="info-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Клінічно протестовано</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA картка -->
+                <div class="sidebar-card sidebar-cta">
+                    <div class="cta-icon-sidebar">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h4>Потрібна консультація?</h4>
+                    <p>Допоможемо підібрати оптимальний догляд</p>
+                    <a href="{% url 'contacts' %}" class="sidebar-btn-cta">
+                        <span>Зв'язатися</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </aside>
+
+            <!-- ========== СІТКА ПРОДУКТІВ ========== -->
+            <div class="products-main-content">
+                <!-- Заголовок з фільтрами -->
+                <div class="products-header animate-on-scroll">
+                    <div class="products-count-box">
+                        <span class="count-num">{{ page_obj.paginator.count }}</span>
+                        <span class="count-text">продуктів в каталозі</span>
+                    </div>
+
+                    {% if query %}
+                    <div class="search-info-box">
+                        <i class="fas fa-search"></i>
+                        <span>Пошук: "{{ query }}"</span>
+                        <a href="{% url 'products_by_brand' brand.slug %}" class="clear-search-btn">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Сітка продуктів -->
+                <div class="products-grid">
+                    {% for product in page_obj %}
+                    <div class="product-card animate-on-scroll" style="animation-delay: {{ forloop.counter0|add:'0.05' }}s">
+                        <!-- Зображення продукту -->
+                        <div class="product-image-wrapper">
+                            <div class="product-image {% if not product.image %}no-image{% endif %}"
+                                 {% if product.image %}style="background-image: url('{{ product.image.url }}');"{% endif %}>
+                            </div>
+
+                            <!-- Бейдж зі знижкою -->
+                            {% if product.discount_price and product.discount_price < product.price %}
+                            <div class="product-discount-badge">
+                                <i class="fas fa-percent"></i>
+                                <span>Акція</span>
+                            </div>
+                            {% endif %}
+
+                            <!-- Оверлей з діями -->
+                            <div class="product-overlay">
+                                <a href="{% url 'contacts' %}" class="product-overlay-btn">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    <span>Замовити</span>
+                                </a>
+                            </div>
+
+                            <!-- Бейдж бренду -->
+                            <div class="product-brand-badge">
+                                {{ brand.name }}
+                            </div>
+                        </div>
+
+                        <!-- Контент картки -->
+                        <div class="product-card-content">
+                            <h3 class="product-title">{{ product.name }}</h3>
+
+                            <p class="product-description">
+                                {{ product.description|truncatewords:20 }}
+                            </p>
+
+                            <!-- Ціна -->
+                            <div class="product-price-section">
+                                <div class="product-price">
+                                    {{ product.get_price_display|safe }}
+                                </div>
+                            </div>
+
+                            <!-- Кнопка деталей -->
+                            <div class="product-footer">
+                                <a href="{% url 'contacts' %}" class="product-details-btn">
+                                    <span>Дізнатися більше</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Декоративний елемент -->
+                        <div class="product-decoration-line"></div>
+                    </div>
+                    {% empty %}
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <h3>Продукти скоро з'являться</h3>
+                        <p>Ми працюємо над наповненням каталогу цього бренду</p>
+                        <a href="{% url 'brands_list' %}" class="btn btn-primary">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Повернутися до брендів</span>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Пагінація -->
+                {% if page_obj.has_other_pages %}
+                <div class="products-pagination animate-on-scroll">
+                    {% include 'includes/pagination.html' with page_obj=page_obj %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ІНФО ПРО ДОГЛЯД -->
+<!-- ============================================ -->
+<section class="care-tips-section">
+    <div class="care-background">
+        <div class="care-shape care-shape-1"></div>
+        <div class="care-shape care-shape-2"></div>
+    </div>
+
+    <div class="container">
+        <div class="care-content animate-on-scroll">
+            <div class="care-icon-wrapper">
+                <i class="fas fa-spa"></i>
+            </div>
+
+            <h2 class="care-title">Професійні поради з догляду</h2>
+            <p class="care-description">
+                Кожен продукт {{ brand.name }} розроблений з урахуванням<br class="desktop-only">
+                найновіших досліджень у галузі косметології
+            </p>
+
+            <div class="care-features-grid">
+                <div class="care-feature">
+                    <div class="care-feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h4>Натуральні інгредієнти</h4>
+                    <p>Формули на основі природних компонентів</p>
+                </div>
+
+                <div class="care-feature">
+                    <div class="care-feature-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h4>Наукові розробки</h4>
+                    <p>Інноваційні технології виробництва</p>
+                </div>
+
+                <div class="care-feature">
+                    <div class="care-feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h4>Безпечність</h4>
+                    <p>Всі засоби гіпоалергенні</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- CTA СЕКЦІЯ -->
+<!-- ============================================ -->
+<section class="products-cta-section">
+    <div class="products-cta-background">
+        <div class="cta-particle cta-particle-1"></div>
+        <div class="cta-particle cta-particle-2"></div>
+        <div class="cta-particle cta-particle-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="products-cta-content animate-on-scroll">
+            <h2 class="products-cta-title">Готові замовити {{ brand.name }}?</h2>
+            <p class="products-cta-text">
+                Зв'яжіться з нами для отримання детальної консультації<br class="desktop-only">
+                та оформлення замовлення
+            </p>
+
+            <div class="products-cta-buttons">
+                <a href="{% url 'contacts' %}" class="btn btn-primary btn-large">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>Зв'язатися</span>
+                </a>
+                <a href="{% url 'brands_list' %}" class="btn btn-outline-dark btn-large">
+                    <i class="fas fa-th"></i>
+                    <span>Інші бренди</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ВБУДОВАНІ СТИЛІ -->
+<!-- ============================================ -->
 <style>
-.content-with-sidebar {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    gap: 40px;
-    margin-bottom: 60px;
+/* === HERO СЕКЦІЯ === */
+.products-hero {
+    position: relative;
+    min-height: 55vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #faf7f7 0%, #f5e6e8 100%);
+    margin-bottom: 80px;
 }
 
+.products-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.products-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(250, 247, 247, 0.85) 0%, rgba(245, 230, 232, 0.7) 100%);
+    z-index: 2;
+}
+
+.products-hero-content {
+    position: relative;
+    z-index: 3;
+    padding: 100px 20px 60px;
+}
+
+/* Breadcrumbs */
+.breadcrumbs-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-link {
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.breadcrumb-link:hover {
+    opacity: 0.7;
+}
+
+.breadcrumb-separator {
+    color: var(--dark);
+    opacity: 0.5;
+}
+
+.breadcrumb-current {
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+/* Інфо про бренд */
+.brand-hero-info {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.brand-hero-logo {
+    flex-shrink: 0;
+}
+
+.brand-logo-circle {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: white;
+    box-shadow: 0 15px 50px rgba(212, 165, 165, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid rgba(255, 255, 255, 0.8);
+    animation: logoFloat 4s ease-in-out infinite;
+}
+
+.brand-logo-circle.no-image {
+    background: white;
+    color: var(--accent);
+    font-size: 4rem;
+}
+
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.brand-hero-text {
+    flex: 1;
+}
+
+.brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(212, 165, 165, 0.3);
+    border-radius: 30px;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.brand-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: var(--dark);
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.brand-country-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+.brand-hero-description {
+    font-size: 1.05rem;
+    color: var(--dark);
+    opacity: 0.85;
+    line-height: 1.7;
+}
+
+/* === ОСНОВНИЙ КОНТЕНТ === */
+.products-content-section {
+    padding: 0 0 80px;
+}
+
+.products-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 50px;
+}
+
+/* === САЙДБАР === */
+.products-sidebar {
+    position: sticky;
+    top: 90px;
+    height: fit-content;
+}
+
+.sidebar-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s;
+}
+
+.sidebar-card:hover {
+    box-shadow: 0 12px 40px rgba(212, 165, 165, 0.15);
+}
+
+/* Навігація */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.sidebar-icon {
+    width: 45px;
+    height: 45px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.sidebar-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--accent);
+    margin: 0;
+}
+
+.sidebar-list {
+    list-style: none;
+}
+
+.sidebar-list-item {
+    margin-bottom: 6px;
+}
+
+.sidebar-list-item:last-child {
+    margin-bottom: 0;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+    transform: scaleY(0);
+    transition: transform 0.3s;
+}
+
+.sidebar-list-item.active .sidebar-link,
+.sidebar-link:hover {
+    background: var(--secondary);
+    color: var(--accent);
+}
+
+.sidebar-list-item.active .sidebar-link::before,
+.sidebar-link:hover::before {
+    transform: scaleY(1);
+}
+
+.link-arrow {
+    font-size: 0.75rem;
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.3s;
+}
+
+.sidebar-list-item.active .link-arrow,
+.sidebar-link:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Інфо картка */
+.sidebar-info-card {
+    background: var(--secondary);
+}
+
+.info-icon-box {
+    width: 55px;
+    height: 55px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: var(--accent);
+    font-size: 1.5rem;
+    box-shadow: 0 4px 15px rgba(212, 165, 165, 0.2);
+}
+
+.sidebar-info-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.sidebar-info-card p {
+    font-size: 0.9rem;
+    color: var(--dark);
+    opacity: 0.85;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.info-features {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--dark);
+}
+
+.info-feature i {
+    color: #4caf50;
+    font-size: 1rem;
+}
+
+/* CTA картка */
+.sidebar-cta {
+    background: var(--gradient);
+    color: white;
+    text-align: center;
+}
+
+.cta-icon-sidebar {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.sidebar-cta h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+}
+
+.sidebar-cta p {
+    font-size: 0.9rem;
+    opacity: 0.95;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.sidebar-btn-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: white;
+    color: var(--accent);
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.sidebar-btn-cta:hover {
+    gap: 12px;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* === ОСНОВНИЙ КОНТЕНТ === */
+.products-main-content {
+    min-height: 600px;
+}
+
+/* Заголовок */
+.products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--secondary);
+}
+
+.products-count-box {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.count-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.count-text {
+    font-size: 1rem;
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+.search-info-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: var(--secondary);
+    border-radius: 30px;
+    font-size: 0.9rem;
+    color: var(--dark);
+}
+
+.clear-search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.clear-search-btn:hover {
+    background: var(--accent);
+    color: white;
+}
+
+/* Сітка продуктів */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 35px;
+    margin-bottom: 60px;
 }
 
-.price {
-    display: block;
-    margin-top: 15px;
+/* Картка продукту */
+.product-card {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 25px 50px rgba(212, 165, 165, 0.2);
+}
+
+/* Зображення */
+.product-image-wrapper {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.7s;
+}
+
+.product-image.no-image {
+    background: linear-gradient(135deg, var(--secondary) 0%, #e8d4d4 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image.no-image::after {
+    content: '';
+    width: 70px;
+    height: 70px;
+    background: rgba(212, 165, 165, 0.3);
+    border-radius: 50%;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.08);
+}
+
+/* Бейдж знижки */
+.product-discount-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: #e74c3c;
+    color: white;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 2;
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Бейдж бренду */
+.product-brand-badge {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    font-size: 0.8rem;
     font-weight: 600;
     color: var(--accent);
-    font-size: 1.1rem;
+    z-index: 2;
 }
 
-@media (max-width: 992px) {
+/* Оверлей */
+.product-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(60, 43, 48, 0.9) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.product-card:hover .product-overlay {
+    opacity: 1;
+}
+
+.product-overlay-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: white;
+    color: var(--accent);
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transform: translateY(20px);
+    transition: all 0.4s;
+}
+
+.product-card:hover .product-overlay-btn {
+    transform: translateY(0);
+}
+
+.product-overlay-btn:hover {
+    gap: 12px;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Контент картки */
+.product-card-content {
+    padding: 25px;
+}
+
+.product-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    color: var(--dark);
+    margin-bottom: 12px;
+    line-height: 1.3;
+    min-height: 55px;
+}
+
+.product-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--dark);
+    opacity: 0.8;
+    margin-bottom: 20px;
+    min-height: 50px;
+}
+
+/* Ціна */
+.product-price-section {
+    padding: 15px 0;
+    margin-bottom: 15px;
+    border-top: 1px solid var(--secondary);
+    border-bottom: 1px solid var(--secondary);
+}
+
+.product-price {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+/* Футер картки */
+.product-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+.product-details-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+
+.product-details-btn:hover {
+    gap: 12px;
+}
+
+/* Декоративний елемент */
+.product-decoration-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--gradient);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-card:hover .product-decoration-line {
+    width: 100%;
+}
+
+/* Пусте повідомлення */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.empty-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 30px;
+    background: var(--secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: var(--accent);
+    box-shadow: 0 10px 30px rgba(212, 165, 165, 0.2);
+}
+
+.empty-state h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    color: var(--dark);
+    opacity: 0.8;
+    margin-bottom: 35px;
+}
+
+/* === СЕКЦІЯ ДОГЛЯДУ === */
+.care-tips-section {
+    position: relative;
+    padding: 100px 0;
+    background: white;
+    overflow: hidden;
+}
+
+.care-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.care-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--secondary);
+    opacity: 0.4;
+}
+
+.care-shape-1 {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    right: -150px;
+}
+
+.care-shape-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -80px;
+    left: -100px;
+}
+
+.care-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.care-icon-wrapper {
+    width: 90px;
+    height: 90px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+    font-size: 2.5rem;
+    color: white;
+    box-shadow: 0 10px 35px rgba(212, 165, 165, 0.3);
+}
+
+.care-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+.care-description {
+    font-size: 1.15rem;
+    color: var(--dark);
+    opacity: 0.85;
+    line-height: 1.8;
+    margin-bottom: 50px;
+}
+
+.care-features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.care-feature {
+    text-align: center;
+    padding: 30px 20px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s;
+}
+
+.care-feature:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(212, 165, 165, 0.2);
+}
+
+.care-feature-icon {
+    width: 75px;
+    height: 75px;
+    background: var(--secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2rem;
+    color: var(--accent);
+    transition: all 0.4s;
+}
+
+.care-feature:hover .care-feature-icon {
+    background: var(--gradient);
+    color: white;
+    transform: scale(1.1);
+}
+
+.care-feature h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--dark);
+    margin-bottom: 12px;
+}
+
+.care-feature p {
+    font-size: 0.95rem;
+    color: var(--dark);
+    opacity: 0.8;
+    line-height: 1.6;
+}
+
+/* === CTA СЕКЦІЯ === */
+.products-cta-section {
+    position: relative;
+    padding: 100px 0;
+    background: linear-gradient(135deg, #d4a5a5 0%, #a07878 100%);
+    overflow: hidden;
+}
+
+.products-cta-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.cta-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.cta-particle-1 {
+    width: 400px;
+    height: 400px;
+    top: -150px;
+    right: -100px;
+    animation: particleFloat1 10s ease-in-out infinite;
+}
+
+.cta-particle-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -100px;
+    left: -80px;
+    animation: particleFloat2 12s ease-in-out infinite;
+}
+
+.cta-particle-3 {
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: particlePulse 8s ease-in-out infinite;
+}
+
+@keyframes particleFloat1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -30px); }
+}
+
+@keyframes particleFloat2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-30px, 30px); }
+}
+
+@keyframes particlePulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+    50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.05; }
+}
+
+.products-cta-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.products-cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.products-cta-text {
+    font-size: 1.2rem;
+    color: white;
+    opacity: 0.95;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.products-cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-large {
+    padding: 16px 36px;
+    font-size: 1.05rem;
+}
+
+.btn-outline-dark {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-outline-dark:hover {
+    background: white;
+    color: var(--accent);
+}
+
+/* === АДАПТИВНІСТЬ === */
+@media (max-width: 1200px) {
+    .products-layout {
+        grid-template-columns: 280px 1fr;
+        gap: 35px;
+    }
+
     .products-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (max-width: 768px) {
-    .content-with-sidebar {
+@media (max-width: 992px) {
+    .brand-hero-title {
+        font-size: 2.5rem;
+    }
+
+    .products-layout {
         grid-template-columns: 1fr;
     }
+
+    .products-sidebar {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .care-features-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .products-hero {
+        min-height: 50vh;
+    }
+
+    .brand-hero-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .brand-logo-circle {
+        width: 130px;
+        height: 130px;
+    }
+
+    .brand-hero-title {
+        font-size: 2rem;
+    }
+
+    .brand-hero-description {
+        font-size: 1rem;
+    }
+
+    .products-sidebar {
+        grid-template-columns: 1fr;
+    }
+
     .products-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .products-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .care-title {
+        font-size: 2rem;
+    }
+
+    .products-cta-title {
+        font-size: 2rem;
+    }
+
+    .products-cta-buttons {
+        flex-direction: column;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand-hero-title {
+        font-size: 1.6rem;
+    }
+
+    .count-num {
+        font-size: 2rem;
+    }
+
+    .product-card-content {
+        padding: 20px;
+    }
+
+    .breadcrumbs-wrapper {
+        font-size: 0.85rem;
+    }
+
+    .product-image-wrapper {
+        height: 220px;
     }
 }
 </style>
+
+<!-- ============================================ -->
+<!-- ВБУДОВАНИЙ JAVASCRIPT -->
+<!-- ============================================ -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    'use strict';
+
+    // ========================================
+    // АНІМОВАНИЙ CANVAS ФОН
+    // ========================================
+    const canvas = document.getElementById('productsCanvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+                this.rotation = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+
+                // Малюємо косметичний кристал
+                ctx.fillStyle = `rgba(212, 165, 165, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.moveTo(0, -this.size);
+                ctx.lineTo(this.size * 0.7, 0);
+                ctx.lineTo(0, this.size);
+                ctx.lineTo(-this.size * 0.7, 0);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        function init() {
+            particles = [];
+            const particleCount = Math.min(Math.floor(canvas.width / 12), 70);
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            connectParticles();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        function connectParticles() {
+            const maxDistance = 120;
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < maxDistance) {
+                        const opacity = (1 - distance / maxDistance) * 0.25;
+                        ctx.strokeStyle = `rgba(212, 165, 165, ${opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        resizeCanvas();
+        init();
+        animate();
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            init();
+        });
+
+        window.addEventListener('beforeunload', () => {
+            cancelAnimationFrame(animationId);
+        });
+    }
+
+    // ========================================
+    // АНІМАЦІЯ ПОЯВИ ЕЛЕМЕНТІВ
+    // ========================================
+    const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    animateElements.forEach(el => observer.observe(el));
+
+    // ========================================
+    // ПАРАЛАКС ЕФЕКТ ДЛЯ ДЕКОРАТИВНИХ ЕЛЕМЕНТІВ
+    // ========================================
+    const careShapes = document.querySelectorAll('.care-shape');
+
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+
+        careShapes.forEach((shape, index) => {
+            const speed = 0.3 + (index * 0.1);
+            const yPos = -(scrolled * speed);
+            shape.style.transform = `translateY(${yPos}px)`;
+        });
+    });
+
+    // ========================================
+    // ДОДАТКОВА АНІМАЦІЯ ДЛЯ КАРТОК
+    // ========================================
+    const productCards = document.querySelectorAll('.product-card');
+
+    productCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            const img = this.querySelector('.product-image');
+            if (img) {
+                img.style.transition = 'all 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            }
+        });
+
+        card.addEventListener('mouseleave', function() {
+            const img = this.querySelector('.product-image');
+            if (img) {
+                img.style.transition = 'all 0.7s';
+            }
+        });
+    });
+});
+</script>
+
 {% endblock %}

@@ -11,56 +11,56 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Certificate",
+            name='Certificate',
             fields=[
                 (
-                    "id",
+                    'id',
                     models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name="ID",
+                        verbose_name='ID',
                     ),
                 ),
-                ("title", models.CharField(max_length=100)),
-                ("image", models.ImageField(upload_to="certificates/")),
+                ('title', models.CharField(max_length=100)),
+                ('image', models.ImageField(upload_to='certificates/')),
             ],
         ),
         migrations.CreateModel(
-            name="ContactInfo",
+            name='ContactInfo',
             fields=[
                 (
-                    "id",
+                    'id',
                     models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name="ID",
+                        verbose_name='ID',
                     ),
                 ),
-                ("phone", models.CharField(max_length=20)),
-                ("telegram_url", models.URLField(blank=True)),
-                ("instagram_url", models.URLField(blank=True)),
-                ("address", models.CharField(max_length=255)),
-                ("map_embed_url", models.URLField(blank=True)),
+                ('phone', models.CharField(max_length=20)),
+                ('telegram_url', models.URLField(blank=True)),
+                ('instagram_url', models.URLField(blank=True)),
+                ('address', models.CharField(max_length=255)),
+                ('map_embed_url', models.URLField(blank=True)),
             ],
         ),
         migrations.CreateModel(
-            name="Review",
+            name='Review',
             fields=[
                 (
-                    "id",
+                    'id',
                     models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name="ID",
+                        verbose_name='ID',
                     ),
                 ),
-                ("author_name", models.CharField(max_length=100)),
-                ("text", models.TextField()),
-                ("image", models.ImageField(blank=True, upload_to="reviews/")),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ('author_name', models.CharField(max_length=100)),
+                ('text', models.TextField()),
+                ('image', models.ImageField(blank=True, upload_to='reviews/')),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]

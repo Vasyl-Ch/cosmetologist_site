@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 
@@ -38,8 +39,10 @@ class Procedure(models.Model):
         help_text="Акційна ціна",
     )
     slug = models.SlugField(unique=True)
-    type = models.ForeignKey(
-        ProcedureType, on_delete=models.CASCADE, related_name="procedures"
+    type = models.ForeignKey(  # noqa: VNE003
+        ProcedureType,
+        on_delete=models.CASCADE,
+        related_name="procedures",
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -52,12 +55,16 @@ class Procedure(models.Model):
         super().save(*args, **kwargs)
 
     def get_price_display(self):
-        if self.discount_price and self.discount_price < (self.price or float("inf")):
-            return mark_safe(
-                f"<del style='color: #999;'>{self.price} ₴</del> "
-                f"<strong style='color: #e74c3c;'>{self.discount_price} ₴</strong>"
+        if (
+            self.discount_price
+            and self.discount_price < (self.price or float("inf"))
+        ):
+            return format_html(
+                "<del style='color: #999;'>{} ₴</del> "
+                "<strong style='color: #e74c3c;'>{} ₴</strong>",
+                self.price,
+                self.discount_price,
             )
-        elif self.price:
+        if self.price:
             return f"{self.price} ₴"
-        else:
-            return mark_safe("<em style='color: #999;'>Вартість уточнюйте</em>")
+        return mark_safe("<em style='color: #999;'>Вартість уточнюйте</em>")

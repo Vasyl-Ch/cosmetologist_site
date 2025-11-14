@@ -12,63 +12,63 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Brand",
+            name='Brand',
             fields=[
                 (
-                    "id",
+                    'id',
                     models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name="ID",
+                        verbose_name='ID',
                     ),
                 ),
-                ("name", models.CharField(max_length=100)),
-                ("description", models.TextField(blank=True)),
-                ("image", models.ImageField(upload_to="brands/")),
-                ("country", models.CharField(blank=True, max_length=100)),
-                ("slug", models.SlugField(unique=True)),
+                ('name', models.CharField(max_length=100)),
+                ('description', models.TextField(blank=True)),
+                ('image', models.ImageField(upload_to='brands/')),
+                ('country', models.CharField(blank=True, max_length=100)),
+                ('slug', models.SlugField(unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name="Product",
+            name='Product',
             fields=[
                 (
-                    "id",
+                    'id',
                     models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name="ID",
+                        verbose_name='ID',
                     ),
                 ),
-                ("name", models.CharField(max_length=150)),
-                ("description", models.TextField(blank=True)),
-                ("image", models.ImageField(upload_to="products/")),
+                ('name', models.CharField(max_length=150)),
+                ('description', models.TextField(blank=True)),
+                ('image', models.ImageField(upload_to='products/')),
                 (
-                    "price",
+                    'price',
                     models.DecimalField(
                         blank=True,
                         decimal_places=2,
-                        help_text="Оставьте пустым, если цена не фиксирована",
+                        help_text='Оставьте пустым, если цена не фиксирована',
                         max_digits=10,
                         null=True,
                     ),
                 ),
                 (
-                    "discount_price",
+                    'discount_price',
                     models.DecimalField(
                         blank=True, decimal_places=2, max_digits=10, null=True
                     ),
                 ),
-                ("slug", models.SlugField(unique=True)),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ('slug', models.SlugField(unique=True)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
                 (
-                    "brand",
+                    'brand',
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name="products",
-                        to="cosmetics.brand",
+                        related_name='products',
+                        to='cosmetics.brand',
                     ),
                 ),
             ],

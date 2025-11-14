@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 
@@ -32,7 +33,11 @@ class Product(models.Model):
         decimal_places=2,
         help_text="Акційна ціна (менша за звичайну)",
     )
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name="products")
+    brand = models.ForeignKey(
+        Brand,
+        on_delete=models.CASCADE,
+        related_name="products",
+    )
     slug = models.SlugField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -45,14 +50,25 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
     def get_price_display(self):
-        if self.discount_price and self.discount_price < (self.price or float("inf")):
-            return mark_safe(
-                f'<span style="text-decoration: line-through; color: #999;">{self.price} ₴</span> '
-                f'<span style="color: #e74c3c; font-weight: bold;">{self.discount_price} ₴</span>'
+        if (
+            self.discount_price
+            and self.discount_price < (self.price or float("inf"))
+        ):
+            return format_html(
+                (
+                    "<span style='text-decoration: line-through; "
+                    "color: #999;'>" "{} ₴</span> "
+                    "<span style='color: #e74c3c; "
+                    "font-weight: bold;'>{} ₴</span>"
+                ),
+                self.price,
+                self.discount_price,
             )
-        elif self.price:
+        if self.price:
             return f"{self.price} ₴"
-        else:
-            return mark_safe(
-                '<span style="color: #999; font-style: italic;">Вартість уточнюйте</span>'
+        return mark_safe(
+            (
+                "<span style='color: #999; font-style: italic;'>"
+                "Вартість уточнюйте</span>"
             )
+        )

@@ -4,98 +4,561 @@
 {% block title %}Головна - Mela-Med Aesthetic{% endblock %}
 
 {% block content %}
-<!-- Hero секция -->
-<section class="hero">
-    <div class="container">
-        <h1>Преобразіть свою шкіру за допомогою наших професійних послуг</h1>
-        <p>Пропонуємо найновіші технології та преміальну косметику для сяючої й здорової шкіри</p>
-        <a href="/procedures/" class="btn btn-primary">Записатися на консультацію</a>
+
+<!-- ============================================ -->
+<!-- HERO СЕКЦІЯ З АНІМОВАНИМ ФОНОМ -->
+<!-- ============================================ -->
+<section class="hero-main">
+    <!-- Анімований фон з молекулами/сферами -->
+    <canvas id="heroCanvas" class="hero-canvas"></canvas>
+
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-content">
+        <div class="hero-text animate-on-scroll">
+            <span class="hero-label">Преміальна косметологія</span>
+            <h1 class="hero-title">
+                Перетворіть свою шкіру<br>
+                <span class="gradient-text">за допомогою наших професійних послуг</span>
+            </h1>
+            <p class="hero-description">
+                Пропонуємо найновіші технології та преміальну косметику<br class="desktop-only">
+                для сяючої й здорової шкіри
+            </p>
+
+            <div class="hero-buttons">
+                <a href="/procedures/" class="btn btn-primary btn-glow">
+                    <span>Записатися на консультацію</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="#services" class="btn btn-outline">
+                    <span>Дізнатися більше</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Статистика/переваги -->
+        <div class="hero-stats animate-on-scroll">
+            <div class="stat-item">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Задоволених клієнтів</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Років досвіду</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Процедур</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Скрол індикатор -->
+    <div class="scroll-indicator">
+        <div class="scroll-arrow"></div>
     </div>
 </section>
 
-<div class="container">
-    <!-- Сертификаты -->
-    <section style="margin-bottom: 60px;">
-        <h2 class="section-title">Наші сертифікати</h2>
-        <p class="section-subtitle">Ми пишаємося визнанням нашої роботи в професійній спільноті</p>
-        
-        <div class="certificates-slider">
-            {% for certificate in certificates %}
-            <div class="certificate-slide {% if forloop.first %}active{% endif %} {% if not certificate.image %}no-image{% endif %}"
-                 {% if certificate.image %}style="background-image: url('{{ certificate.image.url }}')"{% endif %}></div>
-            {% endfor %}
+<!-- ============================================ -->
+<!-- СЕРТИФІКАТИ З ПРЕМИАЛЬНИМ СЛАЙДЕРОМ -->
+<!-- ============================================ -->
+<section class="certificates-section" id="certificates">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <span class="section-label">Наші досягнення</span>
+            <h2 class="section-title">Сертифікати та визнання</h2>
+            <p class="section-subtitle">
+                Ми пишаємося визнанням нашої роботи в професійній спільноті
+            </p>
         </div>
-        
-        <div class="slider-controls">
-            {% for certificate in certificates %}
-            <button class="slider-btn {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.counter0 }}"></button>
-            {% endfor %}
+
+        <div class="certificates-wrapper animate-on-scroll">
+            <div class="certificates-slider" id="certificatesSlider">
+                {% for certificate in certificates %}
+                <div class="certificate-slide {% if forloop.first %}active{% endif %}">
+                    <div class="certificate-image-wrapper">
+                        {% if certificate.image %}
+                        <img
+                            src="{{ certificate.image.url }}"
+                            alt="{{ certificate.title }}"
+                            class="certificate-image"
+                        >
+                        {% else %}
+                        <div class="certificate-placeholder">
+                            <i class="fas fa-certificate"></i>
+                            <span>Сертифікат</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="certificate-info">
+                        <h3>{{ certificate.title }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Навігація слайдера -->
+            <div class="slider-navigation">
+                <button class="slider-arrow slider-prev" id="certPrev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="slider-dots" id="certDots">
+                    {% for certificate in certificates %}
+                    <button
+                        class="slider-dot {% if forloop.first %}active{% endif %}"
+                        data-slide="{{ forloop.counter0 }}"
+                    ></button>
+                    {% endfor %}
+                </div>
+
+                <button class="slider-arrow slider-next" id="certNext">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
         </div>
-    </section>
-    
-    <!-- Каталог услуг -->
-    <section style="margin-bottom: 60px;">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-img" style="background-image: url('{% static "img/procedures.jpg" %}')"></div>
-                <div class="card-body">
-                    <h3 class="card-title">Косметологічні процедури</h3>
-                    <p class="card-text">Сучасні методики догляду за шкірою від провідних спеціалістів</p>
-                    <a href="/procedures/" class="btn">Детальніше</a>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- КАТАЛОГ ПОСЛУГ З ПРЕМІАЛЬНИМИ КАРТКАМИ -->
+<!-- ============================================ -->
+<section class="services-section" id="services">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <span class="section-label">Наші послуги</span>
+            <h2 class="section-title">Що ми пропонуємо</h2>
+            <p class="section-subtitle">
+                Сучасні методики та преміальна косметика від світових лідерів
+            </p>
+        </div>
+
+        <div class="services-grid">
+            <!-- Процедури -->
+            <div class="service-card service-card-large animate-on-scroll">
+                <div class="service-card-inner">
+                    <div class="service-image" style="background-image: url('{% static "img/procedures.jpg" %}')">
+                        <div class="service-overlay"></div>
+                    </div>
+
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <h3 class="service-title">Косметологічні процедури</h3>
+                        <p class="service-description">
+                            Сучасні методики догляду за шкірою від провідних спеціалістів.
+                            Ін'єкції, чистки, пілінги та багато іншого.
+                        </p>
+
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Ін'єкційна косметологія</li>
+                            <li><i class="fas fa-check"></i> Апаратна косметологія</li>
+                            <li><i class="fas fa-check"></i> Догляд за обличчям</li>
+                        </ul>
+
+                        <a href="/procedures/" class="service-btn">
+                            <span>Дивитися всі процедури</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-            
-            <div class="card">
-                <div class="card-img" style="background-image: url('{% static "img/cosmetics.jpg" %}')"></div>
-                <div class="card-body">
-                    <h3 class="card-title">Преміальна косметика</h3>
-                    <p class="card-text">Продукція від світових лідерів індустрії краси</p>
-                    <a href="/cosmetics/" class="btn">Детальніше</a>
+
+            <!-- Косметика -->
+            <div class="service-card service-card-large animate-on-scroll">
+                <div class="service-card-inner">
+                    <div class="service-image" style="background-image: url('{% static "img/cosmetics.webp" %}')">
+                        <div class="service-overlay"></div>
+                    </div>
+
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3 class="service-title">Преміальна косметика</h3>
+                        <p class="service-description">
+                            Продукція від світових лідерів індустрії краси.
+                            Професійні засоби для домашнього догляду.
+                        </p>
+
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Топові світові бренди</li>
+                            <li><i class="fas fa-check"></i> Професійна лінійка</li>
+                            <li><i class="fas fa-check"></i> Сертифікована продукція</li>
+                        </ul>
+
+                        <a href="/cosmetics/" class="service-btn">
+                            <span>Переглянути косметику</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
-    
-    <!-- Отзывы -->
-    <section>
-        <h2 class="section-title">Відгуки наших клієнтів</h2>
-        <p class="section-subtitle">Ваша довіра — наша головна нагорода</p>
-        
-        <div class="grid-2">
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ПЕРЕВАГИ/ЧОМУ МИ -->
+<!-- ============================================ -->
+<section class="advantages-section">
+    <div class="advantages-background">
+        <div class="advantage-shape advantage-shape-1"></div>
+        <div class="advantage-shape advantage-shape-2"></div>
+    </div>
+
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <span class="section-label">Чому обирають нас</span>
+            <h2 class="section-title">Наші переваги</h2>
+        </div>
+
+        <div class="advantages-grid">
+            <div class="advantage-item animate-on-scroll">
+                <div class="advantage-icon">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h3>Досвідчені фахівці</h3>
+                <p>Сертифіковані косметологи з багаторічним досвідом та постійним навчанням</p>
+            </div>
+
+            <div class="advantage-item animate-on-scroll">
+                <div class="advantage-icon">
+                    <i class="fas fa-microscope"></i>
+                </div>
+                <h3>Сучасні технології</h3>
+                <p>Використання найновішого обладнання та інноваційних методик</p>
+            </div>
+
+            <div class="advantage-item animate-on-scroll">
+                <div class="advantage-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Безпека та якість</h3>
+                <p>Дотримання всіх стандартів якості та сертифікована продукція</p>
+            </div>
+
+            <div class="advantage-item animate-on-scroll">
+                <div class="advantage-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Індивідуальний підхід</h3>
+                <p>Персональні програми догляду для кожного клієнта</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ВІДГУКИ КЛІЄНТІВ З ПРЕМИАЛЬНИМ ДИЗАЙНОМ -->
+<!-- ============================================ -->
+<section class="reviews-section" id="reviews">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <span class="section-label">Думки клієнтів</span>
+            <h2 class="section-title">Відгуки наших клієнтів</h2>
+            <p class="section-subtitle">
+                Ваша довіра — наша головна нагорода
+            </p>
+        </div>
+
+        <div class="reviews-grid">
             {% for review in reviews %}
-            <div class="card">
-                <div class="card-body">
-                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                        <div class="{% if not review.image %}no-image{% endif %}"
-                             style="width: 70px; height: 70px; border-radius: 50%; {% if review.image %}background-image: url('{{ review.image.url }}'); background-size: cover;{% endif %} margin-right: 15px;"></div>
-                        <div>
-                            <h4 style="font-size: 1.2rem; margin-bottom: 5px;">{{ review.author_name }}</h4>
-                            <div style="color: var(--accent);">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
+            <div class="review-card animate-on-scroll">
+                <div class="review-header">
+                    <div class="review-avatar {% if not review.image %}no-image{% endif %}"
+                         {% if review.image %}style="background-image: url('{{ review.image.url }}');"{% endif %}>
+                        {% if not review.image %}
+                        <i class="fas fa-user"></i>
+                        {% endif %}
+                    </div>
+
+                    <div class="review-author-info">
+                        <h4 class="review-author">{{ review.author_name }}</h4>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
                         </div>
                     </div>
-                    <p class="card-text" style="font-style: italic;">"{{ review.text }}"</p>
+
+                    <div class="review-quote-icon">
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                </div>
+
+                <div class="review-body">
+                    <p class="review-text">{{ review.text }}</p>
+                </div>
+
+                <div class="review-date">
+                    {{ review.created_at|date:"d M Y" }}
                 </div>
             </div>
             {% endfor %}
         </div>
-    </section>
-</div>
 
+        <!-- CTA для відгуків -->
+        <div class="reviews-cta animate-on-scroll">
+            <p>Хочете поділитися своїм досвідом?</p>
+            <a href="{% url 'contacts' %}" class="btn btn-outline">
+                <span>Залишити відгук</span>
+                <i class="fas fa-pen"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- CTA СЕКЦІЯ (CALL TO ACTION) -->
+<!-- ============================================ -->
+<section class="cta-section">
+    <div class="cta-background">
+        <div class="cta-shape cta-shape-1"></div>
+        <div class="cta-shape cta-shape-2"></div>
+    </div>
+
+    <div class="container">
+        <div class="cta-content animate-on-scroll">
+            <div class="cta-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <h2 class="cta-title">Готові до перетворення?</h2>
+            <p class="cta-description">
+                Запишіться на безкоштовну консультацію та отримайте індивідуальну програму догляду від наших експертів
+            </p>
+            <div class="cta-buttons">
+                <a href="{% url 'procedure_types_list' %}" class="btn btn-primary btn-large">
+                    <span>Переглянути процедури</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="{% url 'contacts' %}" class="btn btn-outline btn-large">
+                    <span>Зв'язатися з нами</span>
+                    <i class="fas fa-phone"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ВБУДОВАНІ СТИЛІ (ТИМЧАСОВО ДЛЯ ДЕМОНСТРАЦІЇ) -->
+<!-- ============================================ -->
 <style>
-.certificates-slider {
+/* === HERO СЕКЦІЯ === */
+.hero-main {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f5e6e8 0%, #faf7f7 100%);
+}
+
+.hero-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(212, 165, 165, 0.05) 0%, rgba(245, 230, 232, 0.1) 100%);
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    padding: 120px 20px 80px;
+}
+
+.hero-text {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hero-label {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(212, 165, 165, 0.15);
+    border: 1px solid rgba(212, 165, 165, 0.3);
+    border-radius: 30px;
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+}
+
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem;
+    line-height: 1.2;
+    color: var(--dark);
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #d4a5a5 0%, #a07878 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    color: var(--dark);
+    opacity: 0.85;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-glow {
+    box-shadow: 0 8px 25px rgba(212, 165, 165, 0.4);
+    animation: btnBreathing 3s ease-in-out infinite;
+}
+
+@keyframes btnBreathing {
+    0%, 100% { box-shadow: 0 8px 25px rgba(212, 165, 165, 0.4); }
+    50% { box-shadow: 0 12px 35px rgba(212, 165, 165, 0.6); }
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+}
+
+.btn-outline:hover {
+    background: var(--accent);
+    color: white;
+}
+
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 800px;
+    margin: 80px auto 0;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 0.95rem;
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+}
+
+.scroll-arrow {
+    width: 30px;
+    height: 50px;
+    border: 2px solid var(--accent);
+    border-radius: 20px;
+    position: relative;
+}
+
+.scroll-arrow::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: scrollDot 2s ease-in-out infinite;
+}
+
+@keyframes scrollDot {
+    0%, 100% { top: 10px; opacity: 1; }
+    50% { top: 30px; opacity: 0.3; }
+}
+
+/* === СЕРТИФІКАТИ === */
+.certificates-section {
+    padding: 100px 0;
+    background: white;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-label {
+    display: inline-block;
+    padding: 6px 16px;
+    background: var(--secondary);
+    border-radius: 20px;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.certificates-wrapper {
     position: relative;
     max-width: 900px;
-    margin: 0 auto 20px;
-    height: 450px;
-    border-radius: var(--radius);
+    margin: 0 auto;
+}
+
+.certificates-slider {
+    position: relative;
+    height: 550px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: var(--shadow);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
 }
 
 .certificate-slide {
@@ -104,78 +567,843 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transform: scale(0.95);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
 }
 
 .certificate-slide.active {
     opacity: 1;
+    transform: scale(1);
+    pointer-events: all;
 }
 
-.slider-controls {
+.certificate-image-wrapper {
+    width: 100%;
+    height: 100%;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 10px;
+    background: var(--light);
+    padding: 30px;
 }
 
-.slider-btn {
-    width: 12px;
-    height: 12px;
+.certificate-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+.certificate-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    color: var(--accent);
+    font-size: 4rem;
+}
+
+.certificate-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 25px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+}
+
+.slider-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 35px;
+}
+
+.slider-arrow {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background: var(--secondary);
-    border: none;
+    border: 2px solid var(--accent);
+    background: white;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1.2rem;
+}
+
+.slider-arrow:hover {
+    background: var(--accent);
+    color: white;
+    transform: scale(1.1);
+}
+
+.slider-dots {
+    display: flex;
+    gap: 12px;
+}
+
+.slider-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: transparent;
     cursor: pointer;
     transition: all 0.3s;
 }
 
-.slider-btn:hover,
-.slider-btn.active {
+.slider-dot.active,
+.slider-dot:hover {
     background: var(--accent);
+    transform: scale(1.2);
+}
+
+/* === ПОСЛУГИ === */
+.services-section {
+    padding: 100px 0;
+    background: var(--light);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+}
+
+.service-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 60px rgba(212, 165, 165, 0.3);
+}
+
+.service-card-inner {
+    position: relative;
+    height: 100%;
+    min-height: 600px;
+}
+
+.service-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s;
+}
+
+.service-card:hover .service-image {
+    transform: scale(1.05);
+}
+
+.service-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(60, 43, 48, 0.95) 100%);
+}
+
+.service-content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 40px;
+    color: white;
+}
+
+.service-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.service-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.service-description {
+    font-size: 1rem;
+    line-height: 1.7;
+    opacity: 0.9;
+    margin-bottom: 25px;
+}
+
+.service-features {
+    list-style: none;
+    margin-bottom: 30px;
+}
+
+.service-features li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.service-features i {
+    color: #4caf50;
+    font-size: 1rem;
+}
+
+.service-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: white;
+    color: var(--dark);
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    align-self: flex-start;
+}
+
+.service-btn:hover {
+    gap: 15px;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* === ПЕРЕВАГИ === */
+.advantages-section {
+    position: relative;
+    padding: 100px 0;
+    background: white;
+    overflow: hidden;
+}
+
+.advantages-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.advantage-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--secondary);
+    opacity: 0.4;
+}
+
+.advantage-shape-1 {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    right: -100px;
+}
+
+.advantage-shape-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -80px;
+    left: -80px;
+}
+
+.advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
+    position: relative;
+    z-index: 1;
+}
+
+.advantage-item {
+    text-align: center;
+    padding: 35px 25px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s;
+}
+
+.advantage-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(212, 165, 165, 0.2);
+}
+
+.advantage-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d4a5a5 0%, #e8c4c4 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    box-shadow: 0 8px 20px rgba(212, 165, 165, 0.3);
+}
+
+.advantage-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--dark);
+}
+
+.advantage-item p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+/* === ВІДГУКИ === */
+.reviews-section {
+    padding: 100px 0;
+    background: var(--light);
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+}
+
+.review-card {
+    background: white;
+    border-radius: 16px;
+    padding: 35px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s;
+    position: relative;
+}
+
+.review-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(212, 165, 165, 0.2);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.review-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    margin-right: 20px;
+    flex-shrink: 0;
+    border: 3px solid var(--secondary);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.review-avatar.no-image {
+    background: var(--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 1.8rem;
+}
+
+.review-author-info {
+    flex: 1;
+}
+
+.review-author {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: var(--dark);
+}
+
+.review-rating {
+    display: flex;
+    gap: 4px;
+    color: #ffc107;
+    font-size: 0.95rem;
+}
+
+.review-quote-icon {
+    position: absolute;
+    top: -10px;
+    right: 0;
+    font-size: 3rem;
+    color: var(--secondary);
+    opacity: 0.5;
+}
+
+.review-body {
+    margin-bottom: 20px;
+}
+
+.review-text {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--dark);
+    opacity: 0.85;
+    font-style: italic;
+}
+
+.review-date {
+    font-size: 0.85rem;
+    color: var(--accent);
+    opacity: 0.8;
+}
+
+.reviews-cta {
+    text-align: center;
+    margin-top: 60px;
+    padding: 40px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.reviews-cta p {
+    font-size: 1.2rem;
+    color: var(--dark);
+    margin-bottom: 25px;
+}
+
+/* === CTA СЕКЦІЯ === */
+.cta-section {
+    position: relative;
+    padding: 120px 0;
+    background: linear-gradient(135deg, #d4a5a5 0%, #a07878 100%);
+    overflow: hidden;
+}
+
+.cta-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.cta-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.cta-shape-1 {
+    width: 500px;
+    height: 500px;
+    top: -200px;
+    right: -150px;
+    animation: ctaFloat 8s ease-in-out infinite;
+}
+
+.cta-shape-2 {
+    width: 350px;
+    height: 350px;
+    bottom: -150px;
+    left: -100px;
+    animation: ctaFloat 10s ease-in-out infinite reverse;
+}
+
+@keyframes ctaFloat {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -30px); }
+}
+
+.cta-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: white;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.cta-description {
+    font-size: 1.2rem;
+    color: white;
+    opacity: 0.95;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-large {
+    padding: 16px 36px;
+    font-size: 1.05rem;
+}
+
+.cta-buttons .btn-primary {
+    background: white;
+    color: var(--accent);
+}
+
+.cta-buttons .btn-outline {
+    border-color: white;
+    color: white;
+}
+
+.cta-buttons .btn-outline:hover {
+    background: white;
+    color: var(--accent);
+}
+
+/* === АДАПТИВНІСТЬ === */
+@media (max-width: 1200px) {
+    .advantages-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-stats {
+        gap: 30px;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .hero-stats {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 30px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .certificates-slider {
+        height: 400px;
+    }
+
+    .advantages-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .reviews-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-title {
+        font-size: 2.2rem;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+    }
+
+    .service-card-inner {
+        min-height: 500px;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
 }
 </style>
 
+<!-- ============================================ -->
+<!-- ВБУДОВАНИЙ JAVASCRIPT (ТИМЧАСОВО ДЛЯ ДЕМОНСТРАЦІЇ) -->
+<!-- ============================================ -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const slides = document.querySelectorAll('.certificate-slide');
-    const dots = document.querySelectorAll('.slider-btn');
+    'use strict';
+
+    // ========================================
+    // 1. АНІМОВАНИЙ CANVAS ФОН (МОЛЕКУЛИ/СФЕРИ)
+    // ========================================
+    const canvas = document.getElementById('heroCanvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+
+        // Налаштування canvas
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+
+        // Клас частинки
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Повернення частинок
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(212, 165, 165, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Ініціалізація частинок
+        function init() {
+            particles = [];
+            const particleCount = Math.min(Math.floor(canvas.width / 10), 80);
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        // Анімаційний цикл
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            // З'єднання близьких частинок
+            connectParticles();
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // З'єднання частинок лініями
+        function connectParticles() {
+            const maxDistance = 120;
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < maxDistance) {
+                        const opacity = (1 - distance / maxDistance) * 0.3;
+                        ctx.strokeStyle = `rgba(212, 165, 165, ${opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Ініціалізація
+        resizeCanvas();
+        init();
+        animate();
+
+        // Оновлення при зміні розміру
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            init();
+        });
+
+        // Очищення при виході
+        window.addEventListener('beforeunload', () => {
+            cancelAnimationFrame(animationId);
+        });
+    }
+
+    // ========================================
+    // 2. СЛАЙДЕР СЕРТИФІКАТІВ
+    // ========================================
+    const slider = document.getElementById('certificatesSlider');
+    const slides = slider ? slider.querySelectorAll('.certificate-slide') : [];
+    const dots = document.querySelectorAll('.slider-dot');
+    const prevBtn = document.getElementById('certPrev');
+    const nextBtn = document.getElementById('certNext');
     let currentSlide = 0;
-    let interval;
-    
-    function showSlide(n) {
+    let autoplayInterval;
+
+    function showSlide(index) {
         slides.forEach(slide => slide.classList.remove('active'));
         dots.forEach(dot => dot.classList.remove('active'));
-        
-        currentSlide = (n + slides.length) % slides.length;
-        slides[currentSlide].classList.add('active');
-        dots[currentSlide].classList.add('active');
+
+        currentSlide = (index + slides.length) % slides.length;
+
+        if (slides[currentSlide]) slides[currentSlide].classList.add('active');
+        if (dots[currentSlide]) dots[currentSlide].classList.add('active');
     }
-    
+
     function nextSlide() {
         showSlide(currentSlide + 1);
     }
-    
+
+    function prevSlide() {
+        showSlide(currentSlide - 1);
+    }
+
     function startAutoplay() {
-        interval = setInterval(nextSlide, 4000);
+        autoplayInterval = setInterval(nextSlide, 5000);
     }
-    
+
     function stopAutoplay() {
-        clearInterval(interval);
+        clearInterval(autoplayInterval);
     }
-    
-    dots.forEach((dot, idx) => {
+
+    // Навігація
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+        stopAutoplay();
+        nextSlide();
+        startAutoplay();
+    });
+
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+        stopAutoplay();
+        prevSlide();
+        startAutoplay();
+    });
+
+    dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
             stopAutoplay();
-            showSlide(idx);
+            showSlide(index);
             startAutoplay();
         });
     });
-    
+
+    // Автоплей
     if (slides.length > 1) {
         startAutoplay();
     }
+
+    // Пауза при ховері
+    if (slider) {
+        slider.addEventListener('mouseenter', stopAutoplay);
+        slider.addEventListener('mouseleave', startAutoplay);
+    }
+
+    // ========================================
+    // 3. АНІМАЦІЯ ПОЯВИ ЕЛЕМЕНТІВ ПРИ СКРОЛІ
+    // ========================================
+    const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    animateElements.forEach(el => observer.observe(el));
 });
 </script>
+
 {% endblock %}
