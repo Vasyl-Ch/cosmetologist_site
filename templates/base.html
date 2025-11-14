@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Harmony Aesthetic{% endblock %}</title>
+    <title>{% block title %}Mela-Med Aesthetic{% endblock %}</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     {% load static %}
@@ -22,7 +22,7 @@
                     <circle cx="65" cy="40" r="3" fill="currentColor"/>
                     <path d="M40,60 Q50,70 60,60" stroke="currentColor" stroke-width="3" fill="none"/>
                 </svg>
-                <span class="logo-text">Harmony</span>
+                <span class="logo-text">Mela-Med Aesthetic</span>
             </a>
 
             <div class="burger" id="burger">
@@ -33,11 +33,11 @@
 
             <nav id="nav">
                 <ul>
-                    <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Главная</a></li>
-                    <li><a href="{% url 'procedure_types_list' %}" class="{% if request.resolver_match.url_name == 'procedure_types_list' or request.resolver_match.url_name == 'procedures_by_type' %}active{% endif %}">Процедуры</a></li>
+                    <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Головна</a></li>
+                    <li><a href="{% url 'procedure_types_list' %}" class="{% if request.resolver_match.url_name == 'procedure_types_list' or request.resolver_match.url_name == 'procedures_by_type' %}active{% endif %}">Процедури</a></li>
                     <li><a href="{% url 'brands_list' %}" class="{% if request.resolver_match.url_name == 'brands_list' or request.resolver_match.url_name == 'products_by_brand' %}active{% endif %}">Косметика</a></li>
-                    <li><a href="{% url 'articles_list' %}" class="{% if request.resolver_match.url_name == 'articles_list' %}active{% endif %}">Статьи</a></li>
-                    <li><a href="{% url 'contacts' %}" class="{% if request.resolver_match.url_name == 'contacts' %}active{% endif %}">Контакты</a></li>
+                    <li><a href="{% url 'articles_list' %}" class="{% if request.resolver_match.url_name == 'articles_list' %}active{% endif %}">Статті</a></li>
+                    <li><a href="{% url 'contacts' %}" class="{% if request.resolver_match.url_name == 'contacts' %}active{% endif %}">Контакти</a></li>
                 </ul>
 
                 <div class="social-icons">
@@ -66,30 +66,30 @@
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <h3>О Нас</h3>
-                    <p>Гармония вашей красоты - наш главный приоритет. Предоставляем услуги премиум-класса с использованием инновационных технологий.</p>
+                    <h3>Про нас</h3>
+                    <p>Гармонія вашої краси — наш головний пріоритет. Надаємо послуги преміум-класу з використанням інноваційних технологій.</p>
                 </div>
 
                 <div>
-                    <h3>Процедуры</h3>
+                    <h3>Процедури</h3>
                     <ul class="footer-links">
-                        <li><a href="{% url 'procedure_types_list' %}">Все процедуры</a></li>
-                        <li><a href="{% url 'procedures_by_type' 'injections' %}">Инъекции</a></li>
-                        <li><a href="{% url 'procedures_by_type' 'face-care' %}">Уход за лицом</a></li>
-                        <li><a href="{% url 'procedures_by_type' 'hair-care' %}">Уход за телом</a></li>
+                        <li><a href="{% url 'procedure_types_list' %}">Усі процедури</a></li>
+                        <li><a href="{% url 'procedures_by_type' 'injections' %}">Ін'єкції</a></li>
+                        <li><a href="{% url 'procedures_by_type' 'face-care' %}">Догляд за обличчям</a></li>
+                        <li><a href="{% url 'procedures_by_type' 'hair-care' %}">Догляд за волоссям</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h3>Косметика</h3>
                     <ul class="footer-links">
-                        <li><a href="{% url 'brands_list' %}">Все бренды</a></li>
-                        <li><a href="{% url 'articles_list' %}">Полезные статьи</a></li>
+                        <li><a href="{% url 'brands_list' %}">Усі бренди</a></li>
+                        <li><a href="{% url 'articles_list' %}">Корисні статті</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3>Контакты</h3>
+                    <h3>Контакти</h3>
                     {% if contact_info %}
                     <div class="footer-contact">
                         <i class="fas fa-map-marker-alt"></i>
@@ -104,7 +104,7 @@
             </div>
 
             <div class="copyright">
-                <p>&copy; 2024 Harmony Aesthetic. Все права защищены.</p>
+                <p>&copy; 2025 Mela-Med Aesthetic. Усі права захищені.</p>
             </div>
         </div>
     </footer>

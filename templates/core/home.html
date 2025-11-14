@@ -1,23 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Главная - Harmony Aesthetic{% endblock %}
+{% block title %}Головна - Mela-Med Aesthetic{% endblock %}
 
 {% block content %}
 <!-- Hero секция -->
 <section class="hero">
     <div class="container">
-        <h1>Преобразите свою кожу с помощью наших профессиональных услуг</h1>
-        <p>Представляем новейшие технологии и премиальную косметику для сияющей и здоровой кожи</p>
-        <a href="/procedures/" class="btn btn-primary">Записаться на консультацию</a>
+        <h1>Преобразіть свою шкіру за допомогою наших професійних послуг</h1>
+        <p>Пропонуємо найновіші технології та преміальну косметику для сяючої й здорової шкіри</p>
+        <a href="/procedures/" class="btn btn-primary">Записатися на консультацію</a>
     </div>
 </section>
 
 <div class="container">
     <!-- Сертификаты -->
     <section style="margin-bottom: 60px;">
-        <h2 class="section-title">Наши Сертификаты</h2>
-        <p class="section-subtitle">Мы гордимся признанием нашей работы в профессиональном сообществе</p>
+        <h2 class="section-title">Наші сертифікати</h2>
+        <p class="section-subtitle">Ми пишаємося визнанням нашої роботи в професійній спільноті</p>
         
         <div class="certificates-slider">
             {% for certificate in certificates %}
@@ -39,18 +39,18 @@
             <div class="card">
                 <div class="card-img" style="background-image: url('{% static "img/procedures.jpg" %}')"></div>
                 <div class="card-body">
-                    <h3 class="card-title">Косметологические процедуры</h3>
-                    <p class="card-text">Современные методики ухода за кожей от ведущих специалистов</p>
-                    <a href="/procedures/" class="btn">Подробнее</a>
+                    <h3 class="card-title">Косметологічні процедури</h3>
+                    <p class="card-text">Сучасні методики догляду за шкірою від провідних спеціалістів</p>
+                    <a href="/procedures/" class="btn">Детальніше</a>
                 </div>
             </div>
             
             <div class="card">
                 <div class="card-img" style="background-image: url('{% static "img/cosmetics.jpg" %}')"></div>
                 <div class="card-body">
-                    <h3 class="card-title">Премиальная косметика</h3>
-                    <p class="card-text">Продукты от мировых лидеров индустрии красоты</p>
-                    <a href="/cosmetics/" class="btn">Подробнее</a>
+                    <h3 class="card-title">Преміальна косметика</h3>
+                    <p class="card-text">Продукція від світових лідерів індустрії краси</p>
+                    <a href="/cosmetics/" class="btn">Детальніше</a>
                 </div>
             </div>
         </div>
@@ -58,8 +58,8 @@
     
     <!-- Отзывы -->
     <section>
-        <h2 class="section-title">Отзывы наших клиентов</h2>
-        <p class="section-subtitle">Ваше доверие - наша главная награда</p>
+        <h2 class="section-title">Відгуки наших клієнтів</h2>
+        <p class="section-subtitle">Ваша довіра — наша головна нагорода</p>
         
         <div class="grid-2">
             {% for review in reviews %}

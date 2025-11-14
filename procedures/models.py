@@ -54,10 +54,10 @@ class Procedure(models.Model):
     def get_price_display(self):
         if self.discount_price and self.discount_price < (self.price or float("inf")):
             return mark_safe(
-                f'<del style="color: #999;">{self.price} ₴</del> '
-                f'<strong style="color: #e74c3c;">{self.discount_price} ₴</strong>'
+                f"<del style='color: #999;'>{self.price} ₴</del> "
+                f"<strong style='color: #e74c3c;'>{self.discount_price} ₴</strong>"
             )
         elif self.price:
             return f"{self.price} ₴"
         else:
-            return mark_safe('<em style="color: #999;">Вартість уточнюйте</em>')
+            return mark_safe("<em style='color: #999;'>Вартість уточнюйте</em>")

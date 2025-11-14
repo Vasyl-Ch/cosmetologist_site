@@ -2,7 +2,6 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 
-
 from .models import Article, Tag
 
 
@@ -35,3 +34,37 @@ def articles_list(request):
             "page_title": "Статті",
         },
     )
+
+def article_detail(request, slug):
+    article = get_object_or_404(Article, slug=slug)
+
+    tags = article.tags.all()
+
+    related_articles = Article.objects.filter(
+        tags__in=tags
+    ).exclude(
+        id=article.id
+    ).distinct().order_by('-created_at')[:3]
+
+    if related_articles.count() < 3:
+        other_articles = Article.objects.exclude(
+            id=article.id
+        ).order_by('-created_at')[:3 - related_articles.count()]
+        related_articles = list(related_articles) + list(other_articles)
+
+    previous_article = Article.objects.filter(
+        created_at__lt=article.created_at
+    ).order_by('-created_at').first()
+
+    next_article = Article.objects.filter(
+        created_at__gt=article.created_at
+    ).order_by('created_at').first()
+
+    context = {
+        'article': article,
+        'related_articles': related_articles,
+        'previous_article': previous_article,
+        'next_article': next_article,
+    }
+
+    return render(request, 'articles/article_detail.html', context)

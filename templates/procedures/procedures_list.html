@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ procedure_type.name }} - Harmony Aesthetic{% endblock %}
+{% block title %}{{ procedure_type.name }} - Mela-Med Aesthetic{% endblock %}
 
 {% block content %}
 <div class="hero" style="padding: 60px 0;">
@@ -25,12 +25,12 @@
                     <p class="card-text">{{ procedure.description|truncatewords:25 }}</p>
                     <div class="procedure-meta">
                         <span class="price">{{ procedure.get_price_display|safe }}</span>
-                        <span class="duration">{{ procedure.duration_minutes }} мин</span>
+                        <span class="duration">{{ procedure.duration_minutes }} хв</span>
                     </div>
                 </div>
             </div>
             {% empty %}
-            <p class="empty-message">Процедуры скоро появятся</p>
+            <p class="empty-message">Процедури скоро з'являться</p>
             {% endfor %}
         </div>
     </div>

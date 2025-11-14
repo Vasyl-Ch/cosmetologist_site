@@ -1,6 +1,4 @@
 // static/js/main.js
-// Главный JavaScript файл — Harmony Aesthetic
-// Совместим с base.html, styles.css, #scrollTop, бургер-меню и всеми шаблонами
 
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
