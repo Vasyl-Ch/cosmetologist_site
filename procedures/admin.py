@@ -55,4 +55,3 @@ class ProcedureAdmin(admin.ModelAdmin):
         return obj.get_price_display()
 
     get_price_display.short_description = "Цена"
-

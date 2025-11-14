@@ -23,9 +23,15 @@ class Product(models.Model):
         null=True,
         max_digits=10,
         decimal_places=2,
-        help_text="Оставьте пустым, если цена не фиксирована"
+        help_text="Оставьте пустым, если цена не фиксирована",
     )
-    discount_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, help_text="Акционная цена (меньше обычной)")
+    discount_price = models.DecimalField(
+        blank=True,
+        null=True,
+        max_digits=10,
+        decimal_places=2,
+        help_text="Акционная цена (меньше обычной)",
+    )
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name="products")
     slug = models.SlugField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -47,4 +53,6 @@ class Product(models.Model):
         elif self.price:
             return f"{self.price} ₽"
         else:
-            return mark_safe('<span style="color: #999; font-style: italic;">Вартість уточнюйте</span>')
+            return mark_safe(
+                '<span style="color: #999; font-style: italic;">Вартість уточнюйте</span>'
+            )

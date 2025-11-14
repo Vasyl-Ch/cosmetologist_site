@@ -23,6 +23,9 @@ class ArticleAdmin(admin.ModelAdmin):
 
     def preview_image(self, obj):
         if obj.image:
-            return mark_safe(f"<img src='{obj.image.url}' width='100' height='100' style='object-fit: cover;' />")
+            return mark_safe(
+                f"<img src='{obj.image.url}' width='100' height='100' style='object-fit: cover;' />"
+            )
         return "Нет изображения"
+
     preview_image.short_description = "Превью"

@@ -28,11 +28,19 @@ class Procedure(models.Model):
         null=True,
         max_digits=10,
         decimal_places=2,
-        help_text="Оставьте пустым, если цена не фиксирована"
+        help_text="Оставьте пустым, если цена не фиксирована",
     )
-    discount_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, help_text="Акционная цена")
+    discount_price = models.DecimalField(
+        blank=True,
+        null=True,
+        max_digits=10,
+        decimal_places=2,
+        help_text="Акционная цена",
+    )
     slug = models.SlugField(unique=True)
-    type = models.ForeignKey(ProcedureType, on_delete=models.CASCADE, related_name="procedures")
+    type = models.ForeignKey(
+        ProcedureType, on_delete=models.CASCADE, related_name="procedures"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
