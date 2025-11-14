@@ -16,7 +16,7 @@
     <div class="grid-2">
         {% for brand in page_obj %}
         <a href="{% url 'products_by_brand' brand.slug %}" class="card brand-card">
-            <div class="card-img" style="background-image: url('{{ brand.image.url }}');"></div>
+            <div class="card-img {% if not brand.image %}no-image{% endif %}" {% if brand.image %}style="background-image: url('{{ brand.image.url }}');"{% endif %}></div>
             <div class="card-body">
                 <h3 class="card-title">{{ brand.name }}</h3>
                 <p class="card-text">{{ brand.description|truncatewords:20 }}</p>

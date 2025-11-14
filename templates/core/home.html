@@ -21,8 +21,8 @@
         
         <div class="certificates-slider">
             {% for certificate in certificates %}
-            <div class="certificate-slide {% if forloop.first %}active{% endif %}" 
-                 style="background-image: url('{{ certificate.image.url }}')"></div>
+            <div class="certificate-slide {% if forloop.first %}active{% endif %} {% if not certificate.image %}no-image{% endif %}"
+                 {% if certificate.image %}style="background-image: url('{{ certificate.image.url }}')"{% endif %}></div>
             {% endfor %}
         </div>
         
@@ -66,7 +66,8 @@
             <div class="card">
                 <div class="card-body">
                     <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                        <div style="width: 70px; height: 70px; border-radius: 50%; background-image: url('{{ review.image.url }}'); background-size: cover; margin-right: 15px;"></div>
+                        <div class="{% if not review.image %}no-image{% endif %}"
+                             style="width: 70px; height: 70px; border-radius: 50%; {% if review.image %}background-image: url('{{ review.image.url }}'); background-size: cover;{% endif %} margin-right: 15px;"></div>
                         <div>
                             <h4 style="font-size: 1.2rem; margin-bottom: 5px;">{{ review.author_name }}</h4>
                             <div style="color: var(--accent);">

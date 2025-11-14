@@ -13,13 +13,15 @@ def brands_list(request):
         brands = brands.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
         )
+    paginator = Paginator(brands, 6)
+    page = request.GET.get("page")
+    brands_page = paginator.get_page(page)
     return render(
         request,
         "cosmetics/brands_list.html",
         {
-            "brands": brands,
+            "page_obj": brands_page,
             "query": query,
-            "all_brands": Brand.objects.all(),
             "page_title": "Косметика",
         },
     )
@@ -42,7 +44,7 @@ def products_by_brand(request, slug):
         "cosmetics/products_list.html",
         {
             "brand": brand,
-            "products": products_page,
+            "page_obj": products_page,
             "query": query,
             "all_brands": Brand.objects.all(),
             "page_title": brand.name,

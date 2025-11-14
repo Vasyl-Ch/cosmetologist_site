@@ -19,11 +19,11 @@
         <div class="products-grid">
             {% for product in page_obj %}
             <div class="card">
-                <div class="card-img" style="background-image: url('{{ product.image.url }}');"></div>
+                <div class="card-img {% if not product.image %}no-image{% endif %}" {% if product.image %}style="background-image: url('{{ product.image.url }}');"{% endif %}></div>
                 <div class="card-body">
                     <h3 class="card-title">{{ product.name }}</h3>
                     <p class="card-text">{{ product.description|truncatewords:25 }}</p>
-                    <span class="price">{{ product.price }} ₽</span>
+                    <span class="price">{{ product.get_price_display|safe }}</span>
                 </div>
             </div>
             {% empty %}

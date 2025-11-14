@@ -15,7 +15,7 @@ def home(request):
     context = {
         "reviews": reviews,
         "certificates": certificates,
-        "contact": contact,
+        "contact_info": contact,
         "procedure_types": ProcedureType.objects.all()[:3],
         "brands": Brand.objects.all()[:3],
         "recent_articles": Article.objects.all()[:3],
@@ -30,7 +30,7 @@ def contacts(request):
         request,
         "core/contacts.html",
         {
-            "contact": contact,
+            "contact_info": contact,
             "page_title": "Контакти",
         },
     )

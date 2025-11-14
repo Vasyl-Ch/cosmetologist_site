@@ -15,9 +15,9 @@ def procedure_types_list(request):
         request,
         "procedures/types_list.html",
         {
-            "types": types,
+            "procedure_types": types,
             "query": query,
-            "all_types": ProcedureType.objects.all(),
+            # список для сайдбара не нужен на этой странице
             "page_title": "Перелік процедур",
         },
     )
@@ -39,10 +39,11 @@ def procedures_by_type(request, slug):
         request,
         "procedures/procedures_list.html",
         {
-            "type": type_obj,
-            "procedures": procedures_page,
+            "procedure_type": type_obj,
+            "page_obj": procedures_page,
             "query": query,
-            "all_types": ProcedureType.objects.all(),
+            "all_procedure_types": ProcedureType.objects.all(),
+            "current_type_slug": type_obj.slug,
             "page_title": type_obj.name,
         },
     )

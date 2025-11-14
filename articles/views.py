@@ -11,9 +11,10 @@ def articles_list(request):
     tag_slug = request.GET.get("tag")
     articles = Article.objects.all().order_by("-created_at")
 
+    active_tag = None
     if tag_slug:
-        tag = get_object_or_404(Tag, slug=tag_slug)
-        articles = articles.filter(tags=tag)
+        active_tag = get_object_or_404(Tag, slug=tag_slug)
+        articles = articles.filter(tags=active_tag)
     if query:
         articles = articles.filter(
             Q(title__icontains=query) | Q(content__icontains=query)
@@ -27,9 +28,9 @@ def articles_list(request):
         request,
         "articles/articles_list.html",
         {
-            "articles": articles_page,
-            "tags": Tag.objects.all(),
-            "selected_tag": tag_slug,
+            "page_obj": articles_page,
+            "all_tags": Tag.objects.all(),
+            "active_tag": active_tag,
             "query": query,
             "page_title": "Статті",
         },
