@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold text-primary">Добро пожаловать!</h1>
+    <p class="lead text-muted">Профессиональный уход за кожей, инъекции, аппаратные методики.</p>
+    <a href="{{ contact.instagram_url }}" target="_blank" class="btn btn-outline-primary mt-3">
+      <i class="bi bi-instagram"></i> Instagram
+    </a>
+  </div>
+
+  <!-- Карусель сертификатов -->
+  {% if certificates %}
+    <div id="certCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+      <div class="carousel-inner rounded shadow-sm">
+        {% for cert in certificates %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <img src="{{ cert.image.url }}" class="d-block w-100" alt="{{ cert.title|default:'Сертификат' }}"
+                 style="max-height:400px; object-fit:contain;">
+          </div>
+        {% endfor %}
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#certCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Предыдущий</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#certCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Следующий</span>
+      </button>
+    </div>
+  {% endif %}
+
+  <!-- Ссылки на каталоги -->
+  <div class="row mb-5">
+    <div class="col-md-6 mb-4">
+      <div class="card h-100 border-0 shadow-sm hover-lift">
+        <img src="{% static 'img/procedures.jpg' %}" class="card-img-top" alt="Процедуры">
+        <div class="card-body text-center">
+          <h5 class="card-title">Процедуры</h5>
+          <a href="{% url 'procedure_types_list' %}" class="btn btn-primary">Перейти</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card h-100 border-0 shadow-sm hover-lift">
+        <img src="{% static 'img/cosmetics.jpg' %}" class="card-img-top" alt="Косметика">
+        <div class="card-body text-center">
+          <h5 class="card-title">Косметика</h5>
+          <a href="{% url 'brands_list' %}" class="btn btn-primary">Перейти</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Отзывы -->
+  {% if reviews %}
+    <h2 class="mb-4 text-center">Отзывы клиентов</h2>
+    <div class="row">
+      {% for r in reviews %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            {% if r.image %}
+              <img src="{{ r.image.url }}" class="card-img-top" style="height:180px; object-fit:cover;">
+            {% endif %}
+            <div class="card-body">
+              <h6 class="card-title">{{ r.author_name }}</h6>
+              <p class="card-text text-muted small">{{ r.text|truncatewords:30 }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

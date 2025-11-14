@@ -1,0 +1,11 @@
+<div class="card border-0 shadow-sm p-3">
+  <h5 class="mb-3">Бренды</h5>
+  <nav class="nav flex-column">
+    {% for b in all_brands %}
+      <a class="nav-link {% if b == current_brand %}active fw-bold{% endif %}"
+         href="{% url 'products_by_brand' b.slug %}">
+        {{ b.name }}
+      </a>
+    {% endfor %}
+  </nav>
+</div>

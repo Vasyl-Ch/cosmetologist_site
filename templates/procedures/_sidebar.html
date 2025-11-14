@@ -1,0 +1,11 @@
+<div class="card border-0 shadow-sm p-3">
+  <h5 class="mb-3">Типы процедур</h5>
+  <nav class="nav flex-column">
+    {% for t in all_types %}
+      <a class="nav-link {% if t == current_type %}active fw-bold{% endif %}"
+         href="{% url 'procedures_by_type' t.slug %}">
+        {{ t.name }}
+      </a>
+    {% endfor %}
+  </nav>
+</div>
