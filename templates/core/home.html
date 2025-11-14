@@ -1,76 +1,180 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Главная - Harmony Aesthetic{% endblock %}
+
 {% block content %}
-  <div class="text-center mb-5">
-    <h1 class="display-5 fw-bold text-primary">Ласкаво просимо!</h1>
-    <p class="lead text-muted">Професійний догляд за шкірою, ін'єкції, апаратні методики.</p>
-    <a href="{{ contact.instagram_url }}" target="_blank" class="btn btn-outline-primary mt-3">
-      <i class="bi bi-instagram"></i> Instagram
-    </a>
-  </div>
-
-  <!-- Карусель сертификатов -->
-  {% if certificates %}
-    <div id="certCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
-      <div class="carousel-inner rounded shadow-sm">
-        {% for cert in certificates %}
-          <div class="carousel-item {% if forloop.first %}active{% endif %}">
-            <img src="{{ cert.image.url }}" class="d-block w-100" alt="{{ cert.title|default:'Сертифікат' }}"
-                 style="max-height:400px; object-fit:contain;">
-          </div>
-        {% endfor %}
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#certCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Попередній</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#certCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Наступний</span>
-      </button>
+<!-- Hero секция -->
+<section class="hero">
+    <div class="container">
+        <h1>Преобразите свою кожу с помощью наших профессиональных услуг</h1>
+        <p>Представляем новейшие технологии и премиальную косметику для сияющей и здоровой кожи</p>
+        <a href="/procedures/" class="btn btn-primary">Записаться на консультацию</a>
     </div>
-  {% endif %}
+</section>
 
-  <!-- Ссылки на каталоги -->
-  <div class="row mb-5">
-    <div class="col-md-6 mb-4">
-      <div class="card h-100 border-0 shadow-sm hover-lift">
-        <img src="{% static 'img/procedures.jpg' %}" class="card-img-top" alt="Процедури">
-        <div class="card-body text-center">
-          <h5 class="card-title">Процедури</h5>
-          <a href="{% url 'procedure_types_list' %}" class="btn btn-primary">Перейти</a>
+<div class="container">
+    <!-- Сертификаты -->
+    <section style="margin-bottom: 60px;">
+        <h2 class="section-title">Наши Сертификаты</h2>
+        <p class="section-subtitle">Мы гордимся признанием нашей работы в профессиональном сообществе</p>
+        
+        <div class="certificates-slider">
+            {% for certificate in certificates %}
+            <div class="certificate-slide {% if forloop.first %}active{% endif %}" 
+                 style="background-image: url('{{ certificate.image.url }}')"></div>
+            {% endfor %}
         </div>
-      </div>
-    </div>
-    <div class="col-md-6 mb-4">
-      <div class="card h-100 border-0 shadow-sm hover-lift">
-        <img src="{% static 'img/cosmetics.jpg' %}" class="card-img-top" alt="Косметика">
-        <div class="card-body text-center">
-          <h5 class="card-title">Косметика</h5>
-          <a href="{% url 'brands_list' %}" class="btn btn-primary">Перейти</a>
+        
+        <div class="slider-controls">
+            {% for certificate in certificates %}
+            <button class="slider-btn {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.counter0 }}"></button>
+            {% endfor %}
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Відгуки -->
-  {% if reviews %}
-    <h2 class="mb-4 text-center">Відгуки клієнтів</h2>
-    <div class="row">
-      {% for r in reviews %}
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 border-0 shadow-sm">
-            {% if r.image %}
-              <img src="{{ r.image.url }}" class="card-img-top" style="height:180px; object-fit:cover;">
-            {% endif %}
-            <div class="card-body">
-              <h6 class="card-title">{{ r.author_name }}</h6>
-              <p class="card-text text-muted small">{{ r.text|truncatewords:30 }}</p>
+    </section>
+    
+    <!-- Каталог услуг -->
+    <section style="margin-bottom: 60px;">
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-img" style="background-image: url('{% static "img/procedures.jpg" %}')"></div>
+                <div class="card-body">
+                    <h3 class="card-title">Косметологические процедуры</h3>
+                    <p class="card-text">Современные методики ухода за кожей от ведущих специалистов</p>
+                    <a href="/procedures/" class="btn">Подробнее</a>
+                </div>
             </div>
-          </div>
+            
+            <div class="card">
+                <div class="card-img" style="background-image: url('{% static "img/cosmetics.jpg" %}')"></div>
+                <div class="card-body">
+                    <h3 class="card-title">Премиальная косметика</h3>
+                    <p class="card-text">Продукты от мировых лидеров индустрии красоты</p>
+                    <a href="/cosmetics/" class="btn">Подробнее</a>
+                </div>
+            </div>
         </div>
-      {% endfor %}
-    </div>
-  {% endif %}
+    </section>
+    
+    <!-- Отзывы -->
+    <section>
+        <h2 class="section-title">Отзывы наших клиентов</h2>
+        <p class="section-subtitle">Ваше доверие - наша главная награда</p>
+        
+        <div class="grid-2">
+            {% for review in reviews %}
+            <div class="card">
+                <div class="card-body">
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <div style="width: 70px; height: 70px; border-radius: 50%; background-image: url('{{ review.image.url }}'); background-size: cover; margin-right: 15px;"></div>
+                        <div>
+                            <h4 style="font-size: 1.2rem; margin-bottom: 5px;">{{ review.author_name }}</h4>
+                            <div style="color: var(--accent);">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="card-text" style="font-style: italic;">"{{ review.text }}"</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<style>
+.certificates-slider {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto 20px;
+    height: 450px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.certificate-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.certificate-slide.active {
+    opacity: 1;
+}
+
+.slider-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.slider-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--secondary);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.slider-btn:hover,
+.slider-btn.active {
+    background: var(--accent);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const slides = document.querySelectorAll('.certificate-slide');
+    const dots = document.querySelectorAll('.slider-btn');
+    let currentSlide = 0;
+    let interval;
+    
+    function showSlide(n) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        currentSlide = (n + slides.length) % slides.length;
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }
+    
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+    
+    function startAutoplay() {
+        interval = setInterval(nextSlide, 4000);
+    }
+    
+    function stopAutoplay() {
+        clearInterval(interval);
+    }
+    
+    dots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => {
+            stopAutoplay();
+            showSlide(idx);
+            startAutoplay();
+        });
+    });
+    
+    if (slides.length > 1) {
+        startAutoplay();
+    }
+});
+</script>
 {% endblock %}

@@ -1,49 +1,45 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends 'base.html' %}
 
-{% block sidebar %}
-  <div class="card border-0 shadow-sm p-3">
-    <h5 class="mb-3">Бренди</h5>
-    <form method="get" class="mb-3">
-      <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Пошук..." value="{{ query }}">
-        <button class="btn btn-outline-primary" type="submit">Шукати</button>
-      </div>
-    </form>
-    <nav class="nav flex-column">
-      {% for b in all_brands %}
-        <a class="nav-link {% if b == brand %}active{% endif %}" href="{% url 'products_by_brand' b.slug %}">
-          {{ b.name }}
-        </a>
-      {% endfor %}
-    </nav>
-  </div>
-{% endblock %}
+{% block title %}Бренды - Harmony Aesthetic{% endblock %}
 
 {% block content %}
-  <h1>Косметика</h1>
-
-  <form method="get" class="mb-4">
-    <div class="input-group w-100 w-md-50">
-      <input type="text" name="q" class="form-control" placeholder="Пошук бренду..." value="{{ query }}">
-      <button class="btn btn-primary" type="submit">Шукати</button>
+<div class="hero" style="padding: 60px 0;">
+    <div class="container">
+        <h1 style="text-align: center;">Наши бренды</h1>
+        <p style="text-align: center; max-width: 700px; margin: 0 auto;">
+            Премиальная косметика от мировых лидеров индустрии красоты
+        </p>
     </div>
-  </form>
+</div>
 
-  <div class="row row-cols-1 row-cols-md-2 g-4">
-    {% for b in brands %}
-      <div class="col">
-        <div class="card h-100 border-0 shadow-sm hover-lift">
-          <img src="{{ b.image.url }}" class="card-img-top" style="height:180px; object-fit:contain;">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">{{ b.name }}</h5>
-            <p class="card-text text-muted flex-grow-1">{{ b.description|truncatewords:15 }}</p>
-            <a href="{% url 'products_by_brand' b.slug %}" class="btn btn-outline-primary mt-auto">Товари</a>
-          </div>
-        </div>
-      </div>
-    {% empty %}
-      <p class="text-muted">Брендів не знайдено.</p>
-    {% endfor %}
-  </div>
+<div class="container">
+    <div class="grid-2">
+        {% for brand in page_obj %}
+        <a href="{% url 'products_by_brand' brand.slug %}" class="card brand-card">
+            <div class="card-img" style="background-image: url('{{ brand.image.url }}');"></div>
+            <div class="card-body">
+                <h3 class="card-title">{{ brand.name }}</h3>
+                <p class="card-text">{{ brand.description|truncatewords:20 }}</p>
+            </div>
+        </a>
+        {% empty %}
+        <p class="empty-message">Бренды скоро появятся</p>
+        {% endfor %}
+    </div>
+
+    {% include 'includes/pagination.html' with page_obj=page_obj %}
+</div>
+
+<style>
+.brand-card {
+    text-decoration: none;
+    color: inherit;
+}
+
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 {% endblock %}

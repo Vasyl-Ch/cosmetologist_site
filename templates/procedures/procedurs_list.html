@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ procedure_type.name }} - Harmony Aesthetic{% endblock %}
+
+{% block content %}
+<div class="hero" style="padding: 60px 0;">
+    <div class="container">
+        <h1 style="text-align: center;">{{ procedure_type.name }}</h1>
+        <p style="text-align: center; max-width: 700px; margin: 0 auto;">{{ procedure_type.description }}</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content-with-sidebar">
+        <!-- Сайдбар -->
+        {% with current_type_slug=procedure_type.slug %}
+            {% include 'procedures/_sidebar.html' %}
+        {% endwith %}
+
+        <!-- Список процедур -->
+        <div class="procedures-grid">
+            {% for procedure in page_obj %}
+            <div class="card">
+                <div class="card-img" style="background-image: url('{{ procedure.image.url }}');"></div>
+                <div class="card-body">
+                    <h3 class="card-title">{{ procedure.name }}</h3>
+                    <p class="card-text">{{ procedure.description|truncatewords:25 }}</p>
+                    <div class="procedure-meta">
+                        <span class="price">{{ procedure.price }} ₽</span>
+                        <span class="duration">{{ procedure.duration_minutes }} мин</span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="empty-message">Процедуры скоро появятся</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Пагинация -->
+    {% include 'includes/pagination.html' with page_obj=page_obj %}
+</div>
+
+<style>
+.content-with-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.procedures-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.procedure-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    font-size: 0.95rem;
+}
+
+.price {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.duration {
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+.empty-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--accent);
+    font-style: italic;
+}
+
+@media (max-width: 992px) {
+    .procedures-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .content-with-sidebar {
+        grid-template-columns: 1fr;
+    }
+    .procedures-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}

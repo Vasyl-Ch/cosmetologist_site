@@ -1,84 +1,625 @@
 <!DOCTYPE html>
-{% load static %}
-{% load extras %}
-<html lang="uk">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page_title|default:"Косметолог" }} | Сайт косметолога</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <title>{% block title %}Harmony Aesthetic{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #d4a5a5;
+            --secondary: #f5e6e8;
+            --accent: #a07878;
+            --dark: #3c2b30;
+            --light: #faf7f7;
+            --gradient: linear-gradient(135deg, #d4a5a5 0%, #e8c4c4 100%);
+            --radius: 12px;
+            --shadow: 0 2px 15px rgba(212, 165, 165, 0.15);
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            padding-top: var(--header-height);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Навигация */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: white;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+        }
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--accent);
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        /* Бургер-меню */
+        .burger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .burger span {
+            width: 25px;
+            height: 3px;
+            background: var(--accent);
+            transition: all 0.3s;
+        }
+
+        .burger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .burger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Мобильное меню */
+        @media (max-width: 768px) {
+            .burger {
+                display: flex;
+            }
+
+            nav {
+                position: fixed;
+                top: var(--header-height);
+                right: -100%;
+                width: 280px;
+                height: calc(100vh - var(--header-height));
+                background: white;
+                box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 30px 20px;
+                transition: right 0.3s;
+                overflow-y: auto;
+            }
+
+            nav.active {
+                right: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+                gap: 0;
+            }
+
+            nav li {
+                width: 100%;
+                border-bottom: 1px solid var(--secondary);
+            }
+
+            nav a {
+                display: block;
+                padding: 15px 0;
+                width: 100%;
+            }
+
+            .social-icons {
+                margin-top: 20px;
+            }
+        }
+
+        /* Hero секция */
+        .hero {
+            padding: 80px 0;
+            background: var(--gradient);
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: white;
+            color: var(--accent);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Заголовки секций */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            color: var(--dark);
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        /* Карточки */
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(212, 165, 165, 0.25);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .card-text {
+            color: var(--dark);
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        /* Сетки */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        /* Пагинация */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 50px 0;
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: 10px 16px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s;
+        }
+
+        .pagination a:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .pagination .current {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Кнопка наверх */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+            border: none;
+            font-size: 1.5rem;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            background: var(--dark);
+            transform: translateY(-5px);
+        }
+
+        /* Футер */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 0 30px;
+            margin-top: 80px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        footer h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .footer-contact {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .footer-contact i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bbb;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
 </head>
-<body class="bg-light">
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">
+                <svg viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" stroke-width="3" fill="none" stroke="currentColor"/>
+                    <path d="M30,40 C35,25 65,25 70,40 C65,30 35,30 30,40 Z" stroke="currentColor" stroke-width="3" fill="none"/>
+                    <circle cx="35" cy="40" r="3" fill="currentColor"/>
+                    <circle cx="65" cy="40" r="3" fill="currentColor"/>
+                    <path d="M40,60 Q50,70 60,60" stroke="currentColor" stroke-width="3" fill="none"/>
+                </svg>
+                <span class="logo-text">Harmony</span>
+            </a>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-primary" href="{% url 'home' %}">Косметолог</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Головна</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Каталог</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'procedure_types_list' %}">Процедури</a></li>
-                            <li><a class="dropdown-item" href="{% url 'brands_list' %}">Косметика</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'articles_list' %}">Статті</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contacts' %}">Контакти</a></li>
+            <div class="burger" id="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav id="nav">
+                <ul>
+                    <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Главная</a></li>
+                    <li><a href="/procedures/" class="{% if '/procedures/' in request.path %}active{% endif %}">Процедуры</a></li>
+                    <li><a href="/cosmetics/" class="{% if '/cosmetics/' in request.path %}active{% endif %}">Косметика</a></li>
+                    <li><a href="/articles/" class="{% if '/articles/' in request.path %}active{% endif %}">Статьи</a></li>
+                    <li><a href="/contacts/" class="{% if request.path == '/contacts/' %}active{% endif %}">Контакты</a></li>
                 </ul>
-            </div>
+
+                <div class="social-icons">
+                    {% if contact_info.instagram_url %}
+                    <a href="{{ contact_info.instagram_url }}" class="social-icon" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    {% endif %}
+                    {% if contact_info.telegram_url %}
+                    <a href="{{ contact_info.telegram_url }}" class="social-icon" target="_blank">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <div class="container my-5">
-    <div class="row">
-        {% if request.resolver_match.url_name in 'procedure_types_list,procedures_by_type,brands_list,products_by_brand,articles_list'|split:',' %}
-            <div class="col-lg-3 mb-4">
-                {% block sidebar %}{% endblock %}
-            </div>
-            <div class="col-lg-9">
-                {% block content %}{% endblock %}
-            </div>
-        {% else %}
-            <div class="col-12">
-                {% block content %}{% endblock %}
-            </div>
-        {% endif %}
-    </div>
-</div>
+    <!-- Контент страницы -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 
-    {% if contact %}
-    <footer class="bg-white py-4 mt-5 border-top">
-        <div class="container text-center">
-            <p class="mb-1"><strong>Телефон:</strong> {{ contact.phone }}</p>
-            {% if contact.instagram_url %}
-            <p><a href="{{ contact.instagram_url }}" target="_blank" class="text-decoration-none">Instagram</a></p>
-            {% endif %}
-            <p class="text-muted small">{{ contact.address }}</p>
-            {% if contact.map_embed_url %}
-            <div class="mt-3">
-                <iframe src="{{ contact.map_embed_url }}" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>О Нас</h3>
+                    <p>Гармония вашей красоты - наш главный приоритет. Предоставляем услуги премиум-класса с использованием инновационных технологий.</p>
+                </div>
+
+                <div>
+                    <h3>Процедуры</h3>
+                    <ul class="footer-links">
+                        <li><a href="/procedures/">Все процедуры</a></li>
+                        <li><a href="/procedures/injections/">Инъекции</a></li>
+                        <li><a href="/procedures/face-care/">Уход за лицом</a></li>
+                        <li><a href="/procedures/body-care/">Уход за телом</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Косметика</h3>
+                    <ul class="footer-links">
+                        <li><a href="/cosmetics/">Все бренды</a></li>
+                        <li><a href="/articles/">Полезные статьи</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Контакты</h3>
+                    {% if contact_info %}
+                    <div class="footer-contact">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ contact_info.address }}</span>
+                    </div>
+                    <div class="footer-contact">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>{{ contact_info.phone }}</span>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
-            {% endif %}
+
+            <div class="copyright">
+                <p>&copy; 2024 Harmony Aesthetic. Все права защищены.</p>
+            </div>
         </div>
     </footer>
-    {% endif %}
 
-    <button id="back-to-top" class="btn btn-primary position-fixed bottom-0 end-0 m-4 shadow-lg" style="display: none; z-index: 1050;">
-        <svg width="20" height="20" fill="white" viewBox="0 0 16 16">
-            <path d="M8 15a.5.5 0 0 1-.5-.5V2.707l-3.146 3.147a.5.5 0 0 1-.708-.708l4-4a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1-.708.708L8.5 2.707V14.5a.5.5 0 0 1-.5.5z"/>
-        </svg>
+    <!-- Кнопка наверх -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        // Бургер-меню
+        const burger = document.getElementById('burger');
+        const nav = document.getElementById('nav');
+
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('active');
+            nav.classList.toggle('active');
+        });
+
+        // Закрытие меню при клике на ссылку
+        nav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                burger.classList.remove('active');
+                nav.classList.remove('active');
+            });
+        });
+
+        // Кнопка наверх
+        const scrollTop = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        scrollTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
