@@ -28,14 +28,14 @@ class Procedure(models.Model):
         null=True,
         max_digits=10,
         decimal_places=2,
-        help_text="Оставьте пустым, если цена не фиксирована",
+        help_text="Залиште порожнім, якщо ціна не фіксована",
     )
     discount_price = models.DecimalField(
         blank=True,
         null=True,
         max_digits=10,
         decimal_places=2,
-        help_text="Акционная цена",
+        help_text="Акційна ціна",
     )
     slug = models.SlugField(unique=True)
     type = models.ForeignKey(
@@ -58,6 +58,6 @@ class Procedure(models.Model):
                 f'<strong style="color: #e74c3c;">{self.discount_price} ₴</strong>'
             )
         elif self.price:
-            return f"{self.price} ₽"
+            return f"{self.price} ₴"
         else:
             return mark_safe('<em style="color: #999;">Вартість уточнюйте</em>')

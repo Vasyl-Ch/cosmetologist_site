@@ -3,8 +3,8 @@
 
 {% block content %}
   <div class="text-center mb-5">
-    <h1 class="display-5 fw-bold text-primary">Добро пожаловать!</h1>
-    <p class="lead text-muted">Профессиональный уход за кожей, инъекции, аппаратные методики.</p>
+    <h1 class="display-5 fw-bold text-primary">Ласкаво просимо!</h1>
+    <p class="lead text-muted">Професійний догляд за шкірою, ін'єкції, апаратні методики.</p>
     <a href="{{ contact.instagram_url }}" target="_blank" class="btn btn-outline-primary mt-3">
       <i class="bi bi-instagram"></i> Instagram
     </a>
@@ -16,18 +16,18 @@
       <div class="carousel-inner rounded shadow-sm">
         {% for cert in certificates %}
           <div class="carousel-item {% if forloop.first %}active{% endif %}">
-            <img src="{{ cert.image.url }}" class="d-block w-100" alt="{{ cert.title|default:'Сертификат' }}"
+            <img src="{{ cert.image.url }}" class="d-block w-100" alt="{{ cert.title|default:'Сертифікат' }}"
                  style="max-height:400px; object-fit:contain;">
           </div>
         {% endfor %}
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#certCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Предыдущий</span>
+        <span class="visually-hidden">Попередній</span>
       </button>
       <button class="carousel-control-next" type="button" data-bs-target="#certCarousel" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Следующий</span>
+        <span class="visually-hidden">Наступний</span>
       </button>
     </div>
   {% endif %}
@@ -36,9 +36,9 @@
   <div class="row mb-5">
     <div class="col-md-6 mb-4">
       <div class="card h-100 border-0 shadow-sm hover-lift">
-        <img src="{% static 'img/procedures.jpg' %}" class="card-img-top" alt="Процедуры">
+        <img src="{% static 'img/procedures.jpg' %}" class="card-img-top" alt="Процедури">
         <div class="card-body text-center">
-          <h5 class="card-title">Процедуры</h5>
+          <h5 class="card-title">Процедури</h5>
           <a href="{% url 'procedure_types_list' %}" class="btn btn-primary">Перейти</a>
         </div>
       </div>
@@ -54,9 +54,9 @@
     </div>
   </div>
 
-  <!-- Отзывы -->
+  <!-- Відгуки -->
   {% if reviews %}
-    <h2 class="mb-4 text-center">Отзывы клиентов</h2>
+    <h2 class="mb-4 text-center">Відгуки клієнтів</h2>
     <div class="row">
       {% for r in reviews %}
         <div class="col-md-4 mb-4">

@@ -15,7 +15,7 @@ class BrandAdmin(admin.ModelAdmin):
             return mark_safe(
                 f"<img src='{obj.image.url}' width='80' height='80' style='object-fit: cover;' />"
             )
-        return "Нет логотипа"
+        return "Немає логотипа"
 
     preview_image.short_description = "Логотип"
 
@@ -31,7 +31,7 @@ class ProductAdmin(admin.ModelAdmin):
     def price_display_admin(self, obj):
         return mark_safe(obj.get_price_display())
 
-    price_display_admin.short_description = "Цена"
+    price_display_admin.short_description = "Ціна"
     price_display_admin.admin_order_field = "price"
 
     def preview_image(self, obj):
@@ -39,6 +39,6 @@ class ProductAdmin(admin.ModelAdmin):
             return mark_safe(
                 f'<img src="{obj.image.url}" width="80" height="80" style="object-fit: cover;" />'
             )
-        return "Нет фото"
+        return "Немає фото"
 
     preview_image.short_description = "Фото"

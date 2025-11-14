@@ -16,7 +16,7 @@ class ReviewAdmin(admin.ModelAdmin):
             return mark_safe(
                 f"<img src='{obj.image.url}' width='100' height='100' style='object-fit: cover;' />"
             )
-        return "Нет фото"
+        return "Немає фото"
 
     preview_image.short_description = "Фото"
 
@@ -30,7 +30,7 @@ class CertificateAdmin(admin.ModelAdmin):
     def preview_image(self, obj):
         return mark_safe(f"<img src='{obj.image.url}' width='100' height='100' />")
 
-    preview_image.short_description = "Сертификат"
+    preview_image.short_description = "Сертифікат"
 
 
 @admin.register(ContactInfo)

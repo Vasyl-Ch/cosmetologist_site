@@ -3,11 +3,11 @@
 
 {% block sidebar %}
   <div class="card border-0 shadow-sm p-3">
-    <h5 class="mb-3">Темы</h5>
+    <h5 class="mb-3">Теми</h5>
     <form method="get" class="mb-3">
       <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Поиск..." value="{{ query }}">
-        <button class="btn btn-outline-primary" type="submit">Go</button>
+        <input type="text" name="q" class="form-control" placeholder="Пошук..." value="{{ query }}">
+        <button class="btn btn-outline-primary" type="submit">Шукати</button>
       </div>
     </form>
     <nav class="nav flex-column">
@@ -22,13 +22,13 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Статьи</h1>
+  <h1>Статті</h1>
 
   <form method="get" class="mb-4">
     <div class="input-group w-100 w-md-50">
-      <input type="text" name="q" class="form-control" placeholder="Поиск по заголовку или тексту..."
+      <input type="text" name="q" class="form-control" placeholder="Пошук за заголовком або текстом..."
              value="{{ query }}">
-      <button class="btn btn-primary" type="submit">Искать</button>
+      <button class="btn btn-primary" type="submit">Шукати</button>
     </div>
   </form>
 
@@ -52,7 +52,7 @@
         </div>
       </div>
     {% empty %}
-      <p class="text-muted">Статей не найдено.</p>
+      <p class="text-muted">Статей не знайдено.</p>
     {% endfor %}
   </div>
 

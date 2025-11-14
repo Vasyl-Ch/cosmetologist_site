@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ru">
+{% load static %}
+{% load extras %}
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-    {% load extras %}  <!-- ← Фильтр split -->
 </head>
 <body class="bg-light">
 
@@ -22,40 +23,38 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Головна</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Каталог</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'procedure_types_list' %}">Процедуры</a></li>
+                            <li><a class="dropdown-item" href="{% url 'procedure_types_list' %}">Процедури</a></li>
                             <li><a class="dropdown-item" href="{% url 'brands_list' %}">Косметика</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'articles_list' %}">Статьи</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contacts' %}">Контакты</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'articles_list' %}">Статті</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contacts' %}">Контакти</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Основной контент -->
     <div class="container my-5">
-        <div class="row">
-            {% if request.resolver_match.url_name in 'procedure_types_list,procedures_by_type,brands_list,products_by_brand,articles_list'|split:',' %}
+    <div class="row">
+        {% if request.resolver_match.url_name in 'procedure_types_list,procedures_by_type,brands_list,products_by_brand,articles_list'|split:',' %}
             <div class="col-lg-3 mb-4">
                 {% block sidebar %}{% endblock %}
             </div>
             <div class="col-lg-9">
                 {% block content %}{% endblock %}
             </div>
-            {% else %}
+        {% else %}
             <div class="col-12">
                 {% block content %}{% endblock %}
             </div>
-            {% endif %}
-        </div>
+        {% endif %}
     </div>
+</div>
 
-    <!-- Footer -->
     {% if contact %}
     <footer class="bg-white py-4 mt-5 border-top">
         <div class="container text-center">
@@ -73,7 +72,6 @@
     </footer>
     {% endif %}
 
-    <!-- Back to Top -->
     <button id="back-to-top" class="btn btn-primary position-fixed bottom-0 end-0 m-4 shadow-lg" style="display: none; z-index: 1050;">
         <svg width="20" height="20" fill="white" viewBox="0 0 16 16">
             <path d="M8 15a.5.5 0 0 1-.5-.5V2.707l-3.146 3.147a.5.5 0 0 1-.708-.708l4-4a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1-.708.708L8.5 2.707V14.5a.5.5 0 0 1-.5.5z"/>

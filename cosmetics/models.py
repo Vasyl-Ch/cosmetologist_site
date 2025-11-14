@@ -23,14 +23,14 @@ class Product(models.Model):
         null=True,
         max_digits=10,
         decimal_places=2,
-        help_text="Оставьте пустым, если цена не фиксирована",
+        help_text="Залиште порожнім, якщо ціна не фіксована",
     )
     discount_price = models.DecimalField(
         blank=True,
         null=True,
         max_digits=10,
         decimal_places=2,
-        help_text="Акционная цена (меньше обычной)",
+        help_text="Акційна ціна (менша за звичайну)",
     )
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name="products")
     slug = models.SlugField(unique=True)
@@ -51,7 +51,7 @@ class Product(models.Model):
                 f'<span style="color: #e74c3c; font-weight: bold;">{self.discount_price} ₴</span>'
             )
         elif self.price:
-            return f"{self.price} ₽"
+            return f"{self.price} ₴"
         else:
             return mark_safe(
                 '<span style="color: #999; font-style: italic;">Вартість уточнюйте</span>'

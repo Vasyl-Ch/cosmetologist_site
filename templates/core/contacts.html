@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1 class="mb-4">Контакты</h1>
+  <h1 class="mb-4">Контакти</h1>
   <div class="row">
     <div class="col-md-6">
       <p><strong>Телефон:</strong> {{ contact.phone }}</p>
       {% if contact.telegram_url %}
-        <p><strong>Telegram:</strong> <a href="{{ contact.telegram_url }}" target="_blank">Написать</a></p>
+        <p><strong>Telegram:</strong> <a href="{{ contact.telegram_url }}" target="_blank">Написати</a></p>
       {% endif %}
       {% if contact.instagram_url %}
         <p><strong>Instagram:</strong> <a href="{{ contact.instagram_url }}" target="_blank">@instagram</a></p>
       {% endif %}
-      <p><strong>Адрес:</strong> {{ contact.address }}</p>
+      <p><strong>Адреса:</strong> {{ contact.address }}</p>
     </div>
     <div class="col-md-6">
       {% if contact.map_embed_url %}

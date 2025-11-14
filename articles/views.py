@@ -31,6 +31,6 @@ def articles_list(request):
             "tags": Tag.objects.all(),
             "selected_tag": tag_slug,
             "query": query,
-            "page_title": "Статьи",
+            "page_title": "Статті",
         },
     )

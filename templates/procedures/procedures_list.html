@@ -10,8 +10,8 @@
 
   <form method="get" class="mb-4">
     <div class="input-group w-100 w-md-50">
-      <input type="text" name="q" class="form-control" placeholder="Поиск внутри типа..." value="{{ query }}">
-      <button class="btn btn-primary" type="submit">Искать</button>
+      <input type="text" name="q" class="form-control" placeholder="Пошук у межах типу..." value="{{ query }}">
+      <button class="btn btn-primary" type="submit">Шукати</button>
     </div>
   </form>
 
@@ -25,16 +25,16 @@
             <h5 class="card-title">{{ p.name }}</h5>
             <p class="card-text flex-grow-1">{{ p.description|default:"—" }}</p>
             <div class="mt-auto">
-              <p class="mb-1"><strong>Цена:</strong> {{ p.get_price_display|safe }}</p>
+              <p class="mb-1"><strong>Ціна:</strong> {{ p.get_price_display|safe }}</p>
               {% if p.duration_minutes %}
-                <p class="mb-0 text-muted"><small>Длительность: {{ p.duration_minutes }} мин</small></p>
+                <p class="mb-0 text-muted"><small>Тривалість: {{ p.duration_minutes }} хв</small></p>
               {% endif %}
             </div>
           </div>
         </div>
       </div>
     {% empty %}
-      <p class="text-muted">Нет процедур в этом типе.</p>
+      <p class="text-muted">Немає процедур у цьому типі.</p>
     {% endfor %}
   </div>
 

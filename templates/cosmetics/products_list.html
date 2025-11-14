@@ -10,8 +10,8 @@
 
   <form method="get" class="mb-4">
     <div class="input-group w-100 w-md-50">
-      <input type="text" name="q" class="form-control" placeholder="Поиск товара..." value="{{ query }}">
-      <button class="btn btn-primary" type="submit">Искать</button>
+      <input type="text" name="q" class="form-control" placeholder="Пошук товару..." value="{{ query }}">
+      <button class="btn btn-primary" type="submit">Шукати</button>
     </div>
   </form>
 
@@ -24,13 +24,13 @@
             <h6 class="card-title">{{ p.name }}</h6>
             <p class="card-text text-muted flex-grow-1">{{ p.description|truncatewords:12 }}</p>
             <div class="mt-auto">
-              <p class="mb-0"><strong>Цена:</strong> {{ p.get_price_display|safe }}</p>
+              <p class="mb-0"><strong>Ціна:</strong> {{ p.get_price_display|safe }}</p>
             </div>
           </div>
         </div>
       </div>
     {% empty %}
-      <p class="text-muted">Товаров нет.</p>
+      <p class="text-muted">Товарів немає.</p>
     {% endfor %}
   </div>
 
