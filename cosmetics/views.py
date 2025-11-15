@@ -1,12 +1,13 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
+from django.http import HttpRequest, HttpResponse
 
 
 from .models import Brand, Product
 
 
-def brands_list(request):
+def brands_list(request: HttpRequest) -> HttpResponse:
     query = request.GET.get("q", "")
     brands = Brand.objects.all().order_by("name")
     if query:
@@ -27,7 +28,7 @@ def brands_list(request):
     )
 
 
-def products_by_brand(request, slug):
+def products_by_brand(request: HttpRequest, slug: str) -> HttpResponse:
     brand = get_object_or_404(Brand, slug=slug)
     query = request.GET.get("q", "")
     products = brand.products.all().order_by("-created_at")

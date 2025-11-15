@@ -1,3 +1,5 @@
+from typing import Optional, Iterable, Dict, Any
+
 from django import template
 
 
@@ -5,13 +7,17 @@ register = template.Library()
 
 
 @register.filter
-def split(value, delimiter):
+def split(value: str, delimiter: str) -> list[str]:
     """Разбивает строку по разделителю"""
     return value.split(delimiter)
 
 
 @register.simple_tag(takes_context=True)
-def querystring(context, exclude=None, **kwargs):
+def querystring(
+    context: Dict[str, Any],
+    exclude: Optional[Iterable[str] | str] = None,
+    **kwargs: Any,
+) -> str:
     """
     Собирает querystring на основе текущих request.GET, с возможностью:
       - исключить параметры (exclude="page,sort")

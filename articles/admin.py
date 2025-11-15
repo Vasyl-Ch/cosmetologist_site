@@ -21,7 +21,7 @@ class ArticleAdmin(admin.ModelAdmin):
     filter_horizontal = ("tags",)
     readonly_fields = ("preview_image",)
 
-    def preview_image(self, obj):
+    def preview_image(self, obj) -> str:
         if obj.image:
             return format_html(
                 '<img src="{}" width="{}" height="{}" style="{}" />',

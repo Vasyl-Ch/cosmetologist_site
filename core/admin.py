@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django.http import HttpRequest
 
 
 from .models import Review, Certificate, ContactInfo
@@ -11,7 +12,7 @@ class ReviewAdmin(admin.ModelAdmin):
     search_fields = ("author_name", "text")
     readonly_fields = ("preview_image",)
 
-    def preview_image(self, obj):
+    def preview_image(self, obj) -> str:
         if obj.image:
             return format_html(
                 '<img src="{}" width="{}" height="{}" style="{}" />',
@@ -31,7 +32,7 @@ class CertificateAdmin(admin.ModelAdmin):
     search_fields = ("title",)
     readonly_fields = ("preview_image",)
 
-    def preview_image(self, obj):
+    def preview_image(self, obj) -> str:
         return format_html(
             '<img src="{}" width="{}" height="{}" />',
             obj.image.url,
@@ -46,6 +47,5 @@ class CertificateAdmin(admin.ModelAdmin):
 class ContactInfoAdmin(admin.ModelAdmin):
     list_display = ("phone", "address")
 
-    def has_add_permission(self, request):
-        # Разрешаем только одну запись
+    def has_add_permission(self, request: HttpRequest) -> bool:
         return not ContactInfo.objects.exists()

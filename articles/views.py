@@ -1,11 +1,12 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
+from django.http import HttpRequest, HttpResponse
 
 from .models import Article, Tag
 
 
-def articles_list(request):
+def articles_list(request: HttpRequest) -> HttpResponse:
     query = request.GET.get("q", "")
     tag_slug = request.GET.get("tag")
     articles = Article.objects.all().order_by("-created_at")
@@ -36,7 +37,7 @@ def articles_list(request):
     )
 
 
-def article_detail(request, slug):
+def article_detail(request: HttpRequest, slug: str) -> HttpResponse:
     article = get_object_or_404(Article, slug=slug)
 
     tags = article.tags.all()
@@ -52,7 +53,7 @@ def article_detail(request, slug):
     if related_articles.count() == 0:
         other_articles = (
             Article.objects.exclude(id=article.id)
-            .order_by("-created_at")[: 3 - related_articles.count()]
+            .order_by("-created_at")[:3 - related_articles.count()]
         )
         related_articles = list(related_articles) + list(other_articles)
 

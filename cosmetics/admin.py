@@ -11,7 +11,7 @@ class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     readonly_fields = ("preview_image",)
 
-    def preview_image(self, obj):
+    def preview_image(self, obj) -> str:
         if obj.image:
             return format_html(
                 '<img src="{}" width="{}" height="{}" style="{}" />',
@@ -33,13 +33,13 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     readonly_fields = ("preview_image",)
 
-    def price_display_admin(self, obj):
+    def price_display_admin(self, obj) -> str:
         return mark_safe(obj.get_price_display())
 
     price_display_admin.short_description = "Ціна"
     price_display_admin.admin_order_field = "price"
 
-    def preview_image(self, obj):
+    def preview_image(self, obj) -> str:
         if obj.image:
             return format_html(
                 '<img src="{}" width="{}" height="{}" style="{}" />',

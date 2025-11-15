@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpRequest, HttpResponse
 
 
 from .models import Review, Certificate, ContactInfo
@@ -7,7 +8,7 @@ from cosmetics.models import Brand
 from articles.models import Article
 
 
-def home(request):
+def home(request: HttpRequest) -> HttpResponse:
     reviews = Review.objects.all()[:6]
     certificates = Certificate.objects.all()
     contact = ContactInfo.objects.first()
@@ -24,7 +25,7 @@ def home(request):
     return render(request, "core/home.html", context)
 
 
-def contacts(request):
+def contacts(request: HttpRequest) -> HttpResponse:
     contact = ContactInfo.objects.first()
     return render(
         request,

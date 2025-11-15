@@ -1,12 +1,13 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
+from django.http import HttpRequest, HttpResponse
 
 
 from .models import ProcedureType, Procedure
 
 
-def procedure_types_list(request):
+def procedure_types_list(request: HttpRequest) -> HttpResponse:
     query = request.GET.get("q", "")
     types = ProcedureType.objects.all().order_by("name")
     if query:
@@ -19,13 +20,12 @@ def procedure_types_list(request):
         {
             "procedure_types": types,
             "query": query,
-            # список для сайдбара не нужен на этой странице
             "page_title": "Перелік процедур",
         },
     )
 
 
-def procedures_by_type(request, slug):
+def procedures_by_type(request: HttpRequest, slug: str) -> HttpResponse:
     type_obj = get_object_or_404(ProcedureType, slug=slug)
     query = request.GET.get("q", "")
     procedures = type_obj.procedures.all().order_by("-created_at")
