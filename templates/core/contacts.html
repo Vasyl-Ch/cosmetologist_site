@@ -369,6 +369,24 @@
 <!-- ВБУДОВАНІ СТИЛІ (тимчасово для демонстрації) -->
 <!-- ============================================ -->
 <style>
+/* === БАЗОВІ СТИЛІ ДЛЯ ЗАПОБІГАННЯ ГОРИЗОНТАЛЬНОМУ СКРОЛУ === */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+}
+
+.container {
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 0 auto;
+}
+
 /* === HERO СЕКЦІЯ === */
 .contacts-hero {
     position: relative;
@@ -378,6 +396,8 @@
     overflow: hidden;
     background: linear-gradient(135deg, #faf7f7 0%, #f5e6e8 100%);
     margin-bottom: 80px;
+    width: 100%;
+    max-width: 100vw;
 }
 
 .contacts-canvas {
@@ -404,6 +424,9 @@
     z-index: 3;
     text-align: center;
     padding: 120px 20px 80px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .hero-badge {
@@ -455,6 +478,8 @@
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
+    width: 100%;
+    padding: 0 15px;
 }
 
 .quick-action-btn {
@@ -471,378 +496,31 @@
     transition: all 0.4s;
 }
 
-.benefit-card:hover .benefit-icon {
-    transform: scale(1.1) rotate(10deg);
-}
-
-.benefit-card h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    color: var(--dark);
-    margin-bottom: 15px;
-}
-
-.benefit-card p {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: var(--dark);
-    opacity: 0.8;
-}
-
-/* === CTA СЕКЦІЯ === */
-.contacts-cta-section {
-    position: relative;
-    padding: 100px 0;
-    background: linear-gradient(135deg, #d4a5a5 0%, #a07878 100%);
-    overflow: hidden;
-}
-
-.cta-particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-.cta-particle {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.cta-particle-1 {
-    width: 400px;
-    height: 400px;
-    top: -150px;
-    right: -100px;
-    animation: particleFloat1 10s ease-in-out infinite;
-}
-
-.cta-particle-2 {
-    width: 300px;
-    height: 300px;
-    bottom: -100px;
-    left: -80px;
-    animation: particleFloat2 12s ease-in-out infinite;
-}
-
-.cta-particle-3 {
-    width: 200px;
-    height: 200px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: particlePulse 8s ease-in-out infinite;
-}
-
-@keyframes particleFloat1 {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(30px, -30px); }
-}
-
-@keyframes particleFloat2 {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(-30px, 30px); }
-}
-
-@keyframes particlePulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
-    50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.05; }
-}
-
-.contacts-cta-content {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.cta-icon-wrapper {
-    width: 100px;
-    height: 100px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 30px;
-    font-size: 3rem;
-    color: white;
-    backdrop-filter: blur(10px);
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
-    animation: ctaIconFloat 3s ease-in-out infinite;
-}
-
-@keyframes ctaIconFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.cta-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.8rem;
-    color: white;
-    margin-bottom: 20px;
-    line-height: 1.3;
-}
-
-.cta-description {
-    font-size: 1.2rem;
-    color: white;
-    opacity: 0.95;
-    line-height: 1.8;
-    margin-bottom: 40px;
-}
-
-.cta-buttons-group {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-bottom: 50px;
-    flex-wrap: wrap;
-}
-
-.btn-large {
-    padding: 16px 36px;
-    font-size: 1.05rem;
-}
-
-.cta-buttons-group .btn-primary {
-    background: white;
-    color: var(--accent);
-}
-
-.cta-buttons-group .btn-primary:hover {
-    background: var(--secondary);
-    box-shadow: 0 12px 35px rgba(255, 255, 255, 0.4);
-}
-
-.btn-outline-white {
-    background: transparent;
-    border: 2px solid white;
-    color: white;
-}
-
-.btn-outline-white:hover {
-    background: white;
-    color: var(--accent);
-}
-
-/* Додаткова інфо */
-.cta-extra-info {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-}
-
-.info-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: white;
-    font-size: 0.95rem;
-    padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.info-item i {
-    font-size: 1.2rem;
-}
-
-/* === FAQ СЕКЦІЯ === */
-.contacts-faq-section {
-    padding: 100px 0;
-    background: var(--light);
-}
-
-.faq-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
-}
-
-.faq-item {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    transition: all 0.3s;
-}
-
-.faq-item:hover {
-    box-shadow: 0 12px 40px rgba(212, 165, 165, 0.15);
-}
-
-.faq-question {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 25px 30px;
-    cursor: pointer;
-    user-select: none;
-}
-
-.faq-question h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    color: var(--dark);
-    margin: 0;
-    flex: 1;
-}
-
-.faq-icon {
-    width: 40px;
-    height: 40px;
-    background: var(--secondary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent);
-    font-size: 1rem;
-    transition: all 0.3s;
-    flex-shrink: 0;
-}
-
-.faq-item.active .faq-icon {
+.quick-action-btn:hover {
     background: var(--accent);
     color: white;
-    transform: rotate(45deg);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(212, 165, 165, 0.3);
 }
 
-.faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+.action-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    box-shadow: 0 6px 20px rgba(212, 165, 165, 0.3);
+    transition: all 0.4s;
 }
 
-.faq-item.active .faq-answer {
-    max-height: 200px;
-    padding: 0 30px 25px;
+.quick-action-btn:hover .action-icon {
+    transform: scale(1.1);
 }
 
-.faq-answer p {
-    color: var(--dark);
-    opacity: 0.8;
-    line-height: 1.7;
-    margin: 0;
-}
-
-/* === АДАПТИВНІСТЬ === */
-@media (max-width: 1200px) {
-    .benefits-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 992px) {
-    .contacts-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .map-container {
-        min-height: 400px;
-    }
-
-    .benefits-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
-    }
-
-    .faq-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    .contacts-hero {
-        min-height: 55vh;
-    }
-
-    .contacts-hero-title {
-        font-size: 2.5rem;
-    }
-
-    .contacts-hero-description {
-        font-size: 1rem;
-    }
-
-    .quick-actions {
-        flex-direction: column;
-    }
-
-    .quick-action-btn {
-        width: 100%;
-    }
-
-    .contact-card {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .benefits-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .cta-title {
-        font-size: 2rem;
-    }
-
-    .cta-buttons-group {
-        flex-direction: column;
-    }
-
-    .cta-extra-info {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .desktop-only {
-        display: none;
-    }
-
-    .map-info-overlay {
-        position: static;
-        margin-top: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .contacts-hero-title {
-        font-size: 2rem;
-    }
-
-    .action-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-    }
-
-    .contact-card {
-        padding: 25px 20px;
-    }
-
-    .contact-card-icon {
-        width: 60px;
-        height: 60px;
-        font-size: 1.5rem;
-    }
-
-    .cta-icon-wrapper {
-        width: 80px;
-        height: 80px;
-        font-size: 2.5rem;
-    }
-}
 /* Scroll indicator */
 .scroll-indicator-contacts {
     position: absolute;
@@ -882,12 +560,17 @@
 /* === ОСНОВНИЙ КОНТЕНТ === */
 .contacts-content-section {
     padding: 0 0 80px;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
 }
 
 .contacts-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 50px;
+    width: 100%;
+    max-width: 100%;
 }
 
 /* === ІНФОРМАЦІЙНІ КАРТКИ === */
@@ -895,6 +578,7 @@
     display: flex;
     flex-direction: column;
     gap: 25px;
+    width: 100%;
 }
 
 .contact-card {
@@ -905,6 +589,7 @@
     display: flex;
     gap: 25px;
     transition: all 0.4s;
+    width: 100%;
 }
 
 .contact-card:hover {
@@ -1036,6 +721,7 @@
 /* === КАРТА === */
 .contacts-map {
     position: relative;
+    width: 100%;
 }
 
 .map-container {
@@ -1121,12 +807,14 @@
     opacity: 0.8;
 }
 
-/* === ПЕРЕВАГи === */
+/* === ПЕРЕВАГИ === */
 .contacts-benefits-section {
     position: relative;
     padding: 100px 0;
     background: white;
     overflow: hidden;
+    width: 100%;
+    max-width: 100vw;
 }
 
 .benefits-background {
@@ -1189,6 +877,8 @@
     gap: 30px;
     position: relative;
     z-index: 1;
+    width: 100%;
+    max-width: 100%;
 }
 
 .benefit-card {
@@ -1218,6 +908,497 @@
     color: white;
     box-shadow: 0 10px 30px rgba(212, 165, 165, 0.3);
     transition: all 0.4s;
+}
+
+.benefit-card:hover .benefit-icon {
+    transform: scale(1.1) rotate(10deg);
+}
+
+.benefit-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--dark);
+    margin-bottom: 15px;
+}
+
+.benefit-card p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+/* === CTA СЕКЦІЯ === */
+.contacts-cta-section {
+    position: relative;
+    padding: 100px 0;
+    background: linear-gradient(135deg, #d4a5a5 0%, #a07878 100%);
+    overflow: hidden;
+    width: 100%;
+    max-width: 100vw;
+}
+
+.cta-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.cta-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.cta-particle-1 {
+    width: 400px;
+    height: 400px;
+    top: -150px;
+    right: -100px;
+    animation: particleFloat1 10s ease-in-out infinite;
+}
+
+.cta-particle-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -100px;
+    left: -80px;
+    animation: particleFloat2 12s ease-in-out infinite;
+}
+
+.cta-particle-3 {
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: particlePulse 8s ease-in-out infinite;
+}
+
+@keyframes particleFloat1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -30px); }
+}
+
+@keyframes particleFloat2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-30px, 30px); }
+}
+
+@keyframes particlePulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+    50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.05; }
+}
+
+.contacts-cta-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-icon-wrapper {
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+    font-size: 3rem;
+    color: white;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+    animation: ctaIconFloat 3s ease-in-out infinite;
+}
+
+@keyframes ctaIconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: white;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.cta-description {
+    font-size: 1.2rem;
+    color: white;
+    opacity: 0.95;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.cta-buttons-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 0 15px;
+}
+
+.btn-large {
+    padding: 16px 36px;
+    font-size: 1.05rem;
+}
+
+.cta-buttons-group .btn-primary {
+    background: white;
+    color: var(--accent);
+}
+
+.cta-buttons-group .btn-primary:hover {
+    background: var(--secondary);
+    box-shadow: 0 12px 35px rgba(255, 255, 255, 0.4);
+}
+
+.btn-outline-white {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-outline-white:hover {
+    background: white;
+    color: var(--accent);
+}
+
+/* Додаткова інфо */
+.cta-extra-info {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 0 15px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.info-item i {
+    font-size: 1.2rem;
+}
+
+/* === FAQ СЕКЦІЯ === */
+.contacts-faq-section {
+    padding: 100px 0;
+    background: var(--light);
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.faq-item {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.faq-item:hover {
+    box-shadow: 0 12px 40px rgba(212, 165, 165, 0.15);
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.faq-question h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--dark);
+    margin: 0;
+    flex: 1;
+}
+
+.faq-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 1rem;
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+
+.faq-item.active .faq-icon {
+    background: var(--accent);
+    color: white;
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;
+    padding: 0 30px 25px;
+}
+
+.faq-answer p {
+    color: var(--dark);
+    opacity: 0.8;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* === АДАПТИВНІСТЬ === */
+@media (max-width: 1200px) {
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .contacts-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .map-container {
+        min-height: 400px;
+    }
+
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .contacts-hero {
+        min-height: 55vh;
+        margin-bottom: 40px;
+    }
+
+    .contacts-hero-content {
+        padding: 100px 15px 60px;
+    }
+
+    .contacts-hero-title {
+        font-size: 2.5rem;
+        word-wrap: break-word;
+        padding: 0 10px;
+    }
+
+    .contacts-hero-description {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    .quick-actions {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 15px;
+    }
+
+    .quick-action-btn {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .contact-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 25px 15px;
+        width: 100%;
+    }
+
+    .benefits-grid {
+        grid-template-columns: 1fr;
+        padding: 0 15px;
+    }
+
+    .cta-title {
+        font-size: 2rem;
+        word-wrap: break-word;
+        padding: 0 10px;
+    }
+
+    .cta-description {
+        padding: 0 10px;
+        font-size: 1rem;
+    }
+
+    .cta-buttons-group {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 15px;
+    }
+
+    .cta-buttons-group .btn-large {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .cta-extra-info {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 0 15px;
+    }
+
+    .info-item {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    .map-info-overlay {
+        position: static;
+        margin-top: 20px;
+        left: 0;
+        right: 0;
+    }
+
+    .contacts-layout {
+        gap: 30px;
+        padding: 0 15px;
+    }
+
+    .contacts-content-section {
+        padding: 0 0 40px;
+        overflow-x: hidden;
+    }
+
+    .contacts-benefits-section {
+        padding: 60px 0;
+        overflow-x: hidden;
+    }
+
+    .contacts-cta-section {
+        padding: 60px 0;
+        overflow-x: hidden;
+    }
+
+    .contacts-faq-section {
+        padding: 60px 0;
+        overflow-x: hidden;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        word-wrap: break-word;
+        padding: 0 10px;
+    }
+
+    .faq-grid {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contacts-hero-title {
+        font-size: 1.8rem;
+        padding: 0 10px;
+    }
+
+    .hero-badge {
+        font-size: 0.8rem;
+        padding: 8px 16px;
+    }
+
+    .action-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .contact-card {
+        padding: 20px 15px;
+    }
+
+    .contact-card-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .cta-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+    }
+
+    .cta-title {
+        font-size: 1.6rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .benefit-card {
+        padding: 30px 20px;
+    }
+
+    .faq-question {
+        padding: 20px 15px;
+    }
+
+    .faq-question h3 {
+        font-size: 1rem;
+    }
+
+    .faq-answer {
+        font-size: 0.9rem;
+    }
 }
 </style>
 
