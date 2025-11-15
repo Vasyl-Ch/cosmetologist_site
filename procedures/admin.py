@@ -16,7 +16,7 @@ class ProcedureTypeAdmin(admin.ModelAdmin):
     def preview_image(self, obj):
         if obj.image:
             return format_html(
-                "<img src='{}' width='{}' height='{}' style='{}' />",
+                "<img src=\"{}\" width=\"{}\" height=\"{}\" style=\"{}\" />",
                 obj.image.url,
                 100,
                 100,
@@ -50,7 +50,7 @@ class ProcedureAdmin(admin.ModelAdmin):
     def preview_image(self, obj):
         if obj.image:
             return format_html(
-                "<img src='{}' width='{}' height='{}' style='{}' />",
+                "<img src=\"{}\" width=\"{}\" height=\"{}\" style=\"{}\" />",
                 obj.image.url,
                 80,
                 80,

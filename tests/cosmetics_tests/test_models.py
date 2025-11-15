@@ -44,7 +44,7 @@ class ProductModelTest(TestCase):
         product = Product.objects.create(
             name="Тест", brand=self.brand, image=self.image, price=Decimal("500.00")
         )
-        self.assertEqual(product.get_price_display(), "500.00 ₴")
+        self.assertEqual(product.get_price_display(), "500 ₴")
 
     def test_get_price_display_with_discount(self):
         product = Product.objects.create(
@@ -52,8 +52,8 @@ class ProductModelTest(TestCase):
             price=Decimal("1000.00"), discount_price=Decimal("750.00")
         )
         expected = (
-            '<span style=\'text-decoration: line-through; color: #999;\'>1000.00 ₴</span> '
-            '<span style=\'color: #e74c3c; font-weight: bold;\'>750.00 ₴</span>'
+            '<span style=\'text-decoration: line-through; color: #999;\'>1000 ₴</span> '
+            '<span style=\'color: #e74c3c; font-weight: bold;\'>750 ₴</span>'
         )
         self.assertHTMLEqual(product.get_price_display(), expected)
 

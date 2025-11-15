@@ -36,8 +36,8 @@ class CoreViewsTest(TestCase):
         # Создаём минимальные данные
         Review.objects.create(author_name="А", text="...", image=self.image)
         Certificate.objects.create(title="Серт", image=self.image)
-        ProcedureType.objects.create(name="Тип")
-        Brand.objects.create(name="Бренд")
+        ProcedureType.objects.create(name="Тип", image=self.image)
+        Brand.objects.create(name="Бренд", image=self.image)
         Article.objects.create(title="Статья", content="...", image=self.image)
 
         response = self.client.get(reverse("home"))

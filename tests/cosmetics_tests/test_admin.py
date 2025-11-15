@@ -58,7 +58,7 @@ class CosmeticsAdminTest(TestCase):
     def test_price_display_admin_regular(self):
         brand = Brand.objects.create(name="B", image=self.image)
         product = Product.objects.create(name="P", brand=brand, image=self.image, price=Decimal("400"))
-        self.assertEqual(self.product_admin.price_display_admin(product), "400.00 ₴")
+        self.assertEqual(self.product_admin.price_display_admin(product), "400 ₴")
 
     def test_price_display_admin_discount(self):
         brand = Brand.objects.create(name="B", image=self.image)
@@ -67,8 +67,8 @@ class CosmeticsAdminTest(TestCase):
             price=Decimal("1000"), discount_price=Decimal("700")
         )
         expected = (
-            '<span style=\'text-decoration: line-through; color: #999;\'>1000.00 ₴</span> '
-            '<span style=\'color: #e74c3c; font-weight: bold;\'>700.00 ₴</span>'
+            '<span style=\'text-decoration: line-through; color: #999;\'>1000 ₴</span> '
+            '<span style=\'color: #e74c3c; font-weight: bold;\'>700 ₴</span>'
         )
         self.assertHTMLEqual(self.product_admin.price_display_admin(product), expected)
 

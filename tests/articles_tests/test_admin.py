@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.admin.sites import AdminSite
+from django.contrib import admin as django_admin
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from io import BytesIO
@@ -30,13 +31,13 @@ class AdminTest(TestCase):
         return SimpleUploadedFile("admin_test.jpg", file.read(), "image/jpeg")
 
     def test_tag_admin_registered_and_fields(self):
-        self.assertIn(Tag, self.site._registry)
+        self.assertIn(Tag, django_admin.site._registry)
         self.assertEqual(self.tag_admin.list_display, ("name", "slug"))
         self.assertEqual(self.tag_admin.search_fields, ("name",))
         self.assertEqual(self.tag_admin.prepopulated_fields, {"slug": ("name",)})
 
     def test_article_admin_registered_and_fields(self):
-        self.assertIn(Article, self.site._registry)
+        self.assertIn(Article, django_admin.site._registry)
         self.assertEqual(self.article_admin.list_display, ("title", "created_at", "preview_image"))
         self.assertEqual(self.article_admin.search_fields, ("title", "content"))
         self.assertIn("tags", self.article_admin.list_filter)
@@ -52,6 +53,6 @@ class AdminTest(TestCase):
         self.assertIn('object-fit: cover', preview)
 
     def test_preview_image_no_image(self):
-        article = Article.objects.create(title="Без фото", content="...")
+        article = Article(title="Без фото", content="...")
         preview = self.article_admin.preview_image(article)
         self.assertEqual(preview, "Нет изображения")

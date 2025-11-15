@@ -40,7 +40,7 @@ class CertificateModelTest(TestCase):
         self.assertEqual(str(cert), "Диплом косметолога")
 
     def test_str_without_title(self):
-        cert = Certificate.objects.create(image=self._create_image())
+        cert = Certificate.objects.create(title="", image=self._create_image())
         self.assertEqual(str(cert), "Certificate")
 
 

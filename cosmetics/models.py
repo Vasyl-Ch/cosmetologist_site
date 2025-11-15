@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
+from decimal import Decimal, ROUND_HALF_UP
 
 
 class Brand(models.Model):
@@ -13,6 +14,11 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 
 class Product(models.Model):
@@ -50,6 +56,13 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
     def get_price_display(self):
+        def _fmt(amount):
+            if amount is None:
+                return ""
+            if not isinstance(amount, Decimal):
+                amount = Decimal(str(amount))
+            return format(amount.quantize(Decimal(0), rounding=ROUND_HALF_UP), ".0f")
+
         if (
             self.discount_price
             and self.discount_price < (self.price or float("inf"))
@@ -61,11 +74,11 @@ class Product(models.Model):
                     "<span style='color: #e74c3c; "
                     "font-weight: bold;'>{} ₴</span>"
                 ),
-                self.price,
-                self.discount_price,
+                _fmt(self.price),
+                _fmt(self.discount_price),
             )
         if self.price:
-            return f"{self.price} ₴"
+            return f"{_fmt(self.price)} ₴"
         return mark_safe(
             (
                 "<span style='color: #999; font-style: italic;'>"

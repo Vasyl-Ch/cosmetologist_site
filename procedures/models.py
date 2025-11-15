@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
+from decimal import Decimal, ROUND_HALF_UP
 
 
 class ProcedureType(models.Model):
@@ -55,6 +56,13 @@ class Procedure(models.Model):
         super().save(*args, **kwargs)
 
     def get_price_display(self):
+        def _fmt(amount):
+            if amount is None:
+                return ""
+            if not isinstance(amount, Decimal):
+                amount = Decimal(str(amount))
+            return format(amount.quantize(Decimal(0), rounding=ROUND_HALF_UP), ".0f")
+
         if (
             self.discount_price
             and self.discount_price < (self.price or float("inf"))
@@ -62,9 +70,9 @@ class Procedure(models.Model):
             return format_html(
                 "<del style='color: #999;'>{} ₴</del> "
                 "<strong style='color: #e74c3c;'>{} ₴</strong>",
-                self.price,
-                self.discount_price,
+                _fmt(self.price),
+                _fmt(self.discount_price),
             )
         if self.price:
-            return f"{self.price} ₴"
+            return f"{_fmt(self.price)} ₴"
         return mark_safe("<em style='color: #999;'>Вартість уточнюйте</em>")
