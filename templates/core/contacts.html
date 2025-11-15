@@ -145,10 +145,12 @@
                             </a>
                             {% endif %}
 
-                            <a href="#" class="social-link social-facebook">
+                            {% if contact_info.facebook_url %}
+                            <a href="{{ contact_info.facebook_url }}" target="_blank" class="social-link social-facebook">
                                 <i class="fab fa-facebook-f"></i>
                                 <span>Facebook</span>
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

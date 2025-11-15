@@ -23,6 +23,7 @@ class ContactInfo(models.Model):
     phone = models.CharField(max_length=20)
     telegram_url = models.URLField(blank=True)
     instagram_url = models.URLField(blank=True)
+    facebook_url = models.URLField(blank=True)
     address = models.CharField(max_length=255)
     map_embed_url = models.URLField(blank=True)
 
