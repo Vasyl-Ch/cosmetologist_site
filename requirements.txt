@@ -1,0 +1,17 @@
+# Django Core
+Django==5.2.8
+
+# Image Processing
+Pillow==11.0.0
+
+# Production Server (optional, for deployment)
+gunicorn==23.0.0
+
+# Database (if you plan to use PostgreSQL in production)
+psycopg2-binary==2.9.10
+
+# Environment Variables Management (recommended)
+python-decouple==3.8
+
+# Whitenoise for static files serving in production
+whitenoise==6.8.2
