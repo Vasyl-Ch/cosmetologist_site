@@ -48,7 +48,8 @@ def article_detail(request, slug):
         .order_by("-created_at")[:3]
     )
 
-    if related_articles.count() < 3:
+    # Fallback only if no related articles at all
+    if related_articles.count() == 0:
         other_articles = (
             Article.objects.exclude(id=article.id)
             .order_by("-created_at")[: 3 - related_articles.count()]
@@ -63,7 +64,7 @@ def article_detail(request, slug):
 
     next_article = (
         Article.objects.filter(created_at__gt=article.created_at)
-        .order_by("created_at")
+        .order_by("-created_at")
         .first()
     )
 

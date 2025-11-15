@@ -14,11 +14,11 @@ class ArticlesListViewTest(TestCase):
         self.tag = Tag.objects.create(name="Уход")
         self.image = self._create_image()
         self.article1 = Article.objects.create(
-            title="Первая статья", content="Текст", image=self.image
+            title="Первая статья", content="Текст", image=self.image, slug="pervaya-statia"
         )
         self.article1.tags.add(self.tag)
         self.article2 = Article.objects.create(
-            title="Вторая статья", content="Другой текст", image=self.image
+            title="Вторая статья", content="Другой текст", image=self.image, slug="vtoraya-statia"
         )
 
     def _create_image(self):
@@ -57,17 +57,17 @@ class ArticleDetailViewTest(TestCase):
         self.tag2 = Tag.objects.create(name="Волосы")
 
         self.article = Article.objects.create(
-            title="Основная статья", content="Текст", image=self.image
+            title="Основная статья", content="Текст", image=self.image, slug="osnovnaya"
         )
         self.article.tags.add(self.tag1, self.tag2)
 
         self.related = Article.objects.create(
-            title="Похожая", content="...", image=self.image
+            title="Похожая", content="...", image=self.image, slug="pohozhaya"
         )
         self.related.tags.add(self.tag1)
 
         self.unrelated = Article.objects.create(
-            title="Несвязанная", content="...", image=self.image
+            title="Несвязанная", content="...", image=self.image, slug="nesvyazannaya"
         )
 
     def _create_image(self):
@@ -93,8 +93,8 @@ class ArticleDetailViewTest(TestCase):
     def test_fallback_to_recent_if_not_enough_related(self):
         # Удалим общие теги у related
         self.related.tags.clear()
-        Article.objects.create(title="Доп1", content="...", image=self.image)
-        Article.objects.create(title="Доп2", content="...", image=self.image)
+        Article.objects.create(title="Доп1", content="...", image=self.image, slug="dop1")
+        Article.objects.create(title="Доп2", content="...", image=self.image, slug="dop2")
 
         response = self.client.get(reverse("article_detail", args=[self.article.slug]))
         related = response.context["related_articles"]
@@ -102,11 +102,11 @@ class ArticleDetailViewTest(TestCase):
         self.assertIn("Доп", related[0].title or related[1].title or related[2].title)
 
     def test_prev_next_navigation(self):
-        older = Article.objects.create(title="Старее", content="...", image=self.image)
+        older = Article.objects.create(title="Старее", content="...", image=self.image, slug="old")
         older.created_at = self.article.created_at.replace(year=self.article.created_at.year - 1)
         older.save()
 
-        newer = Article.objects.create(title="Новее", content="...", image=self.image)
+        newer = Article.objects.create(title="Новее", content="...", image=self.image, slug="new")
         newer.created_at = self.article.created_at.replace(year=self.article.created_at.year + 1)
         newer.save()
 

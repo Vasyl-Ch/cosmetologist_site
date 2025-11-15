@@ -15,10 +15,10 @@ class CosmeticsViewsTest(TestCase):
         self.brand1 = Brand.objects.create(name="BrandA", image=self.image, country="FR")
         self.brand2 = Brand.objects.create(name="BrandB", image=self.image)
         self.product1 = Product.objects.create(
-            name="Крем", brand=self.brand1, image=self.image, price=300
+            name="Крем", brand=self.brand1, image=self.image, price=300, slug="krem"
         )
         self.product2 = Product.objects.create(
-            name="Маска", brand=self.brand1, image=self.image
+            name="Маска", brand=self.brand1, image=self.image, slug="maska"
         )
 
     def _create_image(self):

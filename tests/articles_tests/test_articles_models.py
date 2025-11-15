@@ -14,8 +14,8 @@ class TagModelTest(TestCase):
         self.assertEqual(str(tag), "Уход за кожей")
 
     def test_slug_auto_generation(self):
-        tag = Tag.objects.create(name="Тестовый Тег!")
-        expected_slug = slugify("Тестовый Тег!")
+        tag = Tag.objects.create(name="Test Tag!")
+        expected_slug = slugify("Test Tag!")
         self.assertEqual(tag.slug, expected_slug)
 
 
@@ -41,11 +41,11 @@ class ArticleModelTest(TestCase):
 
     def test_slug_auto_generation(self):
         article = Article.objects.create(
-            title="Статья с пробелами и знаками!!!",
-            content="Текст",
+            title="Article with spaces and signs!!!",
+            content="Text",
             image=self.image
         )
-        self.assertEqual(article.slug, slugify("Статья с пробелами и знаками!!!"))
+        self.assertEqual(article.slug, slugify("Article with spaces and signs!!!"))
 
     def test_tags_relation(self):
         article = Article.objects.create(title="Тест", content="Текст", image=self.image)
