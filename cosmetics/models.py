@@ -61,7 +61,10 @@ class Product(models.Model):
                 return ""
             if not isinstance(amount, Decimal):
                 amount = Decimal(str(amount))
-            return format(amount.quantize(Decimal(0), rounding=ROUND_HALF_UP), ".0f")
+            return format(
+                amount.quantize(Decimal(0), rounding=ROUND_HALF_UP),
+                ".0f",
+            )
 
         if (
             self.discount_price

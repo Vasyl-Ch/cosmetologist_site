@@ -30,7 +30,6 @@ def querystring(
         return ""
     params = request.GET.copy()
 
-    # Исключение ключей
     if exclude:
         if isinstance(exclude, str):
             exclude_keys = [k.strip() for k in exclude.split(",") if k.strip()]
@@ -39,7 +38,6 @@ def querystring(
         for key in exclude_keys:
             params.pop(key, None)
 
-    # Переопределение/удаление параметров
     for key, value in kwargs.items():
         if value is None:
             params.pop(key, None)

@@ -49,7 +49,6 @@ def article_detail(request: HttpRequest, slug: str) -> HttpResponse:
         .order_by("-created_at")[:3]
     )
 
-    # Fallback only if no related articles at all
     if related_articles.count() == 0:
         other_articles = (
             Article.objects.exclude(id=article.id)
