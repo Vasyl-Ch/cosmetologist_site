@@ -1,0 +1,1070 @@
+{% extends 'base.html' %}
+
+{% block title %}Бренди - Mela-Med Aesthetic{% endblock %}
+
+{% block content %}
+
+<!-- ============================================ -->
+<!-- HERO СЕКЦІЯ З ЕЛЕГАНТНОЮ АНІМАЦІЄЮ -->
+<!-- ============================================ -->
+<section class="brands-hero">
+    <!-- Анімований фон з косметичними елементами -->
+    <canvas id="brandsCanvas" class="brands-canvas"></canvas>
+
+    <div class="brands-hero-overlay"></div>
+
+    <div class="container brands-hero-content">
+        <div class="brands-hero-text animate-on-scroll">
+            <span class="brands-hero-label">
+                <i class="fas fa-gem"></i>
+                Преміальна косметика
+            </span>
+            <h1 class="brands-hero-title">
+                Наші <span class="gradient-text">бренди</span>
+            </h1>
+            <p class="brands-hero-description">
+                Преміальна косметика від світових лідерів індустрії краси.<br class="desktop-only">
+                Сертифікована продукція найвищої якості для вашої шкіри
+            </p>
+
+            <!-- Особливості -->
+            <div class="brands-features">
+                <div class="brand-feature-item">
+                    <i class="fas fa-certificate"></i>
+                    <span>Сертифіковано</span>
+                </div>
+                <div class="brand-feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Оригінальна продукція</span>
+                </div>
+                <div class="brand-feature-item">
+                    <i class="fas fa-star"></i>
+                    <span>Преміум якість</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика брендів -->
+        <div class="brands-stats animate-on-scroll">
+            <div class="brand-stat-box">
+                <div class="stat-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="stat-number">{{ page_obj.paginator.count }}+</div>
+                <div class="stat-label">Світових брендів</div>
+            </div>
+            <div class="brand-stat-box">
+                <div class="stat-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Якість гарантована</div>
+            </div>
+            <div class="brand-stat-box">
+                <div class="stat-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Задоволених клієнтів</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Індикатор скролу -->
+    <div class="scroll-indicator">
+        <div class="scroll-arrow"></div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- СЕКЦІЯ БРЕНДІВ З ПРЕМІАЛЬНИМИ КАРТКАМИ -->
+<!-- ============================================ -->
+<section class="brands-section">
+    <div class="container">
+        <!-- Заголовок секції -->
+        <div class="section-header animate-on-scroll">
+            <span class="section-label">Наш каталог</span>
+            <h2 class="section-title">Оберіть бренд</h2>
+            <p class="section-subtitle">
+                Кожен бренд представлений ексклюзивними лініями продукції<br class="desktop-only">
+                з доведеною ефективністю та безпекою
+            </p>
+        </div>
+
+        <!-- Сітка брендів -->
+        <div class="brands-grid">
+            {% for brand in page_obj %}
+            <a href="{% url 'products_by_brand' brand.slug %}" class="brand-card animate-on-scroll" style="animation-delay: {{ forloop.counter0|add:'0.1' }}s">
+                <!-- Верхня частина з логотипом -->
+                <div class="brand-card-header">
+                    <div class="brand-logo-wrapper">
+                        <div class="brand-logo {% if not brand.image %}no-image{% endif %}"
+                             {% if brand.image %}style="background-image: url('{{ brand.image.url }}');"{% endif %}>
+                            {% if not brand.image %}
+                            <i class="fas fa-gem"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Декоративний елемент -->
+                    <div class="brand-decoration">
+                        <div class="decoration-circle decoration-circle-1"></div>
+                        <div class="decoration-circle decoration-circle-2"></div>
+                    </div>
+                </div>
+
+                <!-- Контент картки -->
+                <div class="brand-card-content">
+                    <h3 class="brand-name">{{ brand.name }}</h3>
+
+                    {% if brand.country %}
+                    <div class="brand-country">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ brand.country }}</span>
+                    </div>
+                    {% endif %}
+
+                    <p class="brand-description">
+                        {{ brand.description|truncatewords:20 }}
+                    </p>
+
+                    <!-- Кнопка переходу -->
+                    <div class="brand-card-footer">
+                        <span class="brand-btn">
+                            <span class="btn-text">Переглянути продукцію</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Hover індикатор -->
+                <div class="brand-hover-line"></div>
+            </a>
+            {% empty %}
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <h3>Бренди скоро з'являться</h3>
+                <p>Ми працюємо над розширенням асортименту</p>
+                <a href="{% url 'home' %}" class="btn btn-primary">
+                    <i class="fas fa-home"></i>
+                    <span>Повернутися на головну</span>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Пагінація -->
+        {% if page_obj.has_other_pages %}
+        <div class="brands-pagination animate-on-scroll">
+            {% include 'includes/pagination.html' with page_obj=page_obj %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ПЕРЕВАГИ РОБОТИ З НАМИ -->
+<!-- ============================================ -->
+<section class="brands-advantages">
+    <div class="advantages-background">
+        <div class="advantage-shape advantage-shape-1"></div>
+        <div class="advantage-shape advantage-shape-2"></div>
+        <div class="advantage-shape advantage-shape-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="advantages-header animate-on-scroll">
+            <h2 class="advantages-title">Чому обирають нас</h2>
+            <p class="advantages-subtitle">Ми гарантуємо якість та безпеку кожного продукту</p>
+        </div>
+
+        <div class="advantages-grid">
+            <div class="advantage-card animate-on-scroll">
+                <div class="advantage-icon">
+                    <i class="fas fa-check-double"></i>
+                </div>
+                <h3>Оригінальна продукція</h3>
+                <p>Працюємо безпосередньо з офіційними дистриб'юторами та виробниками</p>
+            </div>
+
+            <div class="advantage-card animate-on-scroll">
+                <div class="advantage-icon">
+                    <i class="fas fa-microscope"></i>
+                </div>
+                <h3>Клінічно перевірено</h3>
+                <p>Вся продукція має необхідні сертифікати та пройшла дерматологічні тести</p>
+            </div>
+
+            <div class="advantage-card animate-on-scroll">
+                <div class="advantage-icon">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h3>Консультації фахівців</h3>
+                <p>Допоможемо підібрати ідеальні засоби для вашого типу шкіри</p>
+            </div>
+
+            <div class="advantage-card animate-on-scroll">
+                <div class="advantage-icon">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <h3>Зручне отримання</h3>
+                <p>Можливість отримати продукцію під час візиту або замовити окремо</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- CTA СЕКЦІЯ -->
+<!-- ============================================ -->
+<section class="brands-cta">
+    <div class="cta-glow cta-glow-1"></div>
+    <div class="cta-glow cta-glow-2"></div>
+
+    <div class="container">
+        <div class="brands-cta-content animate-on-scroll">
+            <div class="cta-icon-wrapper">
+                <i class="fas fa-comments"></i>
+            </div>
+
+            <h2 class="cta-title">Потрібна консультація щодо вибору косметики?</h2>
+            <p class="cta-description">
+                Наші експерти допоможуть підібрати оптимальні засоби<br class="desktop-only">
+                для вашого типу шкіри та бажаних результатів
+            </p>
+
+            <div class="cta-buttons">
+                <a href="{% url 'contacts' %}" class="btn btn-primary btn-large btn-glow">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>Зв'язатися з нами</span>
+                </a>
+                <a href="{% url 'procedure_types_list' %}" class="btn btn-outline-white btn-large">
+                    <i class="fas fa-spa"></i>
+                    <span>Дивитись процедури</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ВБУДОВАНІ СТИЛІ -->
+<!-- ============================================ -->
+<style>
+/* === HERO СЕКЦІЯ === */
+.brands-hero {
+    position: relative;
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #faf7f7 0%, #f5e6e8 100%);
+    margin-bottom: 80px;
+}
+
+.brands-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.brands-hero-content {
+    position: relative;
+    z-index: 3;
+    padding: 120px 20px 80px;
+}
+
+.brands-hero-text {
+    max-width: 800px;
+    margin: 0 auto 50px;
+    text-align: center;
+}
+
+.brands-hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(212, 165, 165, 0.3);
+    border-radius: 30px;
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(212, 165, 165, 0.1);
+}
+
+.brands-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem;
+    line-height: 1.2;
+    color: var(--dark);
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.brands-hero-description {
+    font-size: 1.2rem;
+    color: var(--dark);
+    opacity: 0.85;
+    line-height: 1.8;
+    margin-bottom: 35px;
+}
+
+/* Особливості */
+.brands-features {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.brand-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 30px;
+    color: var(--dark);
+    font-size: 0.95rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+}
+
+.brand-feature-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(212, 165, 165, 0.2);
+}
+
+.brand-feature-item i {
+    color: var(--accent);
+    font-size: 1.1rem;
+}
+
+/* Статистика */
+.brands-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.brand-stat-box {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 35px 25px;
+    text-align: center;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s;
+}
+
+.brand-stat-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(212, 165, 165, 0.2);
+}
+
+.brand-stat-box .stat-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #d4a5a5 0%, #e8c4c4 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    box-shadow: 0 8px 25px rgba(212, 165, 165, 0.3);
+}
+
+.brand-stat-box .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.brand-stat-box .stat-label {
+    font-size: 0.95rem;
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+/* === СЕКЦІЯ БРЕНДІВ === */
+.brands-section {
+    padding: 60px 0 100px;
+    background: white;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.section-label {
+    display: inline-block;
+    padding: 6px 18px;
+    background: var(--secondary);
+    border-radius: 20px;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: var(--dark);
+    opacity: 0.8;
+    line-height: 1.7;
+}
+
+/* Сітка брендів */
+.brands-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+/* Картка бренду */
+.brand-card {
+    position: relative;
+    display: block;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.brand-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 25px 60px rgba(212, 165, 165, 0.25);
+}
+
+/* Хедер картки */
+.brand-card-header {
+    position: relative;
+    height: 280px;
+    background: linear-gradient(135deg, var(--secondary) 0%, #e8d4d4 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.brand-logo-wrapper {
+    position: relative;
+    z-index: 2;
+}
+
+.brand-logo {
+    width: 180px;
+    height: 180px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    transition: all 0.5s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-logo.no-image {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--accent);
+    font-size: 4rem;
+}
+
+.brand-card:hover .brand-logo {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 20px 60px rgba(212, 165, 165, 0.4);
+}
+
+/* Декорація */
+.brand-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.decoration-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.8s;
+}
+
+.decoration-circle-1 {
+    width: 200px;
+    height: 200px;
+    top: -50px;
+    right: -50px;
+}
+
+.decoration-circle-2 {
+    width: 150px;
+    height: 150px;
+    bottom: -40px;
+    left: -40px;
+}
+
+.brand-card:hover .decoration-circle-1 {
+    transform: scale(1.3) translate(20px, 20px);
+    opacity: 0.5;
+}
+
+.brand-card:hover .decoration-circle-2 {
+    transform: scale(1.4) translate(-20px, -20px);
+    opacity: 0.5;
+}
+
+/* Контент картки */
+.brand-card-content {
+    padding: 35px 30px;
+}
+
+.brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--dark);
+    margin-bottom: 15px;
+    transition: color 0.3s;
+}
+
+.brand-card:hover .brand-name {
+    color: var(--accent);
+}
+
+.brand-country {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.brand-description {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--dark);
+    opacity: 0.8;
+    margin-bottom: 25px;
+    min-height: 50px;
+}
+
+/* Футер картки */
+.brand-card-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.brand-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.brand-card:hover .brand-btn {
+    gap: 15px;
+}
+
+.brand-btn i {
+    transition: transform 0.3s;
+}
+
+.brand-card:hover .brand-btn i {
+    transform: translateX(5px);
+}
+
+/* Hover лінія */
+.brand-hover-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: var(--gradient);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.brand-card:hover .brand-hover-line {
+    width: 100%;
+}
+
+/* Пусте повідомлення */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.empty-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 30px;
+    background: var(--secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: var(--accent);
+    box-shadow: 0 10px 30px rgba(212, 165, 165, 0.2);
+}
+
+.empty-state h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    color: var(--dark);
+    opacity: 0.8;
+    margin-bottom: 35px;
+}
+
+/* === ПЕРЕВАГИ === */
+.brands-advantages {
+    position: relative;
+    padding: 100px 0;
+    background: white;
+    overflow: hidden;
+}
+
+.advantages-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.advantage-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--secondary);
+    opacity: 0.4;
+}
+
+.advantage-shape-1 {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    right: -150px;
+}
+
+.advantage-shape-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -80px;
+    left: -100px;
+}
+
+.advantage-shape-3 {
+    width: 250px;
+    height: 250px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.advantages-header {
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 1;
+}
+
+.advantages-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+
+.advantages-subtitle {
+    font-size: 1.1rem;
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+.advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
+    position: relative;
+    z-index: 1;
+}
+
+.advantage-card {
+    text-align: center;
+    padding: 40px 30px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s;
+}
+
+.advantage-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(212, 165, 165, 0.2);
+}
+
+.advantage-icon {
+    width: 85px;
+    height: 85px;
+    margin: 0 auto 25px;
+    background: linear-gradient(135deg, #d4a5a5 0%, #e8c4c4 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: white;
+    box-shadow: 0 10px 30px rgba(212, 165, 165, 0.3);
+    transition: all 0.4s;
+}
+
+.advantage-card:hover .advantage-icon {
+    transform: scale(1.1);
+    box-shadow: 0 15px 40px rgba(212, 165, 165, 0.5);
+}
+
+.advantage-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--dark);
+    margin-bottom: 15px;
+}
+
+.advantage-card p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+/* === CTA СЕКЦІЯ === */
+.brands-cta {
+    position: relative;
+    padding: 100px 0;
+    background: linear-gradient(135deg, #d4a5a5 0%, #a07878 100%);
+    overflow: hidden;
+}
+
+.cta-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.cta-glow-1 {
+    width: 500px;
+    height: 500px;
+    background: rgba(255, 255, 255, 0.3);
+    top: -200px;
+    right: -150px;
+    animation: glowFloat 8s ease-in-out infinite;
+}
+
+.cta-glow-2 {
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.2);
+    bottom: -150px;
+    left: -100px;
+    animation: glowFloat 10s ease-in-out infinite reverse;
+}
+
+@keyframes glowFloat {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(40px, -40px); }
+}
+
+.brands-cta-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-icon-wrapper {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 30px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: white;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+}
+
+.cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: white;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.cta-description {
+    font-size: 1.2rem;
+    color: white;
+    opacity: 0.95;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-large {
+    padding: 16px 36px;
+    font-size: 1.05rem;
+}
+
+.btn-outline-white {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-outline-white:hover {
+    background: white;
+    color: var(--accent);
+}
+
+/* === АДАПТИВНІСТЬ === */
+@media (max-width: 1200px) {
+    .advantages-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .brands-hero-title {
+        font-size: 3rem;
+    }
+
+    .brands-stats {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .advantages-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .brands-hero {
+        min-height: 65vh;
+    }
+
+    .brands-hero-title {
+        font-size: 2.2rem;
+    }
+
+    .brands-hero-description {
+        font-size: 1rem;
+    }
+
+    .brands-features {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .brands-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .brand-card-header {
+        height: 240px;
+    }
+
+    .brand-logo {
+        width: 150px;
+        height: 150px;
+    }
+
+    .advantages-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-title {
+        font-size: 2rem;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .brands-hero-title {
+        font-size: 1.8rem;
+    }
+
+    .section-title {
+        font-size: 2.2rem;
+    }
+
+    .brand-stat-box .stat-number {
+        font-size: 2.2rem;
+    }
+
+    .brand-card-content {
+        padding: 25px 20px;
+    }
+
+    .brand-name {
+        font-size: 1.6rem;
+    }
+}
+</style>
+
+<!-- ============================================ -->
+<!-- ВБУДОВАНИЙ JAVASCRIPT -->
+<!-- ============================================ -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    'use strict';
+    // ========================================
+    // АНІМАЦІЯ ПОЯВИ ЕЛЕМЕНТІВ
+    // ========================================
+    const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    animateElements.forEach(el => observer.observe(el));
+
+    // ========================================
+    // ПАРАЛАКС ЕФЕКТ ДЛЯ ДЕКОРАТИВНИХ ЕЛЕМЕНТІВ
+    // ========================================
+    const advantageShapes = document.querySelectorAll('.advantage-shape');
+
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+
+        advantageShapes.forEach((shape, index) => {
+            const speed = 0.3 + (index * 0.1);
+            const yPos = -(scrolled * speed);
+            shape.style.transform = `translateY(${yPos}px)`;
+        });
+    });
+
+    // ========================================
+    // SMOOTH SCROLL ДЛЯ ІНДИКАТОРА
+    // ========================================
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', () => {
+            const brandsSection = document.querySelector('.brands-section');
+            if (brandsSection) {
+                const offsetTop = brandsSection.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+
+    // ========================================
+    // ДОДАТКОВА АНІМАЦІЯ ДЛЯ КАРТОК
+    // ========================================
+    const brandCards = document.querySelectorAll('.brand-card');
+
+    brandCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            const logo = this.querySelector('.brand-logo');
+            if (logo) {
+                logo.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            }
+        });
+
+        card.addEventListener('mouseleave', function() {
+            const logo = this.querySelector('.brand-logo');
+            if (logo) {
+                logo.style.transition = 'all 0.5s';
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

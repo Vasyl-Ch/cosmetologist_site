@@ -1,0 +1,1133 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ procedure_type.name }} - Mela-Med Aesthetic{% endblock %}
+
+{% block content %}
+
+<!-- ============================================ -->
+<!-- HERO СЕКЦІЯ З ДИНАМІЧНИМ ФОНОМ -->
+<!-- ============================================ -->
+<section class="procedures-detail-hero">
+    <!-- Анімований фон -->
+    <canvas id="proceduresDetailCanvas" class="procedures-detail-canvas"></canvas>
+
+    <div class="procedures-detail-overlay"></div>
+
+    <div class="container procedures-detail-hero-content">
+        <div class="breadcrumbs-wrapper animate-on-scroll">
+            <a href="{% url 'home' %}" class="breadcrumb-link">
+                <i class="fas fa-home"></i>
+                Головна
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="{% url 'procedure_types_list' %}" class="breadcrumb-link">Процедури</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">{{ procedure_type.name }}</span>
+        </div>
+
+        <div class="procedures-detail-text animate-on-scroll">
+            <div class="category-badge">
+                <i class="fas fa-spa"></i>
+                <span>Категорія процедур</span>
+            </div>
+
+            <h1 class="procedures-detail-title">
+                {{ procedure_type.name }}
+            </h1>
+
+            <p class="procedures-detail-description">
+                {{ procedure_type.description }}
+            </p>
+
+            <!-- Швидкі дії -->
+            <div class="hero-quick-actions">
+                <a href="#procedures-grid" class="quick-action-btn">
+                    <i class="fas fa-list"></i>
+                    <span>Дивитись процедури</span>
+                </a>
+                <a href="{% url 'contacts' %}" class="quick-action-btn quick-action-primary">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Записатися</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ОСНОВНИЙ КОНТЕНТ З САЙДБАРОМ -->
+<!-- ============================================ -->
+<section class="procedures-content-section" id="procedures-grid">
+    <div class="container">
+        <div class="procedures-layout">
+
+            <!-- ========== САЙДБАР ========== -->
+            <aside class="procedures-sidebar animate-on-scroll">
+                <!-- Навігація по категоріям -->
+                <div class="sidebar-card sidebar-navigation">
+                    <div class="sidebar-header">
+                        <div class="sidebar-icon">
+                            <i class="fas fa-list-ul"></i>
+                        </div>
+                        <h3>Категорії процедур</h3>
+                    </div>
+
+                    <ul class="sidebar-list">
+                        {% for type in all_procedure_types %}
+                        <li class="sidebar-list-item {% if type.slug == current_type_slug %}active{% endif %}">
+                            <a href="{% url 'procedures_by_type' type.slug %}" class="sidebar-link">
+                                <span class="link-text">{{ type.name }}</span>
+                                <i class="fas fa-chevron-right link-arrow"></i>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Інформаційний блок -->
+                <div class="sidebar-card sidebar-info">
+                    <div class="info-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <h4>Потрібна консультація?</h4>
+                    <p>Наші експерти допоможуть підібрати ідеальну процедуру для вас</p>
+                    <a href="{% url 'contacts' %}" class="sidebar-btn">
+                        <span>Зв'язатися</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Переваги -->
+                <div class="sidebar-card sidebar-features">
+                    <h4>Наші гарантії</h4>
+                    <ul class="features-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Сертифіковані фахівці</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Преміальні препарати</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Безпека та стерильність</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Індивідуальний підхід</span>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- ========== СІТКА ПРОЦЕДУР ========== -->
+            <div class="procedures-main-content">
+                <!-- Заголовок з фільтрами -->
+                <div class="procedures-header animate-on-scroll">
+                    <div class="procedures-count">
+                        <span class="count-number">{{ page_obj.paginator.count }}</span>
+                        <span class="count-label">процедур у категорії</span>
+                    </div>
+
+                    {% if query %}
+                    <div class="search-results-info">
+                        <i class="fas fa-search"></i>
+                        <span>Результати пошуку: "{{ query }}"</span>
+                        <a href="{% url 'procedures_by_type' procedure_type.slug %}" class="clear-search">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Сітка процедур -->
+                <div class="procedures-grid">
+                    {% for procedure in page_obj %}
+                    <div class="procedure-card animate-on-scroll" style="animation-delay: {{ forloop.counter0|add:'0.05' }}s">
+                        <!-- Зображення процедури -->
+                        <div class="procedure-image-wrapper">
+                            <div class="procedure-image {% if not procedure.image %}no-image{% endif %}"
+                                 {% if procedure.image %}style="background-image: url('{{ procedure.image.url }}');"{% endif %}>
+                            </div>
+
+                            <!-- Бейдж зі знижкою -->
+                            {% if procedure.discount_price and procedure.discount_price < procedure.price %}
+                            <div class="discount-badge">
+                                <i class="fas fa-tag"></i>
+                                <span>Акція</span>
+                            </div>
+                            {% endif %}
+
+                            <!-- Оверлей з швидкими діями -->
+                            <div class="procedure-overlay">
+                                <a href="{% url 'contacts' %}" class="overlay-btn">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    <span>Записатися</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Контент картки -->
+                        <div class="procedure-content">
+                            <h3 class="procedure-title">{{ procedure.name }}</h3>
+
+                            <p class="procedure-description">
+                                {{ procedure.description|truncatewords:25 }}
+                            </p>
+
+                            <!-- Метаінформація -->
+                            <div class="procedure-meta">
+                                <div class="meta-item meta-duration">
+                                    <i class="fas fa-clock"></i>
+                                    <span>{{ procedure.duration_minutes }} хв</span>
+                                </div>
+
+                                <div class="meta-item meta-price">
+                                    {{ procedure.get_price_display|safe }}
+                                </div>
+                            </div>
+
+                            <!-- Кнопка деталей -->
+                            <div class="procedure-footer">
+                                <a href="{% url 'contacts' %}" class="procedure-btn">
+                                    <span>Дізнатися більше</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Декоративний елемент -->
+                        <div class="card-decoration"></div>
+                    </div>
+                    {% empty %}
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <h3>Процедури скоро з'являться</h3>
+                        <p>Ми працюємо над наповненням цієї категорії</p>
+                        <a href="{% url 'procedure_types_list' %}" class="btn btn-primary">
+                            <span>Повернутися до категорій</span>
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Пагінація -->
+                {% if page_obj.has_other_pages %}
+                <div class="procedures-pagination animate-on-scroll">
+                    {% include 'includes/pagination.html' with page_obj=page_obj %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- CTA БЛОК -->
+<!-- ============================================ -->
+<section class="procedures-cta">
+    <div class="cta-background-pattern"></div>
+
+    <div class="container">
+        <div class="cta-content animate-on-scroll">
+            <div class="cta-icon-box">
+                <i class="fas fa-phone-alt"></i>
+            </div>
+
+            <h2 class="cta-title">Маєте питання?</h2>
+            <p class="cta-text">
+                Зв'яжіться з нами для детальної консультації.<br>
+                Наші експерти з радістю допоможуть вам обрати найкращу процедуру
+            </p>
+
+            <div class="cta-actions">
+                <a href="{% url 'contacts' %}" class="btn btn-primary btn-large">
+                    <i class="fas fa-comments"></i>
+                    <span>Отримати консультацію</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ВБУДОВАНІ СТИЛІ -->
+<!-- ============================================ -->
+<style>
+/* === HERO СЕКЦІЯ === */
+.procedures-detail-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #faf7f7 0%, #f5e6e8 100%);
+    margin-bottom: 80px;
+}
+
+.procedures-detail-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.procedures-detail-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(250, 247, 247, 0.8) 0%, rgba(245, 230, 232, 0.6) 100%);
+    z-index: 2;
+}
+
+.procedures-detail-hero-content {
+    position: relative;
+    z-index: 3;
+    padding: 100px 20px 60px;
+}
+
+/* Хлібні крошки */
+.breadcrumbs-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-link {
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.breadcrumb-link:hover {
+    opacity: 0.7;
+}
+
+.breadcrumb-separator {
+    color: var(--dark);
+    opacity: 0.5;
+}
+
+.breadcrumb-current {
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+/* Текст hero */
+.procedures-detail-text {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(212, 165, 165, 0.3);
+    border-radius: 30px;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.procedures-detail-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.2rem;
+    line-height: 1.2;
+    color: var(--dark);
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.procedures-detail-description {
+    font-size: 1.15rem;
+    color: var(--dark);
+    opacity: 0.85;
+    line-height: 1.8;
+    margin-bottom: 35px;
+}
+
+/* Швидкі дії */
+.hero-quick-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.quick-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(212, 165, 165, 0.3);
+    border-radius: 30px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+}
+
+.quick-action-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    box-shadow: 0 8px 25px rgba(212, 165, 165, 0.4);
+}
+
+.quick-action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.quick-action-primary:hover {
+    box-shadow: 0 12px 35px rgba(212, 165, 165, 0.5);
+}
+
+/* === ОСНОВНИЙ КОНТЕНТ === */
+.procedures-content-section {
+    padding: 0 0 80px;
+}
+
+.procedures-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 50px;
+}
+
+/* === САЙДБАР === */
+.procedures-sidebar {
+    position: sticky;
+    top: 90px;
+    height: fit-content;
+}
+
+.sidebar-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s;
+}
+
+.sidebar-card:hover {
+    box-shadow: 0 12px 40px rgba(212, 165, 165, 0.15);
+}
+
+/* Навігація */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.sidebar-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.3rem;
+}
+
+.sidebar-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    margin: 0;
+}
+
+.sidebar-list {
+    list-style: none;
+}
+
+.sidebar-list-item {
+    margin-bottom: 8px;
+}
+
+.sidebar-list-item:last-child {
+    margin-bottom: 0;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+    transform: scaleY(0);
+    transition: transform 0.3s;
+}
+
+.sidebar-list-item.active .sidebar-link,
+.sidebar-link:hover {
+    background: var(--secondary);
+    color: var(--accent);
+}
+
+.sidebar-list-item.active .sidebar-link::before,
+.sidebar-link:hover::before {
+    transform: scaleY(1);
+}
+
+.link-arrow {
+    font-size: 0.8rem;
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.3s;
+}
+
+.sidebar-list-item.active .link-arrow,
+.sidebar-link:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Інфо блок */
+.sidebar-info {
+    background: var(--gradient);
+    color: white;
+    text-align: center;
+}
+
+.info-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.sidebar-info h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+}
+
+.sidebar-info p {
+    font-size: 0.95rem;
+    opacity: 0.95;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.sidebar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: white;
+    color: var(--accent);
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.sidebar-btn:hover {
+    gap: 12px;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Переваги */
+.sidebar-features h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+.features-list {
+    list-style: none;
+}
+
+.features-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    color: var(--dark);
+}
+
+.features-list li:last-child {
+    margin-bottom: 0;
+}
+
+.features-list i {
+    color: #4caf50;
+    font-size: 1.1rem;
+}
+
+/* === ОСНОВНИЙ КОНТЕНТ === */
+.procedures-main-content {
+    min-height: 600px;
+}
+
+/* Заголовок */
+.procedures-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--secondary);
+}
+
+.procedures-count {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.count-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.count-label {
+    font-size: 1rem;
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+.search-results-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: var(--secondary);
+    border-radius: 30px;
+    font-size: 0.9rem;
+    color: var(--dark);
+}
+
+.clear-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.clear-search:hover {
+    background: var(--accent);
+    color: white;
+}
+
+/* Сітка процедур */
+.procedures-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+    margin-bottom: 60px;
+}
+
+/* Картка процедури */
+.procedure-card {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.procedure-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 45px rgba(212, 165, 165, 0.2);
+}
+
+/* Зображення */
+.procedure-image-wrapper {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+}
+
+.procedure-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s;
+}
+
+.procedure-image.no-image {
+    background: var(--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.procedure-image.no-image::after {
+    content: '';
+    width: 60px;
+    height: 60px;
+    background: rgba(212, 165, 165, 0.3);
+    border-radius: 50%;
+}
+
+.procedure-card:hover .procedure-image {
+    transform: scale(1.1);
+}
+
+/* Бейдж зі знижкою */
+.discount-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: #e74c3c;
+    color: white;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 2;
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Оверлей */
+.procedure-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(60, 43, 48, 0.9) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.procedure-card:hover .procedure-overlay {
+    opacity: 1;
+}
+
+.overlay-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: white;
+    color: var(--accent);
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transform: translateY(20px);
+    transition: all 0.4s;
+}
+
+.procedure-card:hover .overlay-btn {
+    transform: translateY(0);
+}
+
+.overlay-btn:hover {
+    gap: 12px;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Контент картки */
+.procedure-content {
+    padding: 25px;
+}
+
+.procedure-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--dark);
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.procedure-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--dark);
+    opacity: 0.8;
+    margin-bottom: 20px;
+    min-height: 60px;
+}
+
+/* Метаінформація */
+.procedure-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    margin-bottom: 15px;
+    border-top: 1px solid var(--secondary);
+    border-bottom: 1px solid var(--secondary);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+}
+
+.meta-duration {
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+.meta-duration i {
+    color: var(--accent);
+}
+
+.meta-price {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+/* Футер картки */
+.procedure-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.procedure-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+
+.procedure-btn:hover {
+    gap: 12px;
+}
+
+/* Декоративний елемент */
+.card-decoration {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--gradient);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.procedure-card:hover .card-decoration {
+    width: 100%;
+}
+
+/* Пусте повідомлення */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.empty-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 25px;
+    background: var(--secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--accent);
+}
+
+.empty-state h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    margin-bottom: 12px;
+}
+
+.empty-state p {
+    font-size: 1rem;
+    color: var(--dark);
+    opacity: 0.8;
+    margin-bottom: 30px;
+}
+
+/* === CTA БЛОК === */
+.procedures-cta {
+    position: relative;
+    padding: 80px 0;
+    background: var(--secondary);
+    overflow: hidden;
+}
+
+.cta-background-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-image: radial-gradient(circle, rgba(212, 165, 165, 0.2) 1px, transparent 1px);
+    background-size: 30px 30px;
+}
+
+.cta-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cta-icon-box {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 25px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--accent);
+    box-shadow: 0 8px 25px rgba(212, 165, 165, 0.3);
+}
+
+.cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.3rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+
+.cta-text {
+    font-size: 1.1rem;
+    color: var(--dark);
+    opacity: 0.85;
+    line-height: 1.8;
+    margin-bottom: 35px;
+}
+
+.cta-actions .btn {
+    box-shadow: 0 8px 25px rgba(212, 165, 165, 0.4);
+}
+
+.cta-actions .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(212, 165, 165, 0.5);
+}
+
+/* === АДАПТИВНІСТЬ === */
+@media (max-width: 1200px) {
+    .procedures-layout {
+        grid-template-columns: 280px 1fr;
+        gap: 35px;
+    }
+
+    .procedures-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .procedures-detail-title {
+        font-size: 2.5rem;
+    }
+
+    .procedures-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .procedures-sidebar {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .procedures-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .procedures-detail-hero {
+        min-height: 50vh;
+    }
+
+    .procedures-detail-title {
+        font-size: 2rem;
+    }
+
+    .procedures-detail-description {
+        font-size: 1rem;
+    }
+
+    .hero-quick-actions {
+        flex-direction: column;
+    }
+
+    .quick-action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .procedures-sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .procedures-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .procedures-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .cta-title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .procedures-detail-title {
+        font-size: 1.6rem;
+    }
+
+    .count-number {
+        font-size: 2rem;
+    }
+
+    .procedure-content {
+        padding: 20px;
+    }
+
+    .breadcrumbs-wrapper {
+        font-size: 0.85rem;
+    }
+
+    .procedure-image-wrapper {
+        height: 200px;
+    }
+}
+</style>
+
+<!-- ============================================ -->
+<!-- ВБУДОВАНИЙ JAVASCRIPT -->
+<!-- ============================================ -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    'use strict';
+    // ========================================
+    // ПЛАВНА ПРОКРУТКА ДО ПРОЦЕДУР
+    // ========================================
+    const scrollLinks = document.querySelectorAll('a[href^="#"]');
+    scrollLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href === '#' || href === '#!') return;
+
+            const target = document.querySelector(href);
+            if (target) {
+                e.preventDefault();
+                const offsetTop = target.getBoundingClientRect().top + window.pageYOffset - 80;
+
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // ========================================
+    // АНІМАЦІЯ ПОЯВИ ЕЛЕМЕНТІВ
+    // ========================================
+    const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    animateElements.forEach(el => observer.observe(el));
+});
+</script>
+
+{% endblock %}

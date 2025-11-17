@@ -1,2 +1,10 @@
 .idea
 .venv
+**__pycache__
+db.sqlite3
+/staticfiles/
+/media/
+static/img/
+fixtures
+.flake8
+.env

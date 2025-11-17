@@ -1,0 +1,1192 @@
+{% extends 'base.html' %}
+
+{% block title %}Статті - Mela-Med Aesthetic{% endblock %}
+
+{% block content %}
+
+<!-- ============================================ -->
+<!-- HERO СЕКЦІЯ З АНІМОВАНИМ ФОНОМ -->
+<!-- ============================================ -->
+<section class="articles-hero">
+    <!-- Анімований canvas фон -->
+    <canvas id="articlesCanvas" class="articles-canvas"></canvas>
+
+    <div class="articles-hero-overlay"></div>
+
+    <div class="container articles-hero-content">
+        <div class="hero-badge animate-on-scroll">
+            <i class="fas fa-book-open"></i>
+            <span>База знань</span>
+        </div>
+
+        <h1 class="articles-hero-title animate-on-scroll">
+            Корисні <span class="gradient-text">статті</span>
+        </h1>
+
+        <p class="articles-hero-description animate-on-scroll">
+            Поради з догляду за шкірою, новини та експертні думки<br class="desktop-only">
+            від провідних косметологів для вашої краси та здоров'я
+        </p>
+
+        <!-- Швидкі статистики -->
+        <div class="articles-stats animate-on-scroll">
+            <div class="stat-item">
+                <div class="stat-number">{{ page_obj.paginator.count }}+</div>
+                <div class="stat-label">Статей</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ all_tags.count }}+</div>
+                <div class="stat-label">Тем</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">Читачів</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator-articles">
+        <div class="scroll-arrow-articles"></div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ФІЛЬТР ПО ТЕГАМ -->
+<!-- ============================================ -->
+<section class="tags-filter-section">
+    <div class="container">
+        <div class="tags-filter-wrapper animate-on-scroll">
+            <div class="tags-filter-header">
+                <div class="filter-icon">
+                    <i class="fas fa-filter"></i>
+                </div>
+                <h3>Фільтр за категоріями</h3>
+            </div>
+
+            <div class="tags-list">
+                <a href="{% url 'articles_list' %}"
+                   class="tag-filter {% if not active_tag %}active{% endif %}">
+                    <i class="fas fa-th"></i>
+                    <span>Усі статті</span>
+                </a>
+
+                {% for tag in all_tags %}
+                <a href="?tag={{ tag.slug }}"
+                   class="tag-filter {% if tag.slug == active_tag.slug %}active{% endif %}">
+                    <i class="fas fa-tag"></i>
+                    <span>{{ tag.name }}</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- СІТКА СТАТЕЙ -->
+<!-- ============================================ -->
+<section class="articles-grid-section">
+    <div class="container">
+        {% if active_tag %}
+        <div class="active-filter-info animate-on-scroll">
+            <div class="filter-info-icon">
+                <i class="fas fa-tag"></i>
+            </div>
+            <div class="filter-info-content">
+                <span class="filter-label">Активний фільтр:</span>
+                <span class="filter-value">{{ active_tag.name }}</span>
+            </div>
+            <a href="{% url 'articles_list' %}" class="clear-filter">
+                <i class="fas fa-times"></i>
+            </a>
+        </div>
+        {% endif %}
+
+        <div class="articles-grid">
+            {% for article in page_obj %}
+            <article class="article-card animate-on-scroll" style="animation-delay: {{ forloop.counter0|add:'0.1' }}s">
+                <!-- Зображення статті -->
+                <a href="{% url 'article_detail' article.slug %}" class="article-image-wrapper">
+                    <div class="article-image {% if not article.image %}no-image{% endif %}"
+                         {% if article.image %}style="background-image: url('{{ article.image.url }}');"{% endif %}>
+                    </div>
+                    <div class="article-overlay">
+                        <div class="overlay-content">
+                            <i class="fas fa-book-open"></i>
+                            <span>Читати статтю</span>
+                        </div>
+                    </div>
+
+                    <!-- Reading time badge -->
+                    <div class="reading-time-badge">
+                        <i class="far fa-clock"></i>
+                        <span>5 хв</span>
+                    </div>
+                </a>
+
+                <!-- Контент статті -->
+                <div class="article-card-content">
+                    <!-- Теги -->
+                    <div class="article-tags-mini">
+                        {% for tag in article.tags.all|slice:":2" %}
+                        <a href="{% url 'articles_list' %}?tag={{ tag.slug }}" class="tag-mini">
+                            {{ tag.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Заголовок -->
+                    <h3 class="article-card-title">
+                        <a href="{% url 'article_detail' article.slug %}">
+                            {{ article.title }}
+                        </a>
+                    </h3>
+
+                    <!-- Опис -->
+                    <p class="article-card-excerpt">
+                        {{ article.content|striptags|truncatewords:25 }}
+                    </p>
+
+                    <!-- Футер картки -->
+                    <div class="article-card-footer">
+                        <div class="article-meta-info">
+                            <span class="article-date">
+                                <i class="far fa-calendar-alt"></i>
+                                {{ article.created_at|date:"d M Y" }}
+                            </span>
+                        </div>
+
+                        <a href="{% url 'article_detail' article.slug %}" class="read-more-btn">
+                            <span>Читати далі</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Декоративний елемент -->
+                <div class="article-card-decoration"></div>
+            </article>
+            {% empty %}
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h3>Статті скоро з'являться</h3>
+                <p>Ми працюємо над цікавими матеріалами для вас</p>
+                <a href="{% url 'home' %}" class="btn btn-primary">
+                    <i class="fas fa-home"></i>
+                    <span>На головну</span>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Пагінація -->
+        {% if page_obj.has_other_pages %}
+        <div class="articles-pagination animate-on-scroll">
+            {% include 'includes/pagination.html' with page_obj=page_obj %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- CTA СЕКЦІЯ -->
+<!-- ============================================ -->
+<section class="articles-cta-section">
+    <div class="cta-glow-effects">
+        <div class="cta-glow cta-glow-1"></div>
+        <div class="cta-glow cta-glow-2"></div>
+    </div>
+
+    <div class="container">
+        <div class="articles-cta-content animate-on-scroll">
+            <div class="cta-icon-box">
+                <i class="fas fa-spa"></i>
+            </div>
+
+            <h2 class="cta-title">Хочете дізнатися більше?</h2>
+            <p class="cta-description">
+                Запишіться на консультацію та отримайте персональні рекомендації<br class="desktop-only">
+                від наших експертів з догляду за шкірою
+            </p>
+
+            <div class="cta-buttons">
+                <a href="{% url 'contacts' %}" class="btn btn-primary btn-large">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>Зв'язатися з нами</span>
+                </a>
+                <a href="{% url 'procedure_types_list' %}" class="btn btn-outline-white btn-large">
+                    <i class="fas fa-spa"></i>
+                    <span>Наші процедури</span>
+                </a>
+            </div>
+
+            <!-- Фічі -->
+            <div class="cta-features">
+                <div class="cta-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Безкоштовна консультація</span>
+                </div>
+                <div class="cta-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Індивідуальний підхід</span>
+                </div>
+                <div class="cta-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Професійні поради</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ВБУДОВАНИЙ JAVASCRIPT -->
+<!-- ============================================ -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    'use strict';
+
+    const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    animateElements.forEach(el => observer.observe(el));
+
+    // ========================================
+    // 3. ПЛАВНА ПРОКРУТКА ДО ФІЛЬТРІВ
+    // ========================================
+    const scrollIndicator = document.querySelector('.scroll-indicator-articles');
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', () => {
+            const filterSection = document.querySelector('.tags-filter-section');
+            if (filterSection) {
+                const offsetTop = filterSection.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+
+    // ========================================
+    // 4. ЗБЕРЕЖЕННЯ АКТИВНОГО ФІЛЬТРУ В URL
+    // ========================================
+    const tagFilters = document.querySelectorAll('.tag-filter');
+    tagFilters.forEach(filter => {
+        filter.addEventListener('click', function(e) {
+            // Додаємо легку анімацію кліку
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+    });
+
+    // ========================================
+    // 5. LAZY LOADING ДЛЯ ЗОБРАЖЕНЬ
+    // ========================================
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.style.backgroundImage = `url(${img.dataset.src})`;
+                        img.removeAttribute('data-src');
+                        img.classList.add('loaded');
+                    }
+                    imageObserver.unobserve(img);
+                }
+            });
+        }, { rootMargin: '50px' });
+
+        document.querySelectorAll('.article-image[data-src]').forEach(img => {
+            imageObserver.observe(img);
+        });
+    }
+
+    // ========================================
+    // 6. ПАРАЛАКС ЕФЕКТ ДЛЯ CTA GLOW
+    // ========================================
+    const ctaGlows = document.querySelectorAll('.cta-glow');
+
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+
+        ctaGlows.forEach((glow, index) => {
+            const speed = 0.3 + (index * 0.1);
+            const yPos = -(scrolled * speed);
+            glow.style.transform = `translateY(${yPos}px)`;
+        });
+    });
+
+    // ========================================
+    // 7. АНІМАЦІЯ ЛІЧИЛЬНИКІВ В СТАТИСТИЦІ
+    // ========================================
+    const statNumbers = document.querySelectorAll('.stat-number');
+
+    const animateCounter = (element) => {
+        const target = element.textContent.replace('+', '');
+        const isPlus = element.textContent.includes('+');
+        const targetNum = parseInt(target);
+        const duration = 2000;
+        const increment = targetNum / (duration / 16);
+        let current = 0;
+
+        const updateCounter = () => {
+            current += increment;
+            if (current < targetNum) {
+                element.textContent = Math.floor(current) + (isPlus ? '+' : '');
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = targetNum + (isPlus ? '+' : '');
+            }
+        };
+
+        updateCounter();
+    };
+
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    statNumbers.forEach(stat => statsObserver.observe(stat));
+
+    // ========================================
+    // 8. HOVER ЕФЕКТ НА КАРТКАХ (3D)
+    // ========================================
+    const articleCards = document.querySelectorAll('.article-card');
+
+    articleCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-12px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
+});
+</script>
+<style>
+.articles-hero {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #faf7f7 0%, #f5e6e8 100%);
+    margin-bottom: 80px;
+}
+
+.articles-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.articles-hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 120px 20px 80px;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.articles-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem;
+    line-height: 1.2;
+    color: var(--dark);
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #d4a5a5 0%, #a07878 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.articles-hero-description {
+    font-size: 1.2rem;
+    color: var(--dark);
+    opacity: 0.85;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto 50px;
+}
+
+/* Статистики */
+.articles-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s;
+}
+
+.stat-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(212, 165, 165, 0.2);
+}
+
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 0.95rem;
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+/* Scroll indicator */
+.scroll-indicator-articles {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    cursor: pointer;
+}
+
+.scroll-arrow-articles {
+    width: 30px;
+    height: 50px;
+    border: 2px solid var(--accent);
+    border-radius: 20px;
+    position: relative;
+}
+
+.scroll-arrow-articles::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: scrollDotArticles 2s ease-in-out infinite;
+}
+
+@keyframes scrollDotArticles {
+    0%, 100% { top: 10px; opacity: 1; }
+    50% { top: 30px; opacity: 0.3; }
+}
+
+/* === ФІЛЬТР ТЕГІВ === */
+.tags-filter-section {
+    padding: 0 0 60px;
+}
+
+.tags-filter-wrapper {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    padding: 35px 40px;
+}
+
+.tags-filter-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.filter-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.3rem;
+}
+
+.tags-filter-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--accent);
+    margin: 0;
+}
+
+.tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.tag-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--secondary);
+    color: var(--dark);
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.tag-filter:hover {
+    background: var(--accent);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(212, 165, 165, 0.3);
+}
+
+.tag-filter.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    box-shadow: 0 8px 20px rgba(212, 165, 165, 0.3);
+}
+
+.tag-filter i {
+    font-size: 0.9rem;
+}
+
+/* === АКТИВНИЙ ФІЛЬТР === */
+.active-filter-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 25px;
+    background: var(--secondary);
+    border-radius: 16px;
+    margin-bottom: 40px;
+    border-left: 4px solid var(--accent);
+}
+
+.filter-info-icon {
+    width: 45px;
+    height: 45px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+.filter-info-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-label {
+    font-size: 0.95rem;
+    color: var(--dark);
+    opacity: 0.8;
+}
+
+.filter-value {
+    font-weight: 600;
+    color: var(--accent);
+    font-size: 1.05rem;
+}
+
+.clear-filter {
+    width: 35px;
+    height: 35px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.clear-filter:hover {
+    background: var(--accent);
+    color: white;
+    transform: rotate(90deg);
+}
+
+/* === СІТКА СТАТЕЙ === */
+.articles-grid-section {
+    padding: 0 0 80px;
+}
+
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+/* === КАРТКА СТАТТІ === */
+.article-card {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.article-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 25px 60px rgba(212, 165, 165, 0.25);
+}
+
+/* Зображення */
+.article-image-wrapper {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+    display: block;
+}
+
+.article-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.7s;
+}
+
+.article-image.no-image {
+    background: linear-gradient(135deg, var(--secondary) 0%, #e8d4d4 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.article-image.no-image::after {
+    content: '';
+    width: 80px;
+    height: 80px;
+    background: rgba(212, 165, 165, 0.3);
+    border-radius: 50%;
+}
+
+.article-card:hover .article-image {
+    transform: scale(1.1);
+}
+
+/* Overlay */
+.article-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(60, 43, 48, 0.9) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.article-card:hover .article-overlay {
+    opacity: 1;
+}
+
+.overlay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-weight: 600;
+    transform: translateY(20px);
+    transition: transform 0.4s;
+}
+
+.article-card:hover .overlay-content {
+    transform: translateY(0);
+}
+
+.overlay-content i {
+    font-size: 2rem;
+}
+
+/* Reading time badge */
+.reading-time-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    z-index: 2;
+}
+
+/* Контент картки */
+.article-card-content {
+    padding: 30px;
+}
+
+.article-tags-mini {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.tag-mini {
+    padding: 4px 12px;
+    background: var(--secondary);
+    color: var(--accent);
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.tag-mini:hover {
+    background: var(--accent);
+    color: white;
+}
+
+.article-card-title {
+    margin-bottom: 15px;
+}
+
+.article-card-title a {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--dark);
+    text-decoration: none;
+    line-height: 1.3;
+    transition: color 0.3s;
+    display: block;
+}
+
+.article-card-title a:hover {
+    color: var(--accent);
+}
+
+.article-card-excerpt {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--dark);
+    opacity: 0.8;
+    margin-bottom: 20px;
+    min-height: 65px;
+}
+
+/* Футер картки */
+.article-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--secondary);
+}
+
+.article-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.article-date {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--dark);
+    opacity: 0.7;
+}
+
+.article-date i {
+    color: var(--accent);
+}
+
+.read-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+
+.read-more-btn:hover {
+    gap: 12px;
+}
+
+/* Декоративний елемент */
+.article-card-decoration {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: var(--gradient);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.article-card:hover .article-card-decoration {
+    width: 100%;
+}
+
+/* === ПУСТА СІТКА === */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.empty-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 30px;
+    background: var(--secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: var(--accent);
+    box-shadow: 0 10px 30px rgba(212, 165, 165, 0.2);
+}
+
+.empty-state h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    color: var(--dark);
+    opacity: 0.8;
+    margin-bottom: 35px;
+}
+
+/* === CTA СЕКЦІЯ === */
+.articles-cta-section {
+    position: relative;
+    padding: 100px 0;
+    background: linear-gradient(135deg, #d4a5a5 0%, #a07878 100%);
+    overflow: hidden;
+}
+
+.cta-glow-effects {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.cta-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+}
+
+.cta-glow-1 {
+    width: 500px;
+    height: 500px;
+    background: rgba(255, 255, 255, 0.3);
+    top: -200px;
+    right: -150px;
+    animation: glowFloat 8s ease-in-out infinite;
+}
+
+.cta-glow-2 {
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.2);
+    bottom: -150px;
+    left: -100px;
+    animation: glowFloat 10s ease-in-out infinite reverse;
+}
+
+@keyframes glowFloat {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(40px, -40px); }
+}
+
+.articles-cta-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-icon-box {
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+    font-size: 3rem;
+    color: white;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+    animation: ctaIconPulse 3s ease-in-out infinite;
+}
+
+@keyframes ctaIconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: white;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.cta-description {
+    font-size: 1.2rem;
+    color: white;
+    opacity: 0.95;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.btn-large {
+    padding: 16px 36px;
+    font-size: 1.05rem;
+}
+
+.cta-buttons .btn-primary {
+    background: white;
+    color: var(--accent);
+}
+
+.cta-buttons .btn-primary:hover {
+    background: var(--secondary);
+    box-shadow: 0 12px 35px rgba(255, 255, 255, 0.4);
+}
+
+.btn-outline-white {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-outline-white:hover {
+    background: white;
+    color: var(--accent);
+}
+
+/* Фічі */
+.cta-features {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.cta-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cta-feature-item i {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* === АДАПТИВНІСТЬ === */
+@media (max-width: 992px) {
+    .articles-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .articles-stats {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .articles-hero {
+        min-height: 60vh;
+    }
+
+    .articles-hero-title {
+        font-size: 2.5rem;
+    }
+
+    .articles-hero-description {
+        font-size: 1rem;
+    }
+
+    .tags-filter-wrapper {
+        padding: 25px 20px;
+    }
+
+    .tags-filter-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tags-list {
+        flex-direction: column;
+    }
+
+    .tag-filter {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .article-image-wrapper {
+        height: 220px;
+    }
+
+    .article-card-content {
+        padding: 25px 20px;
+    }
+
+    .article-card-footer {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .cta-title {
+        font-size: 2rem;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+    }
+
+    .cta-features {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .articles-hero-title {
+        font-size: 2rem;
+    }
+
+    .stat-number {
+        font-size: 2.2rem;
+    }
+
+    .article-card-title a {
+        font-size: 1.3rem;
+    }
+
+    .cta-icon-box {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+    }
+}
+</style>
+{% endblock %}

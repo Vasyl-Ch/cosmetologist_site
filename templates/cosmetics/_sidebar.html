@@ -1,0 +1,54 @@
+<!-- templates/cosmetics/_sidebar.html -->
+<div class="sidebar">
+    <h3>Бренди</h3>
+    <ul class="sidebar-list">
+        {% for brand in all_brands %}
+        <li>
+            <a href="{% url 'products_by_brand' brand.slug %}"
+               class="{% if brand.slug == current_brand_slug %}active{% endif %}">
+                {{ brand.name }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<style>
+.sidebar {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 25px;
+    height: fit-content;
+}
+
+.sidebar h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--accent);
+}
+
+.sidebar-list {
+    list-style: none;
+}
+
+.sidebar-list li {
+    margin-bottom: 12px;
+}
+
+.sidebar-list a {
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    transition: color 0.3s;
+    display: block;
+    padding: 8px 0;
+}
+
+.sidebar-list a:hover,
+.sidebar-list a.active {
+    color: var(--accent);
+    font-weight: 600;
+}
+</style>

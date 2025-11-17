@@ -1,0 +1,50 @@
+{% load extras %}
+{% if page_obj.has_other_pages %}
+<div class="pagination">
+    {# К первой странице #}
+    {% if page_obj.number > 1 %}
+        <a href="?{% querystring exclude='page' page=1 %}">«</a>
+    {% endif %}
+
+    {# Диапазон страниц с многоточиями #}
+    {% with total=page_obj.paginator.num_pages current=page_obj.number %}
+        {% for num in page_obj.paginator.page_range %}
+            {% if num == 1 %}
+                {% if num == current %}
+                    <span class="current">1</span>
+                {% else %}
+                    <a href="?{% querystring exclude='page' page=1 %}">1</a>
+                {% endif %}
+                {% if current|add:'-3' > 1 %}
+                    <span>…</span>
+                {% endif %}
+            {% elif num >= current|add:'-2' and num <= current|add:'2' %}
+                {% if num == current %}
+                    <span class="current">{{ num }}</span>
+                {% else %}
+                    <a href="?{% querystring exclude='page' page=num %}">{{ num }}</a>
+                {% endif %}
+            {% elif num == total %}
+                {% if current|add:'2' < total|add:'-1' %}
+                    <span>…</span>
+                {% endif %}
+                {% if num == current %}
+                    <span class="current">{{ total }}</span>
+                {% else %}
+                    <a href="?{% querystring exclude='page' page=total %}">{{ total }}</a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endwith %}
+
+    {# Следующая страница #}
+    {% if page_obj.has_next %}
+        <a href="?{% querystring exclude='page' page=page_obj.next_page_number %}">›</a>
+    {% endif %}
+
+    {# К последней странице #}
+    {% if page_obj.number < page_obj.paginator.num_pages %}
+        <a href="?{% querystring exclude='page' page=page_obj.paginator.num_pages %}">»</a>
+    {% endif %}
+</div>
+{% endif %}

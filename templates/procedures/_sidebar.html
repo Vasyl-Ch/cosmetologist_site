@@ -1,0 +1,54 @@
+<!-- templates/procedures/_sidebar.html -->
+<div class="sidebar">
+    <h3>Типи процедур</h3>
+    <ul class="sidebar-list">
+        {% for type in all_procedure_types %}
+        <li>
+            <a href="{% url 'procedures_by_type' type.slug %}"
+               class="{% if type.slug == current_type_slug %}active{% endif %}">
+                {{ type.name }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<style>
+.sidebar {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 25px;
+    height: fit-content;
+}
+
+.sidebar h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--accent);
+}
+
+.sidebar-list {
+    list-style: none;
+}
+
+.sidebar-list li {
+    margin-bottom: 12px;
+}
+
+.sidebar-list a {
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    transition: color 0.3s;
+    display: block;
+    padding: 8px 0;
+}
+
+.sidebar-list a:hover,
+.sidebar-list a.active {
+    color: var(--accent);
+    font-weight: 600;
+}
+</style>
