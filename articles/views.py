@@ -9,7 +9,11 @@ from .models import Article, Tag
 def articles_list(request: HttpRequest) -> HttpResponse:
     query = request.GET.get("q", "")
     tag_slug = request.GET.get("tag")
-    articles = Article.objects.all().order_by("-created_at")
+    articles = (
+        Article.objects.all()
+        .prefetch_related("tags")
+        .order_by("-created_at")
+    )
 
     active_tag = None
     if tag_slug:
@@ -38,7 +42,7 @@ def articles_list(request: HttpRequest) -> HttpResponse:
 
 
 def article_detail(request: HttpRequest, slug: str) -> HttpResponse:
-    article = get_object_or_404(Article, slug=slug)
+    article = get_object_or_404(Article.objects.prefetch_related("tags"), slug=slug)
 
     tags = article.tags.all()
 

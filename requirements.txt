@@ -1,43 +1,14 @@
-# ==========================================
-# MELA-MED AESTHETIC - DEPENDENCIES
-# Django-based Cosmetology Clinic Website
-# Python 3.8+ Required
-# ==========================================
-
-# ============ CORE FRAMEWORK ============
-Django==5.2.8                # Web framework
-
-# ============ IMAGE PROCESSING ============
-Pillow==11.0.0              # Image manipulation and optimization
-
-# ============ PRODUCTION SERVER ============
-gunicorn==23.0.0            # WSGI HTTP Server for production deployment
-
-# ============ DATABASE ============
-psycopg2-binary==2.9.10     # PostgreSQL adapter (production ready)
-# Note: SQLite is used by default for development (included in Python)
-
-# ============ CONFIGURATION ============
-python-decouple==3.8        # Environment variables management for secure config
-
-# ============ STATIC FILES ============
-whitenoise==6.8.2           # Static files serving in production without nginx
-
-# ============ DEVELOPMENT (Optional) ============
-# Uncomment for local development convenience:
-# django-debug-toolbar==4.4.6    # Debugging panel
-# django-extensions==3.2.3       # Additional management commands
-# ipython==8.28.0                # Enhanced Python shell
-
-# ============ CODE QUALITY (Optional) ============
-# Uncomment for code quality checks:
-# flake8==7.1.1                  # Code style checker
-# black==24.10.0                 # Code formatter
-# isort==5.13.2                  # Import sorting
-
-# ============ TESTING (Optional) ============
-# Uncomment for advanced testing:
-# coverage==7.6.7                # Code coverage
-# pytest-django==4.9.0           # Testing framework
-# factory-boy==3.3.1             # Test fixtures
-
+asgiref==3.10.0
+black==25.11.0
+click==8.3.0
+colorama==0.4.6
+Django==5.2.8
+mypy_extensions==1.1.0
+packaging==25.0
+pathspec==0.12.1
+pillow==12.0.0
+platformdirs==4.5.0
+python-dotenv==1.2.1
+pytokens==0.3.0
+sqlparse==0.5.3
+tzdata==2025.2
