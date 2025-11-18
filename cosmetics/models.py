@@ -61,10 +61,9 @@ class Product(models.Model):
                 return ""
             if not isinstance(amount, Decimal):
                 amount = Decimal(str(amount))
-            return format(
-                amount.quantize(Decimal(0), rounding=ROUND_HALF_UP),
-                ".0f",
-            )
+            value = int(amount.quantize(Decimal(0), rounding=ROUND_HALF_UP))
+            s = f"{value:,}"
+            return s.replace(",", "\u202f")
 
         if (
             self.discount_price
@@ -73,15 +72,15 @@ class Product(models.Model):
             return format_html(
                 (
                     "<span style='text-decoration: line-through; "
-                    "color: #999;'>" "{} ₴</span> "
+                    "color: #999;'>{}\u00a0₴</span> "
                     "<span style='color: #e74c3c; "
-                    "font-weight: bold;'>{} ₴</span>"
+                    "font-weight: bold;'>{}\u00a0₴</span>"
                 ),
                 _fmt(self.price),
                 _fmt(self.discount_price),
             )
         if self.price:
-            return f"{_fmt(self.price)} ₴"
+            return f"{_fmt(self.price)}\u00a0₴"
         return mark_safe(
             (
                 "<span style='color: #999; font-style: italic;'>"

@@ -62,141 +62,94 @@
         <div class="scroll-arrow-contacts"></div>
     </div>
 </section>
-
 <!-- ============================================ -->
 <!-- ОСНОВНИЙ КОНТЕНТ З ІНФОРМАЦІЄЮ -->
 <!-- ============================================ -->
 <section class="contacts-content-section">
     <div class="container">
-        <div class="contacts-layout">
-
-            <!-- ========== ІНФОРМАЦІЙНІ КАРТКИ ========== -->
-            <div class="contacts-info">
-                <!-- Адреса -->
-                <div class="contact-card animate-on-scroll">
-                    <div class="contact-card-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="contact-card-content">
-                        <h3>Адреса клініки</h3>
-                        <p>{{ contact_info.address }}</p>
-                        <a href="#map" class="contact-link">
-                            <span>Дивитися на карті</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
+        <!-- ========== ІНФОРМАЦІЙНІ КАРТКИ ========== -->
+        <div class="contacts-info">
+            <!-- Адреса -->
+            <div class="contact-card animate-on-scroll">
+                <div class="contact-card-icon">
+                    <i class="fas fa-map-marker-alt"></i>
                 </div>
-
-                <!-- Телефон -->
-                <div class="contact-card animate-on-scroll">
-                    <div class="contact-card-icon">
-                        <i class="fas fa-phone-alt"></i>
-                    </div>
-                    <div class="contact-card-content">
-                        <h3>Телефон</h3>
-                        <p>{{ contact_info.phone }}</p>
-                        <a href="tel:{{ contact_info.phone }}" class="contact-link">
-                            <span>Подзвонити зараз</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
+                <div class="contact-card-content">
+                    <h3>Адреса клініки</h3>
+                    <p>{{ contact_info.address }}</p>
                 </div>
+            </div>
 
-                <!-- Графік роботи -->
-                <div class="contact-card animate-on-scroll">
-                    <div class="contact-card-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="contact-card-content">
-                        <h3>Графік роботи</h3>
-                        <div class="schedule">
-                            <div class="schedule-item">
-                                <span class="day">Пн - Пт</span>
-                                <span class="time">09:00 - 20:00</span>
-                            </div>
-                            <div class="schedule-item">
-                                <span class="day">Сб - Нд</span>
-                                <span class="time">10:00 - 18:00</span>
-                            </div>
+            <!-- Телефон -->
+            <div class="contact-card animate-on-scroll">
+                <div class="contact-card-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div class="contact-card-content">
+                    <h3>Телефон</h3>
+                    <p>{{ contact_info.phone }}</p>
+                    <a href="tel:{{ contact_info.phone }}" class="contact-link">
+                        <span>Подзвонити зараз</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Графік роботи -->
+            <div class="contact-card animate-on-scroll">
+                <div class="contact-card-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="contact-card-content">
+                    <h3>Графік роботи</h3>
+                    <div class="schedule">
+                        <div class="schedule-item">
+                            <span class="day">Пн - Пт</span>
+                            <span class="time">09:00 - 20:00</span>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Соціальні мережі -->
-                <div class="contact-card contact-card-social animate-on-scroll">
-                    <div class="contact-card-icon">
-                        <i class="fas fa-share-alt"></i>
-                    </div>
-                    <div class="contact-card-content">
-                        <h3>Соціальні мережі</h3>
-                        <p>Слідкуйте за нами в соціальних мережах</p>
-                        <div class="social-links">
-                            {% if contact_info.instagram_url %}
-                            <a href="{{ contact_info.instagram_url }}" target="_blank" class="social-link social-instagram">
-                                <i class="fab fa-instagram"></i>
-                                <span>Instagram</span>
-                            </a>
-                            {% endif %}
-
-                            {% if contact_info.telegram_url %}
-                            <a href="{{ contact_info.telegram_url }}" target="_blank" class="social-link social-telegram">
-                                <i class="fab fa-telegram"></i>
-                                <span>Telegram</span>
-                            </a>
-                            {% endif %}
-
-                            {% if contact_info.facebook_url %}
-                            <a href="{{ contact_info.facebook_url }}" target="_blank" class="social-link social-facebook">
-                                <i class="fab fa-facebook-f"></i>
-                                <span>Facebook</span>
-                            </a>
-                            {% endif %}
+                        <div class="schedule-item">
+                            <span class="day">Сб - Нд</span>
+                            <span class="time">10:00 - 18:00</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ========== КАРТА ========== -->
-            <div class="contacts-map animate-on-scroll" id="map">
-                <div class="map-container">
-                    {% if contact_info.map_embed_url %}
-                    <iframe
-                        src="{{ contact_info.map_embed_url }}"
-                        width="100%"
-                        height="100%"
-                        style="border:0; border-radius: 20px;"
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                    {% else %}
-                    <div class="map-placeholder">
-                        <div class="map-placeholder-icon">
-                            <i class="fas fa-map-marked-alt"></i>
-                        </div>
-                        <h3>Карта</h3>
-                        <p>{{ contact_info.address }}</p>
-                    </div>
-                    {% endif %}
+            <!-- Соціальні мережі -->
+            <div class="contact-card contact-card-social animate-on-scroll">
+                <div class="contact-card-icon">
+                    <i class="fas fa-share-alt"></i>
                 </div>
+                <div class="contact-card-content">
+                    <h3>Соціальні мережі</h3>
+                    <p>Слідкуйте за нами в соціальних мережах</p>
+                    <div class="social-links">
+                        {% if contact_info.instagram_url %}
+                        <a href="{{ contact_info.instagram_url }}" target="_blank" class="social-link social-instagram">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        {% endif %}
 
-                <!-- Інформаційний блок над картою -->
-                <div class="map-info-overlay">
-                    <div class="map-info-content">
-                        <div class="map-info-icon">
-                            <i class="fas fa-route"></i>
-                        </div>
-                        <div>
-                            <h4>Як до нас дістатися</h4>
-                            <p>Зручне розташування в центрі міста з доступним паркуванням</p>
-                        </div>
+                        {% if contact_info.telegram_url %}
+                        <a href="{{ contact_info.telegram_url }}" target="_blank" class="social-link social-telegram">
+                            <i class="fab fa-telegram"></i>
+                            <span>Telegram</span>
+                        </a>
+                        {% endif %}
+
+                        {% if contact_info.facebook_url %}
+                        <a href="{{ contact_info.facebook_url }}" target="_blank" class="social-link social-facebook">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>Facebook</span>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
 <!-- ============================================ -->
 <!-- ПЕРЕВАГИ РОБОТИ З НАМИ -->
 <!-- ============================================ -->
@@ -251,6 +204,7 @@
 <!-- ============================================ -->
 <!-- CTA СЕКЦІЯ -->
 <!-- ============================================ -->
+
 <section class="contacts-cta-section">
     <div class="cta-particles">
         <div class="cta-particle cta-particle-1"></div>
@@ -306,6 +260,7 @@
 <!-- ============================================ -->
 <!-- FAQ СЕКЦІЯ -->
 <!-- ============================================ -->
+
 <section class="contacts-faq-section">
     <div class="container">
         <div class="section-header animate-on-scroll">
@@ -368,6 +323,7 @@
 <!-- ============================================ -->
 <!-- ВБУДОВАНІ СТИЛІ (тимчасово для демонстрації) -->
 <!-- ============================================ -->
+
 <style>
 /* === HERO СЕКЦІЯ === */
 .contacts-hero {
@@ -783,10 +739,24 @@
         width: 100%;
     }
 
+    .contacts-info {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 15px; /* Зменшені відступи для мобільних */
+    }
+
     .contact-card {
+        padding: 20px;
+        gap: 15px;
         flex-direction: column;
         align-items: center;
         text-align: center;
+    }
+
+    .contact-card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
     }
 
     .benefits-grid {
@@ -810,10 +780,6 @@
         display: none;
     }
 
-    .map-info-overlay {
-        position: static;
-        margin-top: 20px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -827,8 +793,13 @@
         font-size: 1.5rem;
     }
 
+    .contacts-info {
+        padding: 0 10px;
+        gap: 15px;
+    }
+
     .contact-card {
-        padding: 25px 20px;
+        padding: 18px;
     }
 
     .contact-card-icon {
@@ -892,19 +863,24 @@
 
 /* === ІНФОРМАЦІЙНІ КАРТКИ === */
 .contacts-info {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 25px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px; /* Додано відступи */
 }
 
 .contact-card {
     background: white;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    padding: 35px;
+    padding: 25px;
     display: flex;
-    gap: 25px;
+    gap: 20px;
     transition: all 0.4s;
+    max-width: 100%; /* Обмеження ширини */
+    overflow: hidden; /* Запобігання виходу за межі */
 }
 
 .contact-card:hover {

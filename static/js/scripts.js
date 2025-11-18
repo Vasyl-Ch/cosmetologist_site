@@ -144,11 +144,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ========================================
-    // 7. ПОДТВЕРЖДЕНИЕ УДАЛЕНИЯ
+    // 7. ПІДТВЕРДЖЕННЯ ВИДАЛЕННЯ
     // ========================================
     document.querySelectorAll('[data-confirm]').forEach(el => {
         el.addEventListener('click', function (e) {
-            const message = this.getAttribute('data-confirm') || 'Вы уверены, что хотите удалить?';
+            const message = this.getAttribute('data-confirm') || 'Ви впевнені, що хочете видалити?';
             if (!confirm(message)) {
                 e.preventDefault();
             }
@@ -196,9 +196,11 @@ function throttle(func, limit) {
     };
 }
 
-// Форматирование цены
+// Форматування ціни
 window.formatPrice = function (price) {
-    return new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
+    const formatted = new Intl.NumberFormat('uk-UA').format(price)
+        .replace(/\s/g, '\u202f'); // вузький нерозривний пробіл між тисячами
+    return formatted + '\u00a0₴'; // нерозривний пробіл перед символом валюти
 };
 
 // Показ/скрытие элемента с анимацией
