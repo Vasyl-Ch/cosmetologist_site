@@ -1,0 +1,270 @@
+[
+{
+    "model": "articles.tag",
+    "pk": 1,
+    "fields": {
+        "name": "Уход за лицом",
+        "slug": "face-care"
+    }
+},
+{
+    "model": "articles.tag",
+    "pk": 2,
+    "fields": {
+        "name": "Антивозраст",
+        "slug": "anti-age"
+    }
+},
+{
+    "model": "articles.tag",
+    "pk": 3,
+    "fields": {
+        "name": "Инъекции",
+        "slug": "injections"
+    }
+},
+{
+    "model": "articles.article",
+    "pk": 1,
+    "fields": {
+        "title": "Как ухаживать за кожей после 30: 5 главных правил",
+        "slug": "skin-care-after-30",
+        "content": "<p>После 30 лет кожа начинает терять влагу и эластичность. Главное — регулярность и правильный подбор средств.</p><p>1. SPF каждый день<br>2. Ретинол 2–3 раза в неделю<br>3. Увлажнение утром и вечером...</p>",
+        "created_at": "2025-03-10T10:00:00Z",
+        "updated_at": "2025-11-18T15:50:28.550Z",
+        "image": "articles/1674467118_balthazar-club-p-kartinki-kosmetologiya-estetika-oboi-5.jpg",
+        "tags": [
+            1,
+            2
+        ]
+    }
+},
+{
+    "model": "articles.article",
+    "pk": 2,
+    "fields": {
+        "title": "Ботокс: мифы и правда",
+        "slug": "botox-myths",
+        "content": "<p>Многие боятся «замороженного лица». На самом деле при правильной дозировке вы выглядите естественно.</p><p>Эффект длится 4–6 месяцев...</p>",
+        "created_at": "2025-02-28T14:30:00Z",
+        "updated_at": "2025-11-14T14:39:08.136Z",
+        "image": "articles/image29.jpeg",
+        "tags": [
+            2,
+            3
+        ]
+    }
+},
+{
+    "model": "core.review",
+    "pk": 1,
+    "fields": {
+        "author_name": "Екатерина С.",
+        "text": "Очень мягкий подход, кожа сияет! Спасибо за профессионализм!",
+        "image": "reviews/martinkevich-anika-4-1.webp",
+        "created_at": "2025-03-01T10:30:00Z"
+    }
+},
+{
+    "model": "core.review",
+    "pk": 2,
+    "fields": {
+        "author_name": "Марина",
+        "text": "Ботокс — идеально! Никаких синяков, результат естественный.",
+        "image": "reviews/krasivye-devushki-na-avu-1.webp",
+        "created_at": "2025-02-20T14:15:00Z"
+    }
+},
+{
+    "model": "core.review",
+    "pk": 3,
+    "fields": {
+        "author_name": "Ольга",
+        "text": "Чистка лица — лучшая за последние 5 лет. Рекомендую!",
+        "image": "reviews/images.jpg",
+        "created_at": "2025-02-10T09:45:00Z"
+    }
+},
+{
+    "model": "core.certificate",
+    "pk": 1,
+    "fields": {
+        "title": "Сертификат Allergan Botox",
+        "image": "certificates/Сертификат-Allergan-2-2.jpg"
+    }
+},
+{
+    "model": "core.certificate",
+    "pk": 2,
+    "fields": {
+        "title": "Диплом по биоревитализации",
+        "image": "certificates/cuxx23gxafv98yj3n6e24dv9cf9tk68w.jpg"
+    }
+},
+{
+    "model": "core.contactinfo",
+    "pk": 1,
+    "fields": {
+        "phone": "+380 000000000",
+        "telegram_url": "https://t.me/likunya25",
+        "instagram_url": "https://www.instagram.com/_liyamelamed?igsh=dGo1dG1wN3UxaDU=",
+        "facebook_url": "https://www.facebook.com/profile.php?id=100025857473270",
+        "address": "ул. Богдана Хмельницкого, 51a, Киев",
+        "map_embed_url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d936.6437061510259!2d30.522353111499047!3d50.423877073985466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4cf1a2a8ed5a7%3A0xde2a9f8695038"
+    }
+},
+{
+    "model": "cosmetics.brand",
+    "pk": 1,
+    "fields": {
+        "name": "Holy Land",
+        "description": "Профессиональная израильская косметика с доказанной эффективностью.",
+        "image": "brands/holy-land-logo.jpg",
+        "country": "Израиль",
+        "slug": "holy-land"
+    }
+},
+{
+    "model": "cosmetics.brand",
+    "pk": 2,
+    "fields": {
+        "name": "Christina",
+        "description": "Космецевтика премиум-класса из Израиля.",
+        "image": "brands/Christina.jpg",
+        "country": "Израиль",
+        "slug": "christina"
+    }
+},
+{
+    "model": "cosmetics.product",
+    "pk": 1,
+    "fields": {
+        "name": "Крем Alpha-Beta Retinol",
+        "description": "Ночной крем с ретинолом для обновления кожи.",
+        "image": "products/b4d568_lbox.jpg",
+        "price": "5200.00",
+        "discount_price": "4800.00",
+        "brand": 1,
+        "slug": "alpha-beta-cream",
+        "created_at": "2025-02-01T00:00:00Z"
+    }
+},
+{
+    "model": "cosmetics.product",
+    "pk": 2,
+    "fields": {
+        "name": "Очищающий гель A-NOX",
+        "description": "Для проблемной кожи, подсушивает воспаления.",
+        "image": "products/A-NOX_PLUS_RETINOL_SPOT_GEL.jpg",
+        "price": "3200.00",
+        "discount_price": null,
+        "brand": 1,
+        "slug": "a-nox-gel",
+        "created_at": "2025-01-28T00:00:00Z"
+    }
+},
+{
+    "model": "cosmetics.product",
+    "pk": 3,
+    "fields": {
+        "name": "Мусс Rose de Mer",
+        "description": "Пилинг-мыло с кораллами для домашнего использования.",
+        "image": "products/l32jz5ssfubs.jpg",
+        "price": "4500.00",
+        "discount_price": "4200.00",
+        "brand": 2,
+        "slug": "rose-de-mer",
+        "created_at": "2025-01-20T00:00:00Z"
+    }
+},
+{
+    "model": "procedures.proceduretype",
+    "pk": 1,
+    "fields": {
+        "name": "Инъекционная косметология",
+        "description": "Ботокс, филлеры, мезотерапия, биоревитализация",
+        "image": "procedure_types/section23-img.jpg",
+        "slug": "injections"
+    }
+},
+{
+    "model": "procedures.proceduretype",
+    "pk": 2,
+    "fields": {
+        "name": "Уход за лицом",
+        "description": "Чистки, пилинги, маски, массаж лица",
+        "image": "procedure_types/kompleksnyy-uhod-za-licom-1.jpg",
+        "slug": "face-care"
+    }
+},
+{
+    "model": "procedures.proceduretype",
+    "pk": 4,
+    "fields": {
+        "name": "Догляд за волоссям",
+        "description": "Догляд за волоссям — це комплекс щоденних і періодичних процедур, спрямованих на підтримання здоров’я, краси та сили волосся. Він включає правильний вибір засобів, збалансоване харчування та дбайливе ставлення до структури волосся.",
+        "image": "procedure_types/866d458fecf139af333bb3c10e6481ba_1.jpg",
+        "slug": "hair-care"
+    }
+},
+{
+    "model": "procedures.procedure",
+    "pk": 1,
+    "fields": {
+        "name": "Ботокс (1 зона)",
+        "description": "Устранение мимических морщин в области лба, межбровья или глаз.",
+        "image": "procedures/c9530ece-802d-41eb-8532-d2da97077b51_0.png",
+        "duration_minutes": 30,
+        "price": "8500.00",
+        "discount_price": "7500.00",
+        "slug": "botox-one-zone",
+        "type": 1,
+        "created_at": "2025-01-15T00:00:00Z"
+    }
+},
+{
+    "model": "procedures.procedure",
+    "pk": 2,
+    "fields": {
+        "name": "Филлеры губ (1 мл)",
+        "description": "Увеличение объёма, коррекция формы, увлажнение.",
+        "image": "procedures/5d4cd6998d90f.webp",
+        "duration_minutes": 45,
+        "price": "18000.00",
+        "discount_price": null,
+        "slug": "lip-fillers",
+        "type": 1,
+        "created_at": "2025-01-10T00:00:00Z"
+    }
+},
+{
+    "model": "procedures.procedure",
+    "pk": 3,
+    "fields": {
+        "name": "Ультразвуковая чистка лица",
+        "description": "Глубокое очищение пор без боли и покраснений.",
+        "image": "procedures/Lazernaya-biorevitalizatsiya.jpg.webp",
+        "duration_minutes": 60,
+        "price": "4000.00",
+        "discount_price": "3500.00",
+        "slug": "ultrasound-cleaning",
+        "type": 2,
+        "created_at": "2025-01-05T00:00:00Z"
+    }
+},
+{
+    "model": "procedures.procedure",
+    "pk": 4,
+    "fields": {
+        "name": "Химический пилинг PRX-T33",
+        "description": "Без реабилитации, омоложение, сияние.",
+        "image": "procedures/prx-t33-2-1.jpg",
+        "duration_minutes": 40,
+        "price": null,
+        "discount_price": null,
+        "slug": "prx-t33",
+        "type": 2,
+        "created_at": "2025-01-01T00:00:00Z"
+    }
+}
+]
