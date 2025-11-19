@@ -102,18 +102,6 @@
     }
 },
 {
-    "model": "core.contactinfo",
-    "pk": 1,
-    "fields": {
-        "phone": "+380 000000000",
-        "telegram_url": "https://t.me/likunya25",
-        "instagram_url": "https://www.instagram.com/_liyamelamed?igsh=dGo1dG1wN3UxaDU=",
-        "facebook_url": "https://www.facebook.com/profile.php?id=100025857473270",
-        "address": "ул. Богдана Хмельницкого, 51a, Киев",
-        "map_embed_url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d936.6437061510259!2d30.522353111499047!3d50.423877073985466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4cf1a2a8ed5a7%3A0xde2a9f8695038"
-    }
-},
-{
     "model": "cosmetics.brand",
     "pk": 1,
     "fields": {
@@ -177,94 +165,11 @@
         "created_at": "2025-01-20T00:00:00Z"
     }
 },
-{
+  {
     "model": "procedures.proceduretype",
     "pk": 1,
     "fields": {
-        "name": "Инъекционная косметология",
-        "description": "Ботокс, филлеры, мезотерапия, биоревитализация",
-        "image": "procedure_types/section23-img.jpg",
-        "slug": "injections"
+      "name": "Инъекционная косметология",
+      "description": "Ботокс, филлеры, мезотерапия, биоревитализация"
     }
-},
-{
-    "model": "procedures.proceduretype",
-    "pk": 2,
-    "fields": {
-        "name": "Уход за лицом",
-        "description": "Чистки, пилинги, маски, массаж лица",
-        "image": "procedure_types/kompleksnyy-uhod-za-licom-1.jpg",
-        "slug": "face-care"
-    }
-},
-{
-    "model": "procedures.proceduretype",
-    "pk": 4,
-    "fields": {
-        "name": "Догляд за волоссям",
-        "description": "Догляд за волоссям — це комплекс щоденних і періодичних процедур, спрямованих на підтримання здоров’я, краси та сили волосся. Він включає правильний вибір засобів, збалансоване харчування та дбайливе ставлення до структури волосся.",
-        "image": "procedure_types/866d458fecf139af333bb3c10e6481ba_1.jpg",
-        "slug": "hair-care"
-    }
-},
-{
-    "model": "procedures.procedure",
-    "pk": 1,
-    "fields": {
-        "name": "Ботокс (1 зона)",
-        "description": "Устранение мимических морщин в области лба, межбровья или глаз.",
-        "image": "procedures/c9530ece-802d-41eb-8532-d2da97077b51_0.png",
-        "duration_minutes": 30,
-        "price": "8500.00",
-        "discount_price": "7500.00",
-        "slug": "botox-one-zone",
-        "type": 1,
-        "created_at": "2025-01-15T00:00:00Z"
-    }
-},
-{
-    "model": "procedures.procedure",
-    "pk": 2,
-    "fields": {
-        "name": "Филлеры губ (1 мл)",
-        "description": "Увеличение объёма, коррекция формы, увлажнение.",
-        "image": "procedures/5d4cd6998d90f.webp",
-        "duration_minutes": 45,
-        "price": "18000.00",
-        "discount_price": null,
-        "slug": "lip-fillers",
-        "type": 1,
-        "created_at": "2025-01-10T00:00:00Z"
-    }
-},
-{
-    "model": "procedures.procedure",
-    "pk": 3,
-    "fields": {
-        "name": "Ультразвуковая чистка лица",
-        "description": "Глубокое очищение пор без боли и покраснений.",
-        "image": "procedures/Lazernaya-biorevitalizatsiya.jpg.webp",
-        "duration_minutes": 60,
-        "price": "4000.00",
-        "discount_price": "3500.00",
-        "slug": "ultrasound-cleaning",
-        "type": 2,
-        "created_at": "2025-01-05T00:00:00Z"
-    }
-},
-{
-    "model": "procedures.procedure",
-    "pk": 4,
-    "fields": {
-        "name": "Химический пилинг PRX-T33",
-        "description": "Без реабилитации, омоложение, сияние.",
-        "image": "procedures/prx-t33-2-1.jpg",
-        "duration_minutes": 40,
-        "price": null,
-        "discount_price": null,
-        "slug": "prx-t33",
-        "type": 2,
-        "created_at": "2025-01-01T00:00:00Z"
-    }
-}
-]
+  }]
