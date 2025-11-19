@@ -326,6 +326,7 @@
 
 <style>
 /* === HERO СЕКЦІЯ === */
+/* === HERO СЕКЦІЯ === */
 .contacts-hero {
     position: relative;
     min-height: 65vh;
@@ -360,6 +361,7 @@
     z-index: 3;
     text-align: center;
     padding: 120px 20px 80px;
+    width: 100%;
 }
 
 .hero-badge {
@@ -387,6 +389,7 @@
     color: var(--dark);
     margin-bottom: 25px;
     font-weight: 700;
+    word-wrap: break-word;
 }
 
 .gradient-text {
@@ -411,6 +414,7 @@
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
+    padding: 0 15px;
 }
 
 .quick-action-btn {
@@ -425,6 +429,319 @@
     color: var(--dark);
     text-decoration: none;
     transition: all 0.4s;
+    min-width: 140px;
+}
+
+.quick-action-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(212, 165, 165, 0.3);
+}
+
+/* Scroll indicator */
+.scroll-indicator-contacts {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    cursor: pointer;
+}
+
+.scroll-arrow-contacts {
+    width: 30px;
+    height: 50px;
+    border: 2px solid var(--accent);
+    border-radius: 20px;
+    position: relative;
+}
+
+.scroll-arrow-contacts::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: scrollDotContacts 2s ease-in-out infinite;
+}
+
+@keyframes scrollDotContacts {
+    0%, 100% { top: 10px; opacity: 1; }
+    50% { top: 30px; opacity: 0.3; }
+}
+
+/* === ОСНОВНИЙ КОНТЕНТ === */
+.contacts-content-section {
+    padding: 0 0 80px;
+}
+
+.contacts-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    padding: 0 20px;
+}
+
+/* === ІНФОРМАЦІЙНІ КАРТКИ === */
+.contacts-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.contact-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    display: flex;
+    gap: 20px;
+    transition: all 0.4s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.contact-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(212, 165, 165, 0.2);
+}
+
+.contact-card-icon {
+    width: 70px;
+    height: 70px;
+    min-width: 70px;
+    flex-shrink: 0;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    box-shadow: 0 8px 25px rgba(212, 165, 165, 0.3);
+}
+
+.contact-card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.contact-card-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-bottom: 12px;
+    word-wrap: break-word;
+}
+
+.contact-card-content p {
+    color: var(--dark);
+    opacity: 0.85;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+    word-wrap: break-word;
+}
+
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    word-break: break-all;
+}
+
+.contact-link:hover {
+    gap: 12px;
+}
+
+/* Графік роботи */
+.schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.schedule-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--secondary);
+    border-radius: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.schedule-item .day {
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.schedule-item .time {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* Соціальні мережі */
+.contact-card-social {
+    background: var(--secondary);
+}
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: white;
+    border-radius: 12px;
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.social-link:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.social-instagram:hover {
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    color: white;
+}
+
+.social-telegram:hover {
+    background: #0088cc;
+    color: white;
+}
+
+.social-facebook:hover {
+    background: #1877f2;
+    color: white;
+}
+
+.social-link i {
+    font-size: 1.3rem;
+}
+
+/* === КАРТА (удалено, больше не используется) === */
+
+/* === ПЕРЕВАГИ === */
+.contacts-benefits-section {
+    position: relative;
+    padding: 100px 0;
+    background: white;
+    overflow: hidden;
+}
+
+.benefits-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.benefit-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--secondary);
+    opacity: 0.4;
+}
+
+.benefit-shape-1 {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    right: -150px;
+}
+
+.benefit-shape-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -80px;
+    left: -100px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding: 0 20px;
+}
+
+.section-label {
+    display: inline-block;
+    padding: 6px 18px;
+    background: var(--secondary);
+    border-radius: 20px;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: var(--accent);
+    word-wrap: break-word;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    position: relative;
+    z-index: 1;
+    padding: 0 20px;
+}
+
+.benefit-card {
+    text-align: center;
+    padding: 40px 30px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s;
+}
+
+.benefit-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(212, 165, 165, 0.2);
+}
+
+.benefit-icon {
+    width: 85px;
+    height: 85px;
+    margin: 0 auto 25px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: white;
+    box-shadow: 0 10px 30px rgba(212, 165, 165, 0.3);
+    transition: all 0.4s;
 }
 
 .benefit-card:hover .benefit-icon {
@@ -436,6 +753,7 @@
     font-size: 1.3rem;
     color: var(--dark);
     margin-bottom: 15px;
+    word-wrap: break-word;
 }
 
 .benefit-card p {
@@ -448,7 +766,7 @@
 /* === CTA СЕКЦІЯ === */
 .contacts-cta-section {
     position: relative;
-    padding: 100px 0;
+    padding: 100px 20px;
     background: linear-gradient(135deg, #d4a5a5 0%, #a07878 100%);
     overflow: hidden;
 }
@@ -544,6 +862,7 @@
     color: white;
     margin-bottom: 20px;
     line-height: 1.3;
+    word-wrap: break-word;
 }
 
 .cta-description {
@@ -615,7 +934,7 @@
 
 /* === FAQ СЕКЦІЯ === */
 .contacts-faq-section {
-    padding: 100px 0;
+    padding: 100px 20px;
     background: var(--light);
 }
 
@@ -644,6 +963,7 @@
     padding: 25px 30px;
     cursor: pointer;
     user-select: none;
+    gap: 15px;
 }
 
 .faq-question h3 {
@@ -652,11 +972,13 @@
     color: var(--dark);
     margin: 0;
     flex: 1;
+    word-wrap: break-word;
 }
 
 .faq-icon {
     width: 40px;
     height: 40px;
+    min-width: 40px;
     background: var(--secondary);
     border-radius: 50%;
     display: flex;
@@ -681,7 +1003,7 @@
 }
 
 .faq-item.active .faq-answer {
-    max-height: 200px;
+    max-height: 300px;
     padding: 0 30px 25px;
 }
 
@@ -693,104 +1015,231 @@
 }
 
 /* === АДАПТИВНІСТЬ === */
+
+/* Планшеты и средние экраны */
 @media (max-width: 1200px) {
     .benefits-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .contacts-hero-title {
+        font-size: 3.2rem;
+    }
+
+    .section-title {
+        font-size: 2.4rem;
     }
 }
 
 @media (max-width: 992px) {
     .contacts-layout {
         grid-template-columns: 1fr;
-    }
-
-    .map-container {
-        min-height: 400px;
+        gap: 40px;
     }
 
     .benefits-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
+        gap: 20px;
     }
 
     .faq-grid {
         grid-template-columns: 1fr;
     }
-}
 
-@media (max-width: 768px) {
     .contacts-hero {
-        min-height: 55vh;
+        min-height: 60vh;
+        margin-bottom: 60px;
+    }
+
+    .contacts-hero-content {
+        padding: 100px 20px 60px;
     }
 
     .contacts-hero-title {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
+    }
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+    .contacts-hero {
+        min-height: 55vh;
+        margin-bottom: 50px;
+    }
+
+    .contacts-hero-content {
+        padding: 80px 15px 50px;
+    }
+
+    .contacts-hero-title {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+    }
+
+    .hero-badge {
+        font-size: 0.8rem;
+        padding: 8px 18px;
+        margin-bottom: 20px;
     }
 
     .contacts-hero-description {
         font-size: 1rem;
+        margin-bottom: 35px;
+        padding: 0 10px;
     }
 
     .quick-actions {
         flex-direction: column;
+        gap: 15px;
+        padding: 0 20px;
     }
 
     .quick-action-btn {
         width: 100%;
+        padding: 20px 25px;
+        min-width: unset;
     }
 
+    /* КРИТИЧНО: Исправление для contact cards */
     .contacts-info {
         grid-template-columns: 1fr;
         gap: 20px;
-        padding: 0 15px; /* Зменшені відступи для мобільних */
+        padding: 0 15px;
     }
 
     .contact-card {
         padding: 20px;
         gap: 15px;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        flex-direction: row;
+        align-items: flex-start;
     }
 
     .contact-card-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
+        width: 60px;
+        height: 60px;
+        min-width: 60px;
+        font-size: 1.5rem;
     }
 
+    .contact-card-content h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+
+    .contact-card-content p {
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+    }
+
+    /* Переваги */
     .benefits-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 15px;
+    }
+
+    .benefit-card {
+        padding: 30px 25px;
+    }
+
+    .benefit-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+
+    .benefit-card h3 {
+        font-size: 1.2rem;
+    }
+
+    /* CTA секция */
+    .contacts-cta-section {
+        padding: 80px 15px;
     }
 
     .cta-title {
         font-size: 2rem;
+        margin-bottom: 15px;
+    }
+
+    .cta-description {
+        font-size: 1rem;
+        margin-bottom: 30px;
     }
 
     .cta-buttons-group {
         flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn-large {
+        width: 100%;
+        padding: 14px 28px;
     }
 
     .cta-extra-info {
         flex-direction: column;
         align-items: center;
+        gap: 15px;
+    }
+
+    .info-item {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* FAQ */
+    .contacts-faq-section {
+        padding: 80px 15px;
+    }
+
+    .faq-question {
+        padding: 20px;
+    }
+
+    .faq-question h3 {
+        font-size: 1.1rem;
+    }
+
+    .faq-icon {
+        width: 35px;
+        height: 35px;
+        min-width: 35px;
+    }
+
+    .faq-item.active .faq-answer {
+        padding: 0 20px 20px;
     }
 
     .desktop-only {
         display: none;
     }
 
-}
-
-@media (max-width: 480px) {
-    .contacts-hero-title {
+    .section-title {
         font-size: 2rem;
     }
 
-    .action-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
+    .section-header {
+        margin-bottom: 40px;
+    }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 480px) {
+    .contacts-hero-title {
+        font-size: 1.8rem;
+        line-height: 1.3;
+    }
+
+    .contacts-hero-description {
+        font-size: 0.95rem;
+    }
+
+    .quick-action-btn {
+        padding: 18px 20px;
+        gap: 10px;
     }
 
     .contacts-info {
@@ -800,400 +1249,133 @@
 
     .contact-card {
         padding: 18px;
+        gap: 12px;
     }
 
     .contact-card-icon {
-        width: 60px;
-        height: 60px;
-        font-size: 1.5rem;
+        width: 55px;
+        height: 55px;
+        min-width: 55px;
+        font-size: 1.4rem;
+    }
+
+    .contact-card-content h3 {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+
+    .contact-card-content p {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    .contact-link {
+        font-size: 0.9rem;
+    }
+
+    .schedule-item {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+
+    .social-link {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+
+    .social-link i {
+        font-size: 1.2rem;
     }
 
     .cta-icon-wrapper {
         width: 80px;
         height: 80px;
         font-size: 2.5rem;
+        margin-bottom: 25px;
     }
-}
-/* Scroll indicator */
-.scroll-indicator-contacts {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-    cursor: pointer;
-}
 
-.scroll-arrow-contacts {
-    width: 30px;
-    height: 50px;
-    border: 2px solid var(--accent);
-    border-radius: 20px;
-    position: relative;
-}
+    .cta-title {
+        font-size: 1.7rem;
+    }
 
-.scroll-arrow-contacts::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: scrollDotContacts 2s ease-in-out infinite;
-}
+    .cta-description {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
 
-@keyframes scrollDotContacts {
-    0%, 100% { top: 10px; opacity: 1; }
-    50% { top: 30px; opacity: 0.3; }
-}
+    .btn-large {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+    }
 
-/* === ОСНОВНИЙ КОНТЕНТ === */
-.contacts-content-section {
-    padding: 0 0 80px;
-}
+    .info-item {
+        font-size: 0.85rem;
+        padding: 8px 16px;
+    }
 
-.contacts-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-}
+    .section-title {
+        font-size: 1.8rem;
+    }
 
-/* === ІНФОРМАЦІЙНІ КАРТКИ === */
-.contacts-info {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 20px; /* Додано відступи */
-}
+    .section-label {
+        font-size: 0.75rem;
+        padding: 5px 15px;
+    }
 
-.contact-card {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    padding: 25px;
-    display: flex;
-    gap: 20px;
-    transition: all 0.4s;
-    max-width: 100%; /* Обмеження ширини */
-    overflow: hidden; /* Запобігання виходу за межі */
-}
+    .benefit-icon {
+        width: 65px;
+        height: 65px;
+        font-size: 1.6rem;
+    }
 
-.contact-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 50px rgba(212, 165, 165, 0.2);
-}
+    .benefit-card h3 {
+        font-size: 1.1rem;
+    }
 
-.contact-card-icon {
-    width: 70px;
-    height: 70px;
-    flex-shrink: 0;
-    background: var(--gradient);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    color: white;
-    box-shadow: 0 8px 25px rgba(212, 165, 165, 0.3);
-}
+    .benefit-card p {
+        font-size: 0.9rem;
+    }
 
-.contact-card-content {
-    flex: 1;
-}
+    .faq-question {
+        padding: 18px;
+    }
 
-.contact-card-content h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    color: var(--accent);
-    margin-bottom: 12px;
-}
+    .faq-question h3 {
+        font-size: 1rem;
+    }
 
-.contact-card-content p {
-    color: var(--dark);
-    opacity: 0.85;
-    line-height: 1.7;
-    margin-bottom: 15px;
-    font-size: 1.05rem;
-}
+    .faq-icon {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        font-size: 0.9rem;
+    }
 
-.contact-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s;
-}
+    .faq-answer p {
+        font-size: 0.9rem;
+    }
 
-.contact-link:hover {
-    gap: 12px;
-}
+    .contacts-benefits-section {
+        padding: 80px 0;
+    }
 
-/* Графік роботи */
-.schedule {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+    .contacts-cta-section {
+        padding: 70px 10px;
+    }
 
-.schedule-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    background: var(--secondary);
-    border-radius: 12px;
-}
+    .contacts-faq-section {
+        padding: 70px 10px;
+    }
 
-.schedule-item .day {
-    font-weight: 600;
-    color: var(--dark);
-}
+    .quick-action-btn {
+        padding: 16px 18px;
+    }
 
-.schedule-item .time {
-    color: var(--accent);
-    font-weight: 600;
-}
-
-/* Соціальні мережі */
-.contact-card-social {
-    background: var(--secondary);
-}
-
-.social-links {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.social-link {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    background: white;
-    border-radius: 12px;
-    color: var(--dark);
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s;
-}
-
-.social-link:hover {
-    transform: translateX(5px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.social-instagram:hover {
-    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
-    color: white;
-}
-
-.social-telegram:hover {
-    background: #0088cc;
-    color: white;
-}
-
-.social-facebook:hover {
-    background: #1877f2;
-    color: white;
-}
-
-.social-link i {
-    font-size: 1.3rem;
-}
-
-/* === КАРТА === */
-.contacts-map {
-    position: relative;
-}
-
-.map-container {
-    height: 100%;
-    min-height: 600px;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-}
-
-.map-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    background: var(--secondary);
-    color: var(--accent);
-}
-
-.map-placeholder-icon {
-    width: 100px;
-    height: 100px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    margin-bottom: 25px;
-    box-shadow: 0 8px 25px rgba(212, 165, 165, 0.2);
-}
-
-.map-placeholder h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    margin-bottom: 10px;
-}
-
-/* Інфо оверлей */
-.map-info-overlay {
-    position: absolute;
-    bottom: 25px;
-    left: 25px;
-    right: 25px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 20px 25px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-}
-
-.map-info-content {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.map-info-icon {
-    width: 50px;
-    height: 50px;
-    background: var(--gradient);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: white;
-    flex-shrink: 0;
-}
-
-.map-info-content h4 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    color: var(--accent);
-    margin-bottom: 5px;
-}
-
-.map-info-content p {
-    font-size: 0.9rem;
-    color: var(--dark);
-    opacity: 0.8;
-}
-
-/* === ПЕРЕВАГи === */
-.contacts-benefits-section {
-    position: relative;
-    padding: 100px 0;
-    background: white;
-    overflow: hidden;
-}
-
-.benefits-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-.benefit-shape {
-    position: absolute;
-    border-radius: 50%;
-    background: var(--secondary);
-    opacity: 0.4;
-}
-
-.benefit-shape-1 {
-    width: 400px;
-    height: 400px;
-    top: -100px;
-    right: -150px;
-}
-
-.benefit-shape-2 {
-    width: 300px;
-    height: 300px;
-    bottom: -80px;
-    left: -100px;
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: 60px;
-}
-
-.section-label {
-    display: inline-block;
-    padding: 6px 18px;
-    background: var(--secondary);
-    border-radius: 20px;
-    color: var(--accent);
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 15px;
-}
-
-.section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.8rem;
-    color: var(--accent);
-}
-
-.benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    position: relative;
-    z-index: 1;
-}
-
-.benefit-card {
-    text-align: center;
-    padding: 40px 30px;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    transition: all 0.4s;
-}
-
-.benefit-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 50px rgba(212, 165, 165, 0.2);
-}
-
-.benefit-icon {
-    width: 85px;
-    height: 85px;
-    margin: 0 auto 25px;
-    background: var(--gradient);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.2rem;
-    color: white;
-    box-shadow: 0 10px 30px rgba(212, 165, 165, 0.3);
-    transition: all 0.4s;
+    .action-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
 }
 </style>
 

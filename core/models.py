@@ -29,3 +29,11 @@ class ContactInfo(models.Model):
 
     def __str__(self) -> str:
         return self.phone
+
+
+class HomePageSettings(models.Model):
+    procedures_image = models.ImageField(upload_to="home/", blank=True)
+    cosmetics_image = models.ImageField(upload_to="home/", blank=True)
+
+    def __str__(self) -> str:
+        return "Home settings"

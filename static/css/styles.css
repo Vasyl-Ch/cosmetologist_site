@@ -68,8 +68,8 @@ header {
 
 .logo-text {
     font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: clamp(11px, 8vw, 20px); /* Автоматично адаптується до ширини екрану */
+    white-space: nowrap;
     color: var(--dark);
 }
 

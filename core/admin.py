@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from django.http import HttpRequest
 
 
-from .models import Review, Certificate, ContactInfo
+from .models import Review, Certificate, ContactInfo, HomePageSettings
 
 
 @admin.register(Review)
@@ -49,3 +49,11 @@ class ContactInfoAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request: HttpRequest) -> bool:
         return not ContactInfo.objects.exists()
+
+
+@admin.register(HomePageSettings)
+class HomePageSettingsAdmin(admin.ModelAdmin):
+    list_display = ("procedures_image", "cosmetics_image")
+
+    def has_add_permission(self, request: HttpRequest) -> bool:
+        return not HomePageSettings.objects.exists()

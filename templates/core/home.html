@@ -139,7 +139,7 @@
             <!-- Процедури -->
             <div class="service-card service-card-large animate-on-scroll">
                 <div class="service-card-inner">
-                    <div class="service-image" style="background-image: url('{% static "img/procedures.jpg" %}')">
+                    <div class="service-image"{% if home_settings and home_settings.procedures_image %} style="background-image: url('{{ home_settings.procedures_image.url }}')"{% endif %}>
                         <div class="service-overlay"></div>
                     </div>
 
@@ -170,7 +170,7 @@
             <!-- Косметика -->
             <div class="service-card service-card-large animate-on-scroll">
                 <div class="service-card-inner">
-                    <div class="service-image" style="background-image: url('{% static "img/cosmetics.webp" %}')">
+                    <div class="service-image"{% if home_settings and home_settings.cosmetics_image %} style="background-image: url('{{ home_settings.cosmetics_image.url }}')"{% endif %}>
                         <div class="service-overlay"></div>
                     </div>
 
