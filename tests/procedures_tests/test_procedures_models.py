@@ -48,7 +48,7 @@ class ProcedureModelTest(TestCase):
         proc = Procedure.objects.create(
             name="Тест", type=self.ptype, image=self.image, price=Decimal("800.00")
         )
-        self.assertEqual(proc.get_price_display(), "800 ₴")
+        self.assertEqual(proc.get_price_display(), "800\u00a0₴")
 
     def test_get_price_display_with_discount(self):
         proc = Procedure.objects.create(
@@ -56,8 +56,8 @@ class ProcedureModelTest(TestCase):
             price=Decimal("1200.00"), discount_price=Decimal("900.00")
         )
         expected = (
-            "<del style='color: #999;'>1200 ₴</del> "
-            "<strong style='color: #e74c3c;'>900 ₴</strong>"
+            "<del style='color: #999;'>1\u202f200\u00a0₴</del> "
+            "<strong style='color: #e74c3c;'>900\u00a0₴</strong>"
         )
         self.assertHTMLEqual(proc.get_price_display(), expected)
 

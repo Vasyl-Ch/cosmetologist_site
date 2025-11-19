@@ -56,7 +56,7 @@ class ProceduresAdminTest(TestCase):
     def test_price_display_admin_regular(self):
         ptype = ProcedureType.objects.create(name="T", image=self.image)
         proc = Procedure.objects.create(name="P", type=ptype, image=self.image, price=Decimal("600"))
-        self.assertEqual(self.proc_admin.price_display_admin(proc), "600 ₴")
+        self.assertEqual(self.proc_admin.price_display_admin(proc), "600\u00a0₴")
 
     def test_price_display_admin_discount(self):
         ptype = ProcedureType.objects.create(name="T", image=self.image)
@@ -65,8 +65,8 @@ class ProceduresAdminTest(TestCase):
             price=Decimal("1500"), discount_price=Decimal("1100")
         )
         expected = (
-            "<del style='color: #999;'>1500 ₴</del> "
-            "<strong style='color: #e74c3c;'>1100 ₴</strong>"
+            "<del style='color: #999;'>1\u202f500\u00a0₴</del> "
+            "<strong style='color: #e74c3c;'>1\u202f100\u00a0₴</strong>"
         )
         self.assertHTMLEqual(self.proc_admin.price_display_admin(proc), expected)
 

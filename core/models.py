@@ -25,7 +25,6 @@ class ContactInfo(models.Model):
     instagram_url = models.URLField(blank=True)
     facebook_url = models.URLField(blank=True)
     address = models.CharField(max_length=255)
-    map_embed_url = models.URLField(blank=True)
 
     def __str__(self) -> str:
         return self.phone
