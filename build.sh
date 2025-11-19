@@ -10,3 +10,8 @@ python manage.py collectstatic --noinput
 
 #Apply any outstanding database migrations
 python manage.py migrate
+
+if [[ $CREATE_SUPERUSER ]];
+then
+  python world_champ_2022/manage.py createsuperuser --no-input
+fi
