@@ -11,3 +11,5 @@ python manage.py collectstatic --noinput
 #Apply any outstanding database migrations
 python manage.py migrate
 
+python manage.py create_superuser
+
