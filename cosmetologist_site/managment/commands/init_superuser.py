@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Command(BaseCommand):
-    help = "Creates a superuser from environment variables"
+    help = "Initialize superuser from environment variables"
 
     def handle(self, *args, **options):
         username = os.environ.get("DJANGO_SUPERUSER_USERNAME")
@@ -13,19 +13,17 @@ class Command(BaseCommand):
 
         if not all([username, email, password]):
             self.stdout.write(
-                self.style.WARNING(
-                    "Superuser not created: missing environment variables"
-                )
+                self.style.WARNING("⚠ Superuser not created: missing env vars")
             )
             return
 
         if User.objects.filter(username=username).exists():
             self.stdout.write(
-                self.style.WARNING(f'Superuser "{username}" already exists')
+                self.style.SUCCESS(f'✓ Superuser "{username}" already exists')
             )
             return
 
         User.objects.create_superuser(username=username, email=email, password=password)
         self.stdout.write(
-            self.style.SUCCESS(f'Superuser "{username}" created successfully')
+            self.style.SUCCESS(f'✓ Superuser "{username}" created successfully')
         )
